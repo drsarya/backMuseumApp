@@ -1,27 +1,26 @@
 package service.internal.impl;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicLong;
+
+import dataBase.mapper.UserMapper;
+import dataBase.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import service.internal.UserService;
-import service.mapper.UserMapper;
+import service.mapper.UserStruct;
 import service.model.ExistingUser;
 import service.model.NewUser;
 
 @Service
 public class UserServiceImpl implements UserService {
 
-  private final Map<Long, ExistingUser> USERS = new ConcurrentHashMap<>();
 
-  private final AtomicLong lastId = new AtomicLong(0);
-
-  private final UserMapper userMapper;
+   private final UserMapper userMapper;
+  private final UserStruct userStruct;
 
   @Autowired
-  public UserServiceImpl(final UserMapper userMapper) {
-    this.userMapper = userMapper;
+  public UserServiceImpl(final UserStruct userStruct, final UserMapper userdMapper ) {
+    this.userStruct = userStruct;
+    this.userMapper = userdMapper;
   }
 
 
@@ -30,9 +29,11 @@ public class UserServiceImpl implements UserService {
     // Выделить ID для пользователя
     //long newId = lastId.addAndGet(1);
 
-    // Преобразовать NewUser в ExistingUser
-    ExistingUser existingUser = userMapper.fromNewUser(user, 1);
 
+    // Преобразовать NewUser в ExistingUser
+   // ExistingUser existingUser = userMapperConverter.fromNewUser(user, 1);
+    UserModel model = userStruct.fromNewUser(user);
+    ExistingUser existingUser = userStruct.toExistingUser(userMapper.createUser(model));
     // Сохранить в HashMap
     //USERS.put(newId, existingUser);
 
