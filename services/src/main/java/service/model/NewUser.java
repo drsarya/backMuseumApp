@@ -7,7 +7,7 @@ import org.immutables.value.Value;
 @JsonDeserialize(builder = ImmutableNewUser.Builder.class)
 
 public interface NewUser {
-    String getUserLogin();
+    String getLogin();
     String getPassword();
     boolean getType();
 
