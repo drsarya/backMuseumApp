@@ -12,16 +12,9 @@ import org.springframework.stereotype.Component;
 public interface UserMapper {
 
 
-  @Select("" +
-    "SELECT   id, " +
-    "       phone," +
-    "       login," +
-    "       type," +
-    "FROM \"user\"   " +
-
-    "WHERE id = #{id}"
+  @Select("UPDATE \"user\"  SET  password = #{password} where login=#{login} "
   )
-  UserModel findById(@Param("id") long id);
+  UserModel updatePassword(UserModel user);
 
   @Select(" INSERT INTO \"user\" (login, password, type )\n" +
     "    VALUES (#{login}, #{password}, #{type})\n" +
@@ -38,6 +31,12 @@ public interface UserMapper {
   )
   UserModel getUser(@Param("login") String login);
 
+  @Select("" +
+    "SELECT  id,   type,    login,   password  "+
+    "FROM \"user\"   " +
+    "WHERE login = #{login} AND password IS NULL  "
+  )
+  UserModel getUserMuseum(@Param("login") String login);
 
 
 }

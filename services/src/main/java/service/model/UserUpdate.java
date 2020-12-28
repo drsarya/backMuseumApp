@@ -5,12 +5,12 @@ import org.immutables.value.Value;
 import org.springframework.lang.Nullable;
 
 @Value.Immutable
-@JsonDeserialize(builder = ImmutableNewUser.Builder.class)
+@JsonDeserialize(builder = ImmutableUserUpdate.Builder.class)
 
-public interface NewUser {
-    String getLogin();
-    @Nullable
-    String getPassword();
-    boolean getType();
+public interface UserUpdate {
 
+  String getLogin();
+  String getNewPassword();
+  @Nullable
+  String getPassword();
 }

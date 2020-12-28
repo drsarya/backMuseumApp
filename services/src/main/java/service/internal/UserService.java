@@ -3,6 +3,7 @@ package service.internal;
 
 import service.model.ExistingUser;
 import service.model.NewUser;
+import service.model.UserUpdate;
 
 public interface UserService {
 
@@ -10,7 +11,7 @@ public interface UserService {
 
   ExistingUser getUser(NewUser user ) throws Exception;
 
+  Boolean updateUserPassword(UserUpdate user) throws Exception;
 
-
-  void updateUserPassword(String login, String password);
+  ExistingUser getUserMuseum(String login);
 }

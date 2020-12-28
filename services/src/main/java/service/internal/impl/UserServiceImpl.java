@@ -9,6 +9,7 @@ import service.internal.UserService;
 import service.mapper.UserStruct;
 import service.model.ExistingUser;
 import service.model.NewUser;
+import service.model.UserUpdate;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -26,32 +27,81 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public ExistingUser createUser(final NewUser user) throws Exception {
-    String pass = ConfigEncrypt.getSaltedHash(user.getPassword());
+    UserModel d;
+    if (user.getPassword() != null) {
+      String pass = ConfigEncrypt.getSaltedHash(user.getPassword());
+      d = userMapper.createUser(userStruct.toUserModel(user, pass));
 
-    UserModel d = userMapper.createUser(userStruct.fromNewUser(user, pass));
+    } else {
+      d = userMapper.createUser(userStruct.toUserModel(user, null));
+    }
+
     ExistingUser existingUser = userStruct.toExistingUser(d);
     return existingUser;
   }
 
   @Override
-  public ExistingUser getUser(NewUser user) throws Exception  {
+  public ExistingUser getUser(NewUser user) throws Exception {
     UserModel model = userMapper.getUser(user.getLogin());
 
-     if(model==null){
-       return null;
-     }
-    Boolean pass = ConfigEncrypt.check(user.getPassword(), model.getPassword());
-    if (pass) {
-      return userStruct.toExistingUser(model);
-    } else {
+    if (model == null) {
       return null;
     }
+    if(model.getPassword()==null){
+      return null;
+
+    }else{
+      Boolean pass = ConfigEncrypt.check(user.getPassword(), model.getPassword());
+      if (pass) {
+        return userStruct.toExistingUser(model);
+      } else {
+        return null;
+      }
+    }
+
 
   }
 
 
   @Override
-  public void updateUserPassword(String login, String password) {
+  public Boolean updateUserPassword(UserUpdate user) throws Exception {
+
+    UserModel model = userMapper.getUser(user.getLogin());
+
+    if (model == null) {
+      return false;
+    }
+    if (model.getPassword() == null) {
+      String newPassword = ConfigEncrypt.getSaltedHash(user.getNewPassword());
+
+      UserModel usermodel = userStruct.toUserModel(user, newPassword);
+      userMapper.updatePassword(usermodel);
+      return true;
+
+    } else {
+      Boolean pass = ConfigEncrypt.check(user.getPassword(), model.getPassword());
+      if (pass) {
+        String newPassword = ConfigEncrypt.getSaltedHash(user.getNewPassword());
+
+        UserModel usermodel = userStruct.toUserModel(user, newPassword);
+        userMapper.updatePassword(usermodel);
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+
+  }
+
+  @Override
+  public ExistingUser getUserMuseum(String login) {
+    UserModel usermodel = userMapper.getUserMuseum(login);
+    if (usermodel == null) {
+      return null;
+    } else {
+      return userStruct.toExistingUser(usermodel);
+    }
 
   }
 }

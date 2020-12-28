@@ -10,6 +10,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Qualifier;
 import service.model.ExistingUser;
 import service.model.NewUser;
+import service.model.UserUpdate;
 
 @Mapper
 public interface UserStruct {
@@ -21,16 +22,21 @@ public interface UserStruct {
 
   @Mapping(target = "id", source = "newId")
 
-   ExistingUser fromNewUser(NewUser user, long newId);
+   ExistingUser toUserModel(NewUser user, long newId);
 
    @Mapping(target = "type", source = "user.type")
   @Mapping(target = "login", source = "user.login")
-  UserModel fromNewUser(NewUser user  );
+  UserModel toUserModel(NewUser user  );
+
+
+   @Mapping(target = "login", source = "user.login")
+  @Mapping(target = "password", source = "password")
+  UserModel toUserModel(UserUpdate user , String password );
 
   @Mapping(target = "password", source = "password")
   @Mapping(target = "type", source = "user.type")
   @Mapping(target = "login", source = "user.login")
-  UserModel fromNewUser(NewUser user, String password );
+  UserModel toUserModel(NewUser user, String password );
 
   @Mapping(target = "type", source = "model.type")
   @Mapping(target = "login", source = "model.login")
