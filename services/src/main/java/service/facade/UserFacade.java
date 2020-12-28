@@ -5,5 +5,8 @@ import service.model.NewUser;
 
 public interface UserFacade {
 
-  ExistingUser createUser(NewUser user);
+  ExistingUser getUser(NewUser user ) throws Exception;
+
+  void updateUserPassword(String login, String password);
+  ExistingUser createUser(NewUser user) throws Exception;
 }

@@ -4,11 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import service.facade.UserFacade;
 import service.model.ExistingUser;
 import service.model.NewUser;
@@ -33,9 +29,22 @@ public class UserApi {
 
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
-  ExistingUser createUser(@RequestBody final NewUser user) {
+  ExistingUser createUser(@RequestBody final NewUser user) throws Exception {
     logger.info("Consumed: {}", user);
 
     return userFacade.createUser(user);
+  }
+
+
+  @GetMapping
+  @ResponseStatus(HttpStatus.CREATED)
+  ExistingUser getUser(@RequestBody final NewUser user) throws Exception {
+    logger.info("Consumed: {}", user);
+    if (userFacade.getUser(user) != null) {
+      return userFacade.getUser(user);
+    } else {
+      return null;
+    }
+
   }
 }

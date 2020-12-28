@@ -4,6 +4,6 @@ CREATE TABLE IF NOT EXISTS "user"
 
     login      VARCHAR(100) NOT NULL UNIQUE,
 
-    password   CHAR(144)      NULL,
-    type_user BOOLEAN NOT NULL
+    password   CHAR(300)      NULL,
+    type BOOLEAN NOT NULL
  );
