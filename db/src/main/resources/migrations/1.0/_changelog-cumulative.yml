@@ -1,0 +1,12 @@
+databaseChangeLog:
+  - preConditions:
+      - dbms:
+          type: postgresql
+  - changeSet:
+      id: museum
+      author: drsarya
+      comment: Create initial information
+      changes:
+        - sqlFile:
+            path: museum.sql
+            relativeToChangelogFile: true
