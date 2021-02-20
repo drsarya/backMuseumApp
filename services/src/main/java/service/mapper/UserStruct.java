@@ -2,9 +2,8 @@ package service.mapper;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-import java.time.Instant;
 
-import museum.app.model.UserModel;
+import museum.domen.UserModel;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Qualifier;

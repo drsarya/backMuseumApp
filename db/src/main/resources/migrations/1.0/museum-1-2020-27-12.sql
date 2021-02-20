@@ -1,6 +1,6 @@
 
 
-CREATE TABLE IF NOT EXISTS "user"
+CREATE TABLE IF NOT EXISTS "users_table"
 (
     user_id    SERIAL PRIMARY KEY,
     email      VARCHAR(100) NOT NULL UNIQUE,

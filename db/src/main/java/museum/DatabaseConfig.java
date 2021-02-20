@@ -1,13 +1,13 @@
-package museum.app;
+package museum;
 
-import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
-@ComponentScan
-@MapperScan(basePackages = {"museum.app/mapper"})
+@ComponentScan(basePackages = {"museum"})
+@EnableAutoConfiguration
 @EnableTransactionManagement
 public class DatabaseConfig {
 }

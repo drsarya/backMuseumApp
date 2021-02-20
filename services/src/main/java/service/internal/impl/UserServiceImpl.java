@@ -1,7 +1,7 @@
 package service.internal.impl;
 
-import museum.app.mapper.UserMapper;
-import museum.app.model.UserModel;
+import museum.mapper.UserMapper;
+import museum.domen.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import service.ConfigEncrypt;
@@ -30,10 +30,10 @@ public class UserServiceImpl implements UserService {
     UserModel d;
     if (user.getPassword() != null) {
       String pass = ConfigEncrypt.getSaltedHash(user.getPassword());
-      d = userMapper.createUser(userStruct.toUserModel(user, pass));
+      d = userMapper.save(userStruct.toUserModel(user, pass));
 
     } else {
-      d = userMapper.createUser(userStruct.toUserModel(user, null));
+      d = userMapper.save(userStruct.toUserModel(user, null));
     }
 
     ExistingUser existingUser = userStruct.toExistingUser(d);
@@ -42,7 +42,8 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public ExistingUser getUser(NewUser user) throws Exception {
-    UserModel model = userMapper.getUser(user.getLogin());
+
+    UserModel model = userMapper.findByLogin(user.getLogin());
 
     if (model == null) {
       return null;
@@ -66,7 +67,7 @@ public class UserServiceImpl implements UserService {
   @Override
   public Boolean updateUserPassword(UserUpdate user) throws Exception {
 
-    UserModel model = userMapper.getUser(user.getLogin());
+    UserModel model = userMapper.findByLogin(user.getLogin());
 
     if (model == null) {
       return false;
@@ -75,7 +76,7 @@ public class UserServiceImpl implements UserService {
       String newPassword = ConfigEncrypt.getSaltedHash(user.getNewPassword());
 
       UserModel usermodel = userStruct.toUserModel(user, newPassword);
-      userMapper.updatePassword(usermodel);
+      userMapper.save(usermodel);
       return true;
 
     } else {
@@ -84,7 +85,7 @@ public class UserServiceImpl implements UserService {
         String newPassword = ConfigEncrypt.getSaltedHash(user.getNewPassword());
 
         UserModel usermodel = userStruct.toUserModel(user, newPassword);
-        userMapper.updatePassword(usermodel);
+        userMapper.save(usermodel);
         return true;
       } else {
         return false;
@@ -96,7 +97,8 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public ExistingUser getUserMuseum(String login) {
-    UserModel usermodel = userMapper.getUserMuseum(login);
+   // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! getUserMuseum
+    UserModel usermodel = userMapper.findByLogin(login);
     if (usermodel == null) {
       return null;
     } else {
