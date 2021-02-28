@@ -1,24 +1,23 @@
 package museum.domen;
 
 import lombok.*;
+import src.model.UsersRole;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
-@Entity(name="users")
-@Getter
-@Setter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@Entity(name = "users" )
+@Table(uniqueConstraints = {
+  @UniqueConstraint(columnNames = "login", name = "uniqueNameConstraint")}
+)
+@Data
 public class UserModel {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Integer id;
+  @Column(name = "login")
   private String login;
-  private Boolean type;
+  @Enumerated(EnumType.STRING)
+  private UsersRole role;
   private String password;
 
 

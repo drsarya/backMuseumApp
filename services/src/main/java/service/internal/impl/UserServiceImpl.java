@@ -10,6 +10,7 @@ import service.mapper.UserStruct;
 import service.model.ExistingUser;
 import service.model.NewUser;
 import service.model.UserUpdate;
+import src.model.UsersRole;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -19,9 +20,10 @@ public class UserServiceImpl implements UserService {
   private final UserMapper userMapper;
 
   @Autowired
-  public UserServiceImpl(final UserStruct userStruct, final UserMapper userMapper) {
+  public UserServiceImpl(final UserStruct userStruct, final UserMapper userMapper  ) {
     this.userStruct = userStruct;
     this.userMapper = userMapper;
+
   }
 
 
@@ -30,6 +32,7 @@ public class UserServiceImpl implements UserService {
     UserModel d;
     if (user.getPassword() != null) {
       String pass = ConfigEncrypt.getSaltedHash(user.getPassword());
+
       d = userMapper.save(userStruct.toUserModel(user, pass));
 
     } else {
@@ -75,12 +78,14 @@ public class UserServiceImpl implements UserService {
     if (model.getPassword() == null) {
       String newPassword = ConfigEncrypt.getSaltedHash(user.getNewPassword());
 
+
+
       UserModel usermodel = userStruct.toUserModel(user, newPassword);
       userMapper.save(usermodel);
       return true;
 
     } else {
-      Boolean pass = ConfigEncrypt.check(user.getPassword(), model.getPassword());
+      boolean pass = ConfigEncrypt.check(user.getPassword(), model.getPassword());
       if (pass) {
         String newPassword = ConfigEncrypt.getSaltedHash(user.getNewPassword());
 
@@ -97,8 +102,7 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public ExistingUser getUserMuseum(String login) {
-   // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! getUserMuseum
-    UserModel usermodel = userMapper.findByLogin(login);
+    UserModel usermodel = userMapper.findByLoginAndRole(login, UsersRole.MUSEUM);
     if (usermodel == null) {
       return null;
     } else {

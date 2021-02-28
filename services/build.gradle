@@ -9,7 +9,8 @@ dependencies {
   compileOnly "org.mapstruct:mapstruct:$msVer"
 
   implementation(project(":db"))
-  annotationProcessor "org.immutables:value-processor:$immVer"
+  implementation(project(":commons"))
+   annotationProcessor "org.immutables:value-processor:$immVer"
   annotationProcessor "org.mapstruct:mapstruct-processor:$msVer"
 
   implementation "org.springframework:spring-context:5.2.7.RELEASE"
