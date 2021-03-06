@@ -1,10 +1,9 @@
-package rest;
+package museum.api;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import service.facade.UserFacade;
 import service.model.ExistingUser;
@@ -59,18 +58,6 @@ public class UserApi {
     }
   }
 
-  @GetMapping
-  @RequestMapping(
-    value = "/{login}"
-  )
-  @ResponseStatus(HttpStatus.CREATED)
-  ExistingUser getUserMuseum(@PathVariable("login") String login) {
-    logger.info("Consumed: {}", login);
-    if (login != null) {
-      return userFacade.getUserMuseum(login);
-    } else {
-      return null;
-    }
-  }
+
 
 }

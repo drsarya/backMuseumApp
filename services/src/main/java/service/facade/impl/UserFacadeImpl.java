@@ -34,10 +34,6 @@ public class UserFacadeImpl implements UserFacade {
     return userService.createUser(user);
   }
 
-  @Override
-  public ExistingUser getUserMuseum(String login) {
-    return userService.getUserMuseum(login);
-  }
 
 
 }

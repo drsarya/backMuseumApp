@@ -7,10 +7,6 @@ import org.springframework.lang.Nullable;
 @Value.Immutable
 @JsonDeserialize(builder = ImmutableUserUpdate.Builder.class)
 
-public interface UserUpdate {
-
-  String getLogin();
+public interface UserUpdate extends  NewUser{
   String getNewPassword();
-  @Nullable
-  String getPassword();
 }

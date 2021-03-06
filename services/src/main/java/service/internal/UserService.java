@@ -13,5 +13,4 @@ public interface UserService {
 
   Boolean updateUserPassword(UserUpdate user) throws Exception;
 
-  ExistingUser getUserMuseum(String login);
-}
+ }

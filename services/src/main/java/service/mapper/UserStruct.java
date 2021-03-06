@@ -23,7 +23,7 @@ public interface UserStruct {
   @Mapping(target = "password", source = "password")
   @Mapping(target = "role", source = "user.role")
   @Mapping(target = "login", source = "user.login")
-  UserModel toUserModel(NewUser user, String password);
+  UserModel toUserModel(NewUser user, String password );
 
 
   @Mapping(target = "role", source = "model.role")

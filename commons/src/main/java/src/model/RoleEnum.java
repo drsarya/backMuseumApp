@@ -1,6 +1,6 @@
 package src.model;
 
-public enum UsersRole {
+public enum RoleEnum {
   ADMIN ,
   USER ,
   MUSEUM

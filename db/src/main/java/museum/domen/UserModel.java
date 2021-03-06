@@ -1,13 +1,14 @@
 package museum.domen;
 
 import lombok.*;
-import src.model.UsersRole;
+import src.model.RoleEnum;
 
 import javax.persistence.*;
+import java.util.List;
 
-@Entity(name = "users" )
+@Entity(name = "users")
 @Table(uniqueConstraints = {
-  @UniqueConstraint(columnNames = "login", name = "uniqueNameConstraint")}
+  @UniqueConstraint(columnNames = "login")}
 )
 @Data
 public class UserModel {
@@ -17,8 +18,10 @@ public class UserModel {
   @Column(name = "login")
   private String login;
   @Enumerated(EnumType.STRING)
-  private UsersRole role;
+  private RoleEnum role;
   private String password;
 
-
+//  @OneToMany( cascade = CascadeType.ALL, orphanRemoval = true)
+//  @JoinColumn(name = "like_id")
+//  public List<LikeModel> likes;
 }
