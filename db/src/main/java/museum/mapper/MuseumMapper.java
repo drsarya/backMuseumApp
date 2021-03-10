@@ -9,6 +9,6 @@ public  interface  MuseumMapper extends CrudRepository<MuseumModel, Long> {
   MuseumModel findMuseumModelByLogin(String login);
 
   MuseumModel findMuseumModelByLoginAndId(String login, int id);
-
+MuseumModel findById(Long id);
 
 }

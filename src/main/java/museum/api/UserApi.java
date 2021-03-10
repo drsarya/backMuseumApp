@@ -6,9 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import service.facade.UserFacade;
-import service.model.ExistingUser;
-import service.model.NewUser;
-import service.model.UserUpdate;
+import service.model.user.ExistingUser;
+import service.model.user.NewUser;
+import service.model.user.UserUpdate;
+
+import java.io.File;
+import java.nio.file.Files;
 
 @RestController
 @RequestMapping(
@@ -47,6 +50,14 @@ public class UserApi {
   }
 
 
+  @PostMapping( consumes = "multipart/form-data", value = "/upload")
+  @ResponseStatus(HttpStatus.CREATED)
+  void getUser(@RequestBody final File file) throws Exception {
+    logger.info("Consumed: {}", file);
+    byte[]  arr = Files.readAllBytes(file.toPath());
+
+  }
+
   @PutMapping( consumes = "application/json")
   @ResponseStatus(HttpStatus.CREATED)
   Boolean updatePassword(@RequestBody final UserUpdate user) throws Exception {
@@ -57,7 +68,6 @@ public class UserApi {
       return false;
     }
   }
-
 
 
 }

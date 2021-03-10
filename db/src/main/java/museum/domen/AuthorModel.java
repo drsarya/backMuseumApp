@@ -13,7 +13,7 @@ import javax.persistence.*;
 public class AuthorModel {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
-  private Integer id;
+  public Integer id;
   @Column(name = "full_name")
-  private String fullName;
+  public String fullName;
 }

@@ -1,5 +1,6 @@
 package museum.domen;
 
+import com.sun.istack.Nullable;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -15,15 +16,17 @@ import java.util.List;
 public class MuseumModel {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
-  private Integer id;
+  private Long id;
   @Column(name = "museum_login")
   private String login;
   @Column(name = "name_museum")
   private String nameMuseum;
   @Column(name = "address")
   private String address;
+  @Nullable
   private String description;
-  private byte[] image;
+  @Nullable
+  private String image;
 //    @OneToMany( cascade = CascadeType.ALL, orphanRemoval = true)
 //    @JoinColumn(name = "museum_id")
 //  private List<ExhibitionModel> exhibitionLists;

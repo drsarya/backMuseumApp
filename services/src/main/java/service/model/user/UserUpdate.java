@@ -1,12 +1,10 @@
-package service.model;
+package service.model.user;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.immutables.value.Value;
-import org.springframework.lang.Nullable;
 
 @Value.Immutable
 @JsonDeserialize(builder = ImmutableUserUpdate.Builder.class)
-
-public interface UserUpdate extends  NewUser{
+public interface UserUpdate extends NewUser {
   String getNewPassword();
 }

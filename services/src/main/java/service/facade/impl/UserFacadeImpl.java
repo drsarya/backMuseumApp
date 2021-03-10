@@ -3,9 +3,9 @@ package service.facade.impl;
 import org.springframework.stereotype.Service;
 import service.facade.UserFacade;
 import service.internal.UserService;
-import service.model.ExistingUser;
-import service.model.NewUser;
-import service.model.UserUpdate;
+import service.model.user.ExistingUser;
+import service.model.user.NewUser;
+import service.model.user.UserUpdate;
 
 @Service
 public class UserFacadeImpl implements UserFacade {

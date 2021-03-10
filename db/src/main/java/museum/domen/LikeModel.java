@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 @Entity(name = "likes")
 @Table(uniqueConstraints = {
-  @UniqueConstraint(columnNames = {"user_id", "exhbtId"})}
+  @UniqueConstraint(columnNames = {"user_id", "art_id" , "type"})}
 )
 public class LikeModel implements Serializable {
   @Id
@@ -18,8 +18,8 @@ public class LikeModel implements Serializable {
   @JoinColumn(name = "user_id")
   public UserModel user;
 
-  public Integer exhbtId;
-
+  @Column(name = "art_id")
+  public Integer artId;
 
   public TypeOfArtEnum type;
 }

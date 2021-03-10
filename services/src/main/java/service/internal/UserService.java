@@ -1,9 +1,9 @@
 
 package service.internal;
 
-import service.model.ExistingUser;
-import service.model.NewUser;
-import service.model.UserUpdate;
+import service.model.user.ExistingUser;
+import service.model.user.NewUser;
+import service.model.user.UserUpdate;
 
 public interface UserService {
 

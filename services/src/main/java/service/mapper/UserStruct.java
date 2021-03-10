@@ -1,15 +1,11 @@
 package service.mapper;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-
 import museum.domen.UserModel;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.Qualifier;
-import service.model.ExistingUser;
-import service.model.NewUser;
-import service.model.UserUpdate;
+import service.model.user.ExistingUser;
+import service.model.user.NewUser;
+import service.model.user.UserUpdate;
 
 
 @Mapper

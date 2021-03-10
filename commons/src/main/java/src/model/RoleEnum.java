@@ -3,5 +3,7 @@ package src.model;
 public enum RoleEnum {
   ADMIN ,
   USER ,
-  MUSEUM
+  MUSEUM,
+  SUB_ADMIN,
+  MUSEUM_WORKER
 }
