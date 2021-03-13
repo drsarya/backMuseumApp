@@ -2,14 +2,18 @@ package museum.mapper;
 
 import museum.domen.ExhibitModel;
 import museum.domen.ExhibitionModel;
+import museum.domen.MuseumModel;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface ExhibitMapper  extends CrudRepository<ExhibitionModel, Long> {
+public interface ExhibitMapper  extends CrudRepository<ExhibitModel, Long> {
 
 
-  List<ExhibitModel> findExhibitionModelsByMuseum_Login(String login);
+ //getExhibitsByMuseumId
+  List<ExhibitModel> findExhibitModelsByExhibition_Museum_Id(Integer id);
 
-  void findExhibitionModelsByMuseum_Id(Integer id);
+//  void findExhibitionModelsByMuseum_Id(Integer id);
 }

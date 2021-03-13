@@ -9,6 +9,6 @@ import java.io.IOException;
 
 public interface MuseumFacade {
   ExistingMuseum createMuseum(BaseMuseum baseMuseum);
-  ExistingMuseum updateMuseum(UpdatableMuseum baseMuseum, MultipartFile upload ) throws IOException;
+  ExistingMuseum updateMuseum(UpdatableMuseum baseMuseum ) throws IOException;
 
 }

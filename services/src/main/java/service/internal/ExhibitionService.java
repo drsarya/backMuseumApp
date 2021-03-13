@@ -9,11 +9,11 @@ public interface ExhibitionService {
 
   List<ExistingExhibition> getAllExhibitions();
 
-  void createExhibition(ExistingExhibition exhibition);
+  ExistingExhibition createExhibition(ExistingExhibition exhibition);
 
-  void updateExhibition(ExistingExhibition exhibition);
+  ExistingExhibition updateExhibition(ExistingExhibition exhibition);
 
-  void getExhibitionByMuseumId(int id);
+  List<ExistingExhibition> getExhibitionsByMuseumId(int id);
 
-  void deleteExhibition(int id);
+  boolean deleteExhibition(int id);
 }

@@ -26,7 +26,7 @@ public class MuseumFacadeImpl implements MuseumFacade {
   }
 
   @Override
-  public ExistingMuseum updateMuseum(UpdatableMuseum baseMuseum, MultipartFile loadFile) throws IOException {
-    return museumService.updateMuseumInfo(baseMuseum, loadFile);
+  public ExistingMuseum updateMuseum(UpdatableMuseum baseMuseum ) throws IOException {
+    return museumService.updateMuseumInfo(baseMuseum );
   }
 }

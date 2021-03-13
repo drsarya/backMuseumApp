@@ -1,5 +1,6 @@
 package museum.domen;
 
+import com.sun.istack.Nullable;
 import lombok.*;
 import src.model.RoleEnum;
 
@@ -8,7 +9,7 @@ import java.util.List;
 
 @Entity(name = "users")
 @Table(uniqueConstraints = {
-  @UniqueConstraint(columnNames = "login")}
+  @UniqueConstraint(columnNames ={ "login", "museum_id"})}
 )
 @Data
 public class UserModel {
@@ -21,7 +22,10 @@ public class UserModel {
   private RoleEnum role;
   private String password;
 
-//  @OneToMany( cascade = CascadeType.ALL, orphanRemoval = true)
-//  @JoinColumn(name = "like_id")
-//  public List<LikeModel> likes;
+  @ManyToOne
+  @JoinColumn(name = "museum_id")
+  private MuseumModel museum;
+
+  @OneToMany(mappedBy="user")
+   public List<LikeModel> likes;
 }

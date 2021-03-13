@@ -7,14 +7,14 @@ import java.io.Serializable;
 
 @Entity(name = "likes")
 @Table(uniqueConstraints = {
-  @UniqueConstraint(columnNames = {"user_id", "art_id" , "type"})}
+  @UniqueConstraint(columnNames = {"user_id", "art_id", "type"})}
 )
 public class LikeModel implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   public Integer id;
 
-  @ManyToOne(optional = false, cascade = CascadeType.ALL)
+  @ManyToOne
   @JoinColumn(name = "user_id")
   public UserModel user;
 
@@ -22,4 +22,6 @@ public class LikeModel implements Serializable {
   public Integer artId;
 
   public TypeOfArtEnum type;
+
+
 }

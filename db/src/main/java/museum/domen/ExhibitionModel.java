@@ -14,7 +14,7 @@ public class ExhibitionModel {
 
   public String name;
 
-  public byte[] image;
+  public String imageUrl;
 
   public String description;
 
@@ -24,7 +24,5 @@ public class ExhibitionModel {
   @ManyToOne (optional=false, cascade= CascadeType.ALL)
   @JoinColumn(name="museum_id")
   public MuseumModel museum;
-//  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-//  @JoinColumn(name = "exhibit_id")
-//  private List<ExhibitModel> exhibitsList;
+
 }

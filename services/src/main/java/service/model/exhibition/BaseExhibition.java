@@ -10,7 +10,7 @@ public interface BaseExhibition {
 
     String getName();
 
-    byte[] getImage();
+  String getImageUrl();
 
     String getDescription();
 

@@ -12,5 +12,5 @@ public interface UpdatableMuseum {
 
   String getAddress();
   String getDescription();
-
+  String getImageUrl();
 }

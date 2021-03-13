@@ -4,6 +4,7 @@ import com.sun.istack.Nullable;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.List;
 
 @Entity(name = "museums")
@@ -16,9 +17,10 @@ import java.util.List;
 public class MuseumModel {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
+
   private Long id;
-  @Column(name = "museum_login")
-  private String login;
+//  @Column(name = "museum_login")
+//  private String login;
   @Column(name = "name_museum")
   private String nameMuseum;
   @Column(name = "address")
@@ -27,7 +29,8 @@ public class MuseumModel {
   private String description;
   @Nullable
   private String image;
-//    @OneToMany( cascade = CascadeType.ALL, orphanRemoval = true)
-//    @JoinColumn(name = "museum_id")
-//  private List<ExhibitionModel> exhibitionLists;
+
+  @OneToMany(mappedBy="museum")
+  private List<UserModel> workers;
+
 }

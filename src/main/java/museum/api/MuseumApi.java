@@ -43,11 +43,11 @@ public class MuseumApi {
   @PostMapping(   consumes={ "multipart/form-data"},value = "/upload")
   @ResponseStatus(HttpStatus.CREATED)
   //ModelAttribute
-  ExistingMuseum updateMuseum(@ModelAttribute    UpdatableMuseum updatableMuseum,  @RequestPart("imageUpload") MultipartFile upload) throws Exception {
+  ExistingMuseum updateMuseum(@ModelAttribute    UpdatableMuseum updatableMuseum ) throws Exception {
 
    // MultipartFile ss = updatableMuseum.getImage();
 
     logger.info("Consumed: {}", updatableMuseum);
-    return museumFacade.updateMuseum(updatableMuseum,  upload );
+    return museumFacade.updateMuseum(updatableMuseum );
   }
 }

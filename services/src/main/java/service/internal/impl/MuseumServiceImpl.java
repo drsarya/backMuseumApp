@@ -1,5 +1,6 @@
 package service.internal.impl;
 
+import museum.domen.AuthorModel;
 import museum.domen.MuseumModel;
 import museum.mapper.MuseumMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -27,27 +29,43 @@ public class MuseumServiceImpl implements MuseumService {
     this.museumStruct = museumStruct;
   }
 
-
   private final MuseumMapper museumMapper;
   private final MuseumStruct museumStruct;
 
   @Override
-  public ExistingMuseum getMuseumByLogin(String login) {
+  public ExistingMuseum getMuseumByWorkerId(Integer id) {
+    MuseumModel museumModel = museumMapper.findMuseumByUserId(id);
+    if (museumModel != null) {
+      return museumStruct.toExistingMuseum(museumModel);
+    }
     return null;
   }
 
   @Override
-  public List<ExistingMuseum> getMuseumById(Integer id) {
+  public ExistingMuseum getMuseumById(Integer id) {
+    MuseumModel museumModel = museumMapper.findById((long) id);
+    if (museumModel != null) {
+      return museumStruct.toExistingMuseum(museumModel);
+    }
     return null;
   }
 
   @Override
   public List<ExistingMuseum> getAllMuseums() {
-    return null;
+    Iterable<MuseumModel> museumModels = museumMapper.findAll();
+    List<MuseumModel> actualList = new ArrayList<MuseumModel>();
+    while (museumModels.iterator().hasNext()) {
+      actualList.add(museumModels.iterator().next());
+    }
+    return museumStruct.toListExistingMuseum(actualList);
   }
 
   @Override
   public ExistingMuseum getMuseumByLoginAndIdCode(String login, Integer id) {
+    MuseumModel museumModel = museumMapper.findMuseumByIdAndMuseumAdmin(id, login);
+    if (museumModel != null) {
+      return museumStruct.toExistingMuseum(museumModel);
+    }
     return null;
   }
 
@@ -56,31 +74,25 @@ public class MuseumServiceImpl implements MuseumService {
     return museumStruct.toExistingMuseum(museumMapper.save(museumStruct.toMuseumModel(baseMuseum)));
   }
 
-  /*
-  * String getNameMuseum();
 
-    String getAddress();
-    String getDescription();
-    byte[] getImage();
-    * */
-  private final Path root = Paths.get("C:\\Users\\PC\\Desktop\\ee");
+  // private final Path root = Paths.get("C:\\Users\\PC\\Desktop\\ee");
   @Override
-  public ExistingMuseum updateMuseumInfo(UpdatableMuseum updatableMuseum, MultipartFile upload ) throws IOException {
-    museumMapper.findById( 1L );
+  public ExistingMuseum updateMuseumInfo(UpdatableMuseum updatableMuseum) throws IOException {
+    museumMapper.findById(1L);
     Long id = updatableMuseum.getId();
     MuseumModel m = museumMapper.findById(updatableMuseum.getId());
-    m.setNameMuseum(updatableMuseum.getNameMuseum());
-    m.setAddress(updatableMuseum.getAddress());
-    m.setDescription(updatableMuseum.getDescription());
-     Files.copy(upload.getInputStream(), this.root.resolve(upload.getOriginalFilename()));
-
-    URI u = URI.create("http://java.sun.com/");
-//    try (InputStream in = u.toURL().openStream()) {
-//      Files.copy(upload.getInputStream(), this.root.resolve(upload.getOriginalFilename())) ;
-//
-    m.setImage( upload.getOriginalFilename());
-
-
-    return museumStruct.toExistingMuseum(museumMapper.save(m));
+    if (!updatableMuseum.getNameMuseum().isEmpty()) {
+      m.setNameMuseum(updatableMuseum.getNameMuseum());
+    }
+    if (!updatableMuseum.getAddress().isEmpty()) {
+      m.setAddress(updatableMuseum.getAddress());
+    }
+    if (!updatableMuseum.getDescription().isEmpty()) {
+      m.setDescription(updatableMuseum.getDescription());
+    }
+    if (!updatableMuseum.getImageUrl().isEmpty()) {
+      m.setImage(updatableMuseum.getImageUrl());
+    }
+     return museumStruct.toExistingMuseum(museumMapper.save(m));
   }
 }

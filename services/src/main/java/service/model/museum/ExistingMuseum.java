@@ -13,7 +13,7 @@ public interface ExistingMuseum extends BaseMuseum {
   String getDescription();
 
   @Nullable
-  String getImage();
+  String getImageUrl();
 
 
 }

@@ -16,7 +16,7 @@ public class ExhibitModel {
 
   public String name;
 
-  public byte[] photo;
+  public String imageUrl;
 
   public String description;
 

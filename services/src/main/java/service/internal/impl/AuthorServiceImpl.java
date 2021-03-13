@@ -9,8 +9,8 @@ import service.mapper.AuthorStruct;
 import service.model.author.BaseAuthor;
 import service.model.author.ExistingAuthor;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 @Service
 public class AuthorServiceImpl implements AuthorService {
@@ -25,19 +25,30 @@ public class AuthorServiceImpl implements AuthorService {
 
   @Override
   public List<ExistingAuthor> getAllAuthors() {
-
-   // return authorStruct.toListExistingAuthor(authorMapper.findAll());
-    return null;
+    Iterable<AuthorModel> authorModels = authorMapper.findAll();
+    List<AuthorModel> actualList = new ArrayList<AuthorModel>();
+    while (authorModels.iterator().hasNext()) {
+      actualList.add(authorModels.iterator().next());
+    }
+    return authorStruct.toListExistingAuthor(actualList);
 
   }
 
   @Override
   public ExistingAuthor getAuthorByName(String name) {
+    AuthorModel authorModel = authorMapper.findByFullName(name);
+    if (authorModel != null) {
+      return authorStruct.toExistingAuthor(authorModel);
+    }
     return null;
   }
 
   @Override
-  public BaseAuthor insertAuthor(String author) {
+  public ExistingAuthor insertAuthor(BaseAuthor author) {
+    AuthorModel authorModel = authorMapper.save(authorStruct.toAuthorModel(author));
+    if (authorModel != null) {
+      return authorStruct.toExistingAuthor(authorModel);
+    }
     return null;
   }
 }

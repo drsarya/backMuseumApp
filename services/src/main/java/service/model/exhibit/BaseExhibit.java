@@ -9,13 +9,13 @@ public interface BaseExhibit {
 
   Integer getAuthorId();
 
-    String getName();
+  String getName();
 
-    byte[] getPhoto();
+  String getImageUrl();
 
-    String getDescription();
+  String getDescription();
 
-    String getDateOfCreate();
+  String getDateOfCreate();
 
-    Integer getExhibitionId();
+  Integer getExhibitionId();
 }

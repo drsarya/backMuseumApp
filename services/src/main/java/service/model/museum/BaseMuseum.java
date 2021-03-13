@@ -8,7 +8,6 @@ import service.model.author.ImmutableBaseAuthor;
 @JsonDeserialize(builder = ImmutableBaseMuseum.Builder.class)
 
 public interface BaseMuseum {
-  String getLogin();
   String getName();
   String getAddress();
 }

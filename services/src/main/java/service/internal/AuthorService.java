@@ -10,5 +10,5 @@ public interface AuthorService {
 
   ExistingAuthor getAuthorByName(String name);
 
-  BaseAuthor insertAuthor(String author);
+  ExistingAuthor insertAuthor(BaseAuthor author);
 }
