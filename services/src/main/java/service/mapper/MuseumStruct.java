@@ -13,15 +13,15 @@ import java.util.stream.Collectors;
 
 @Mapper
 public interface MuseumStruct {
-   @Mapping(target = "nameMuseum", source =   "name")
-  @Mapping(target = "address", source =   "address")
+  @Mapping(target = "nameMuseum", source = "name")
+  @Mapping(target = "address", source = "address")
   MuseumModel toMuseumModel(BaseMuseum baseMuseum);
 
-   @Mapping(target = "name", source =   "model.nameMuseum")
-  @Mapping(target = "address", source =   "model.address")
-  @Mapping(target = "id", source =   "model.id")
-  @Mapping(target = "imageUrl", source =   "model.image")
-  @Mapping(target = "description", source =   "model.description")
+  @Mapping(target = "name", source = "model.nameMuseum")
+  @Mapping(target = "address", source = "model.address")
+  @Mapping(target = "id", source = "model.id")
+  @Mapping(target = "imageUrl", source = "model.image")
+  @Mapping(target = "description", source = "model.description")
   ExistingMuseum toExistingMuseum(MuseumModel model);
 
   default List<ExistingMuseum> toListExistingMuseum(List<MuseumModel> museumModels) {

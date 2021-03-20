@@ -11,7 +11,6 @@ import service.model.user.UserUpdate;
 @Mapper
 public interface UserStruct {
 
-
   @Mapping(target = "login", source = "user.login")
   @Mapping(target = "password", source = "password")
   UserModel toUserModel(UserUpdate user, String password);

@@ -10,6 +10,7 @@ import service.model.museum.ExistingMuseum;
 import service.model.museum.UpdatableMuseum;
 
 import java.io.IOException;
+import java.util.List;
 
 @Service
 public class MuseumFacadeImpl implements MuseumFacade {
@@ -28,5 +29,30 @@ public class MuseumFacadeImpl implements MuseumFacade {
   @Override
   public ExistingMuseum updateMuseum(UpdatableMuseum baseMuseum ) throws IOException {
     return museumService.updateMuseumInfo(baseMuseum );
+  }
+
+  @Override
+  public ExistingMuseum getMuseumByWorkerId(Integer id) {
+    return null;
+  }
+
+  @Override
+  public ExistingMuseum getMuseumById(Integer id) {
+    return null;
+  }
+
+  @Override
+  public List<ExistingMuseum> getAllMuseums() {
+    return null;
+  }
+
+  @Override
+  public ExistingMuseum getMuseumByLoginAndIdCode(String login, Integer id) {
+    return null;
+  }
+
+  @Override
+  public ExistingMuseum updateMuseumInfo(UpdatableMuseum updatableMuseum) throws IOException {
+    return null;
   }
 }

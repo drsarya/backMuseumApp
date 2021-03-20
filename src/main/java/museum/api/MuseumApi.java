@@ -20,7 +20,8 @@ import service.model.user.NewUser;
 @RestController
 @RequestMapping(
   value = "/museum",
-  produces = "application/json"
+  produces = "application/json",
+  consumes = "application/json"
 )
 public class MuseumApi {
 
@@ -28,26 +29,19 @@ public class MuseumApi {
   private static final Logger logger = LoggerFactory.getLogger(MuseumApi.class);
 
   @Autowired
-  public MuseumApi(final  MuseumFacade museumFacade) {
+  public MuseumApi(final MuseumFacade museumFacade) {
     this.museumFacade = museumFacade;
   }
 
-
-  @PostMapping( consumes = "application/json" )
+  @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
   ExistingMuseum createMuseum(@RequestBody final BaseMuseum baseMuseum) throws Exception {
-    logger.info("Consumed: {}", baseMuseum);
     return museumFacade.createMuseum(baseMuseum);
   }
 
-  @PostMapping(   consumes={ "multipart/form-data"},value = "/upload")
+  @PutMapping
   @ResponseStatus(HttpStatus.CREATED)
-  //ModelAttribute
-  ExistingMuseum updateMuseum(@ModelAttribute    UpdatableMuseum updatableMuseum ) throws Exception {
-
-   // MultipartFile ss = updatableMuseum.getImage();
-
-    logger.info("Consumed: {}", updatableMuseum);
-    return museumFacade.updateMuseum(updatableMuseum );
+  ExistingMuseum updateMuseum(@RequestBody UpdatableMuseum updatableMuseum) throws Exception {
+    return museumFacade.updateMuseum(updatableMuseum);
   }
 }

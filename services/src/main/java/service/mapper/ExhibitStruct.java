@@ -1,48 +1,41 @@
 package service.mapper;
 
+import museum.domen.AuthorModel;
 import museum.domen.ExhibitModel;
 import museum.domen.ExhibitionModel;
+import museum.mapper.AuthorMapper;
+import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import service.mapper.customMap.ExhibitDetailStruct;
+import service.model.author.ExistingAuthor;
 import service.model.exhibit.BaseExhibit;
 import service.model.exhibit.ExistingExhibit;
-import service.model.exhibition.BaseExhibition;
 import service.model.exhibition.ExistingExhibition;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Mapper
 public interface ExhibitStruct {
 
-  @Mapping(target = "id", source = "exhibitionModel.id")
-  @Mapping(target = "imageUrl", source = "exhibitionModel.imageUrl")
-  @Mapping(target = "name", source = "exhibitionModel.name")
-  @Mapping(target = "description", source = "exhibitionModel.description")
-  @Mapping(target = "firstDate", source = "exhibitionModel.firstDate")
-  @Mapping(target = "lastDate", source = "exhibitionModel.lastDate")
-  @Mapping(target = "museumId", source = "exhibitionModel.museum.id")
-  ExistingExhibit toExistingExhibit(ExhibitModel exhibitionModel );
 
-
-
-
-
-
-
-  Integer getExhibitionId();
+  @Mapping(target = "name", source = "exhibitModel.name")
+  @Mapping(target = "imageUrl", source = "exhibitModel.imageUrl")
+  @Mapping(target = "description", source = "exhibitModel.description")
+  @Mapping(target = "dateOfCreate", source = "exhibitModel.dateOfCreate")
+  @Mapping(target = "author", source = "author")
+  @Mapping(target = "exhibition", source = "exhibition")
+  @Mapping(target = "id", source = "exhibitModel.id")
+   ExistingExhibit toExistingExhibit(ExhibitModel exhibitModel, ExistingAuthor author, ExistingExhibition exhibition);
 
 
   @Mapping(target = "name", source = "name")
   @Mapping(target = "imageUrl", source = "imageUrl")
   @Mapping(target = "description", source = "description")
-  @Mapping(target = "firstDate", source = "authorId")
-  @Mapping(target = "lastDate", source = "dateOfCreate")
-  @Mapping(target = "museum", source = "exhibitionId")
-  ExhibitModel toExhibitModel(BaseExhibit exhibition);
+  @Mapping(target = "dateOfCreate", source = "dateOfCreate")
+  @Mapping(target = "author", source = "author")
+  @Mapping(target = "exhibition", source = "exhibition")
+  ExhibitModel toExhibitModel(BaseExhibit exhibit);
 
-  default List<ExistingExhibit> toListExistingExhibits(List<ExhibitModel> exhibitionModels) {
-    return exhibitionModels
-      .stream()
-      .map(this::toExistingExhibit)
-      .collect(Collectors.toList());
-  }
+
 }

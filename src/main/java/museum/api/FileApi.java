@@ -28,14 +28,11 @@ public class FileApi {
     this.fileLoaderFacade = fileLoaderFacade;
   }
 
-
   @PostMapping(consumes = {"multipart/form-data"}, value = "/upload")
   @ResponseStatus(HttpStatus.CREATED)
-  String updateMuseum(@RequestPart("imageUpload") MultipartFile upload) {
-
+  String uploadImage(@RequestPart("imageUpload") MultipartFile upload) {
     ResponseEntity<String> s = fileLoaderFacade.uploadImage(upload);
     JSONObject json = new JSONObject(s.getBody());
-    String url = json.getString("url");
-    return url;
+    return json.getString("url");
   }
 }

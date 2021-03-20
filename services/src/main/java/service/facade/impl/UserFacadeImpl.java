@@ -17,7 +17,7 @@ public class UserFacadeImpl implements UserFacade {
   }
 
   @Override
-  public ExistingUser getUser(NewUser user) throws Exception  {
+  public ExistingUser getUser(NewUser user) throws Exception {
     return userService.getUser(user);
   }
 

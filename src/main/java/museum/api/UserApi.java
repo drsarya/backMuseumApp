@@ -31,17 +31,13 @@ public class UserApi {
 
 
   @PostMapping( consumes = "application/json" )
-  @ResponseStatus(HttpStatus.CREATED)
   ExistingUser createUser(@RequestBody final NewUser user) throws Exception {
-    logger.info("Consumed: {}", user);
     return userFacade.createUser(user);
   }
 
 
   @PostMapping( consumes = "application/json", value = "/get")
-  @ResponseStatus(HttpStatus.CREATED)
   ExistingUser getUser(@RequestBody final NewUser user) throws Exception {
-    logger.info("Consumed: {}", user);
     if (user != null) {
       return userFacade.getUser(user);
     } else {
@@ -50,18 +46,16 @@ public class UserApi {
   }
 
 
-  @PostMapping( consumes = "multipart/form-data", value = "/upload")
-  @ResponseStatus(HttpStatus.CREATED)
-  void getUser(@RequestBody final File file) throws Exception {
-    logger.info("Consumed: {}", file);
-    byte[]  arr = Files.readAllBytes(file.toPath());
-
-  }
+//  @PostMapping( consumes = "multipart/form-data", value = "/upload")
+//  @ResponseStatus(HttpStatus.CREATED)
+//  void getUser(@RequestBody final File file) throws Exception {
+//    logger.info("Consumed: {}", file);
+//    byte[]  arr = Files.readAllBytes(file.toPath());
+//
+//  }
 
   @PutMapping( consumes = "application/json")
-  @ResponseStatus(HttpStatus.CREATED)
   Boolean updatePassword(@RequestBody final UserUpdate user) throws Exception {
-    logger.info("Consumed: {}", user);
     if (user != null) {
       return userFacade.updateUserPassword(user);
     } else {
