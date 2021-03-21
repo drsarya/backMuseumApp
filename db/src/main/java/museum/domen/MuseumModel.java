@@ -30,7 +30,8 @@ public class MuseumModel {
   @Nullable
   private String image;
 
-  @OneToMany(mappedBy="museum")
+  @OneToMany(mappedBy="museum", cascade = CascadeType.ALL)
   private List<UserModel> workers;
-
+  @OneToMany(mappedBy="museum")
+  private List<ExhibitionModel> exhibitionModels;
 }

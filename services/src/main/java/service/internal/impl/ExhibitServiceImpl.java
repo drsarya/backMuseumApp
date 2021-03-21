@@ -57,7 +57,7 @@ public class ExhibitServiceImpl implements ExhibitService {
     for (ExhibitModel exhibitModel : actualList) {
       ExistingAuthor existingAuthor = authorStruct.toExistingAuthor(exhibitModel.author);
       ExistingMuseum museum = museumStruct.toExistingMuseum(exhibitModel.exhibition.museum);
-      ExistingExhibition existingExhibition = exhibitionStruct.toExistingExhibition(exhibitModel.exhibition, museum);
+      ExistingExhibition existingExhibition = exhibitionStruct.toExistingExhibition(exhibitModel.exhibition, museum.getId());
       existingExhibits.add(exhibitStruct.toExistingExhibit(exhibitModel, existingAuthor, existingExhibition));
     }
     return existingExhibits;
@@ -75,7 +75,7 @@ public class ExhibitServiceImpl implements ExhibitService {
     ExhibitModel exhibitModel = exhibitStruct.toExhibitModel(exhibit);
     ExistingAuthor existingAuthor = authorStruct.toExistingAuthor(exhibitModel.author);
     ExistingMuseum museum = museumStruct.toExistingMuseum(exhibitModel.exhibition.museum);
-    ExistingExhibition existingExhibition = exhibitionStruct.toExistingExhibition(exhibitModel.exhibition, museum);
+    ExistingExhibition existingExhibition = exhibitionStruct.toExistingExhibition(exhibitModel.exhibition, museum.getId());
     return exhibitStruct.toExistingExhibit(exhibitModel, existingAuthor, existingExhibition);
   }
 
@@ -111,7 +111,7 @@ public class ExhibitServiceImpl implements ExhibitService {
       ExhibitModel newExhibitModel = exhibitMapper.save(exhibitModel);
       ExistingAuthor existingAuthor = authorStruct.toExistingAuthor(newExhibitModel.author);
       ExistingMuseum museum = museumStruct.toExistingMuseum(exhibitModel.exhibition.museum);
-      ExistingExhibition existingExhibition = exhibitionStruct.toExistingExhibition(exhibitModel.exhibition, museum);
+      ExistingExhibition existingExhibition = exhibitionStruct.toExistingExhibition(exhibitModel.exhibition, museum.getId());
       return exhibitStruct.toExistingExhibit(newExhibitModel, existingAuthor, existingExhibition);
     }
     return null;

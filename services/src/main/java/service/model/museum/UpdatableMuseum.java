@@ -7,9 +7,7 @@ import org.immutables.value.Value;
 @JsonDeserialize(builder = ImmutableUpdatableMuseum.Builder.class)
 public interface UpdatableMuseum {
   Long getId();
-
   String getNameMuseum();
-
   String getAddress();
   String getDescription();
   String getImageUrl();

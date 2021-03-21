@@ -1,18 +1,15 @@
 package service.internal.impl;
 
-import museum.domen.AuthorModel;
-import museum.domen.ExhibitModel;
 import museum.domen.ExhibitionModel;
-import museum.mapper.AuthorMapper;
+import museum.domen.MuseumModel;
 import museum.mapper.ExhibitionMapper;
+import museum.mapper.MuseumMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import service.internal.ExhibitionService;
-import service.mapper.AuthorStruct;
 import service.mapper.ExhibitionStruct;
 import service.mapper.MuseumStruct;
-import service.model.author.ExistingAuthor;
-import service.model.exhibit.ExistingExhibit;
+import service.model.exhibition.BaseExhibition;
 import service.model.exhibition.ExistingExhibition;
 import service.model.museum.ExistingMuseum;
 
@@ -26,20 +23,20 @@ public class ExhibitionServiceImpl implements ExhibitionService {
   private final ExhibitionMapper exhibitionMapper;
   private final ExhibitionStruct exhibitionStruct;
   private final MuseumStruct museumStruct;
-
+  private final MuseumMapper museumMapper;
   @Autowired
-  public ExhibitionServiceImpl(final ExhibitionStruct exhibitionStruct, final ExhibitionMapper exhibitionMapper, final MuseumStruct museumStruct) {
+  public ExhibitionServiceImpl(final ExhibitionStruct exhibitionStruct,final MuseumMapper museumMapper, final ExhibitionMapper exhibitionMapper, final MuseumStruct museumStruct) {
     this.exhibitionStruct = exhibitionStruct;
     this.exhibitionMapper = exhibitionMapper;
     this.museumStruct = museumStruct;
-
+    this.museumMapper = museumMapper;
   }
 
   private List<ExistingExhibition> toListExhibitions(List<ExhibitionModel> actualList) {
     List<ExistingExhibition> exhibitionList = new ArrayList<>();
     for (ExhibitionModel exhibitionModel : actualList) {
       ExistingMuseum museum = museumStruct.toExistingMuseum(exhibitionModel.museum);
-      exhibitionList.add(exhibitionStruct.toExistingExhibition(exhibitionModel, museum));
+      exhibitionList.add(exhibitionStruct.toExistingExhibition(exhibitionModel, museum.getId()));
     }
     return exhibitionList;
   }
@@ -58,12 +55,12 @@ public class ExhibitionServiceImpl implements ExhibitionService {
   }
 
   @Override
-  public ExistingExhibition createExhibition(ExistingExhibition exhibition) {
-    ExhibitionModel exhibitionModel = exhibitionStruct.toExhibitionModel(exhibition);
+  public ExistingExhibition createExhibition(BaseExhibition exhibition) {
+
+    ExhibitionModel exhibitionModel = exhibitionStruct.toExhibitionModel(exhibition, museumMapper.findById((long)exhibition.getMuseumId()));
 
     ExhibitionModel newExhbtnModel = exhibitionMapper.save(exhibitionModel);
-    ExistingMuseum museum = museumStruct.toExistingMuseum(newExhbtnModel.museum);
-    return exhibitionStruct.toExistingExhibition(newExhbtnModel, museum);
+     return exhibitionStruct.toExistingExhibition(newExhbtnModel, newExhbtnModel.museum.getId().intValue());
 
   }
 
@@ -89,7 +86,7 @@ public class ExhibitionServiceImpl implements ExhibitionService {
       ExhibitionModel newExhbtnModel = exhibitionMapper.save(exhibitionModel);
       ExistingMuseum museum = museumStruct.toExistingMuseum(newExhbtnModel.museum);
 
-      return exhibitionStruct.toExistingExhibition(newExhbtnModel, museum);
+      return exhibitionStruct.toExistingExhibition(newExhbtnModel, museum.getId());
     }
     return null;
   }

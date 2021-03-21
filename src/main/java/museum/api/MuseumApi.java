@@ -42,6 +42,8 @@ public class MuseumApi {
   @PutMapping
   @ResponseStatus(HttpStatus.CREATED)
   ExistingMuseum updateMuseum(@RequestBody UpdatableMuseum updatableMuseum) throws Exception {
-    return museumFacade.updateMuseum(updatableMuseum);
+    throw  new IllegalArgumentException("dfdfdfdfdf");
+  //  return museumFacade.updateMuseum(updatableMuseum);
+
   }
 }

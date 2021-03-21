@@ -21,7 +21,7 @@ public class ExhibitionModel {
   public String firstDate;
 
   public String lastDate;
-  @ManyToOne (optional=false, cascade= CascadeType.ALL)
+  @ManyToOne (cascade = CascadeType.ALL)
   @JoinColumn(name="museum_id")
   public MuseumModel museum;
 

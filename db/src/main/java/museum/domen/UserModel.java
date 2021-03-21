@@ -9,7 +9,7 @@ import java.util.List;
 
 @Entity(name = "users")
 @Table(uniqueConstraints = {
-  @UniqueConstraint(columnNames ={ "login", "museum_id"})}
+  @UniqueConstraint(columnNames ={ "login", "role"})}
 )
 @Data
 public class UserModel {

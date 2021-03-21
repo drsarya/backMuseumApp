@@ -2,6 +2,7 @@ package service.mapper;
 
 import museum.domen.AuthorModel;
 import museum.domen.ExhibitionModel;
+import museum.domen.MuseumModel;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,16 +24,16 @@ public interface ExhibitionStruct {
   @Mapping(target = "description", source = "exhibitionModel.description")
   @Mapping(target = "firstDate", source = "exhibitionModel.firstDate")
   @Mapping(target = "lastDate", source = "exhibitionModel.lastDate")
-  @Mapping(target = "museum", source = "existingMuseum" )
-  ExistingExhibition toExistingExhibition(ExhibitionModel exhibitionModel, ExistingMuseum existingMuseum);
+  @Mapping(target = "museumId", source = "idMuseum" )
+  ExistingExhibition toExistingExhibition(ExhibitionModel exhibitionModel, Integer idMuseum);
 
-  @Mapping(target = "name", source = "name")
-  @Mapping(target = "imageUrl", source = "imageUrl")
-  @Mapping(target = "description", source = "description")
-  @Mapping(target = "firstDate", source = "firstDate")
-  @Mapping(target = "lastDate", source = "lastDate")
-  @Mapping(target = "museum", source = "museum")
-  ExhibitionModel toExhibitionModel(BaseExhibition exhibition);
+  @Mapping(target = "name", source = "exhibition.name")
+  @Mapping(target = "imageUrl", source = "exhibition.imageUrl")
+  @Mapping(target = "description", source = "exhibition.description")
+  @Mapping(target = "firstDate", source = "exhibition.firstDate")
+  @Mapping(target = "lastDate", source = "exhibition.lastDate")
+  @Mapping(target = "museum", source = "museumModel")
+  ExhibitionModel toExhibitionModel(BaseExhibition exhibition, MuseumModel museumModel);
 
 
 }

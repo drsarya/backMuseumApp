@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import service.facade.ExhibitionFacade;
 import service.facade.LikeFacade;
+import service.model.exhibition.BaseExhibition;
 import service.model.exhibition.ExistingExhibition;
 
 import java.util.List;
@@ -29,7 +30,7 @@ public class ExhibitionApi {
   }
 
   @PostMapping
-  ExistingExhibition createExhibition(@RequestBody ExistingExhibition exhibition) {
+  ExistingExhibition createExhibition(@RequestBody BaseExhibition exhibition) {
     return exhibitionFacade.createExhibition(exhibition);
   }
 

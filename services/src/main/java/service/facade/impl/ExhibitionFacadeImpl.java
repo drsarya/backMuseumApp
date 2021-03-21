@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import service.facade.ExhibitionFacade;
 import service.internal.ExhibitService;
 import service.internal.ExhibitionService;
+import service.model.exhibition.BaseExhibition;
 import service.model.exhibition.ExistingExhibition;
 
 import java.util.List;
@@ -23,7 +24,7 @@ public class ExhibitionFacadeImpl implements ExhibitionFacade {
   }
 
   @Override
-  public ExistingExhibition createExhibition(ExistingExhibition exhibition) {
+  public ExistingExhibition createExhibition(BaseExhibition exhibition) {
     return exhibitionService.createExhibition(exhibition);
   }
 
