@@ -13,9 +13,12 @@ import service.mapper.UserStruct;
 import service.model.museum.ExistingMuseum;
 import service.model.user.ExistingUser;
 import service.model.user.NewUser;
+import service.model.user.UserMuseum;
 import service.model.user.UserUpdate;
 import service.validation.ValidationErrorTerms;
 import src.model.RoleEnum;
+
+import java.util.Objects;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -43,8 +46,8 @@ public class UserServiceImpl implements UserService {
     if (user.getMuseum() != null) {
       museumModel = museumMapper.findById((long) user.getMuseum().getId());
     }
-    if (museumModel != null &&  user.getRole() != RoleEnum.MUSEUM  ||
-      museumModel == null &&  user.getRole() == RoleEnum.MUSEUM) {
+    if (museumModel != null && user.getRole() != RoleEnum.MUSEUM ||
+      museumModel == null && user.getRole() == RoleEnum.MUSEUM) {
       throw new IllegalArgumentException(ValidationErrorTerms.INVALID_ROLE_OF_USER);
     }
     UserModel d = userMapper.save(userStruct.toUserModel(user, newPassword, museumModel));
@@ -90,5 +93,17 @@ public class UserServiceImpl implements UserService {
         return false;
       }
     }
+  }
+
+  @Override
+  public Boolean updateMuseumUserPass(UserMuseum user) throws Exception {
+    if (museumMapper.findById((long) user.getIdCode()) != null && Objects.requireNonNull(user.getMuseum()).getId().equals(user.getIdCode())) {
+      String newPassword = ConfigEncrypt.getSaltedHash(user.getNewPassword());
+      UserModel model = userMapper.findByLoginAndRole(user.getLogin(), user.getRole());
+      model.setPassword(newPassword);
+      userMapper.save(model);
+      return true;
+    }
+    return false;
   }
 }

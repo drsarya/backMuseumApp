@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import museum.domen.AuthorModel;
 import museum.domen.ExhibitionModel;
 import org.immutables.value.Value;
+import service.model.author.BaseAuthor;
 import service.model.author.ExistingAuthor;
 import service.model.exhibition.ExistingExhibition;
 
@@ -12,7 +13,7 @@ import javax.persistence.*;
 @JsonDeserialize(builder = ImmutableBaseExhibit.Builder.class)
 public interface BaseExhibit {
 
-  ExistingAuthor getAuthor();
+  BaseAuthor getAuthor();
 
   String getName();
 
@@ -22,5 +23,5 @@ public interface BaseExhibit {
 
   String getDateOfCreate();
 
-  ExistingExhibition getExhibition();
+  Integer getExhibitionId();
 }

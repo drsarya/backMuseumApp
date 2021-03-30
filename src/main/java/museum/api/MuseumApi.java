@@ -17,6 +17,9 @@ import service.model.museum.UpdatableMuseum;
 import service.model.user.ExistingUser;
 import service.model.user.NewUser;
 
+import java.io.IOException;
+import java.util.List;
+
 @RestController
 @RequestMapping(
   value = "/museum",
@@ -35,15 +38,27 @@ public class MuseumApi {
 
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
-  ExistingMuseum createMuseum(@RequestBody final BaseMuseum baseMuseum) throws Exception {
+  ExistingMuseum createMuseum(@RequestBody final BaseMuseum baseMuseum) {
     return museumFacade.createMuseum(baseMuseum);
   }
 
   @PutMapping
-  @ResponseStatus(HttpStatus.CREATED)
+  @ResponseStatus(HttpStatus.OK)
   ExistingMuseum updateMuseum(@RequestBody UpdatableMuseum updatableMuseum) throws Exception {
-    throw  new IllegalArgumentException("dfdfdfdfdf");
-  //  return museumFacade.updateMuseum(updatableMuseum);
-
+    return museumFacade.updateMuseum(updatableMuseum);
   }
+
+  @GetMapping
+  List<ExistingMuseum> getAllMuseums() {
+    return museumFacade.getAllMuseums();
+  }
+
+  @GetMapping(value = "/{id}")
+  ExistingMuseum getMuseumByWorkerId(@PathVariable Integer id) {
+    return museumFacade.getMuseumByWorkerId(id);
+  }
+
+
+
+
 }

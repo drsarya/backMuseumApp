@@ -1,8 +1,10 @@
 package service.internal.impl;
 
 import museum.domen.ExhibitModel;
+import museum.domen.ExhibitionModel;
 import museum.mapper.AuthorMapper;
 import museum.mapper.ExhibitMapper;
+import museum.mapper.ExhibitionMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import service.internal.ExhibitService;
@@ -27,17 +29,18 @@ public class ExhibitServiceImpl implements ExhibitService {
   private final ExhibitStruct exhibitStruct;
   private final AuthorStruct authorStruct;
   private final ExhibitionStruct exhibitionStruct;
-  private final MuseumStruct museumStruct;
+  private final ExhibitionMapper exhibitionMapper;
+
 
   @Autowired
   public ExhibitServiceImpl(final ExhibitMapper exhibitMapper, final AuthorMapper authorMapper,
                             final AuthorStruct authorStruct, ExhibitionStruct exhibitionStruct,
-                            final MuseumStruct museumStruct,
+                            final ExhibitionMapper exhibitionMapper,
                             final ExhibitStruct exhibitStruct) {
     this.exhibitMapper = exhibitMapper;
     this.authorMapper = authorMapper;
     this.authorStruct = authorStruct;
-    this.museumStruct = museumStruct;
+    this.exhibitionMapper = exhibitionMapper;
     this.exhibitionStruct = exhibitionStruct;
     this.exhibitStruct = exhibitStruct;
   }
@@ -56,9 +59,7 @@ public class ExhibitServiceImpl implements ExhibitService {
     List<ExistingExhibit> existingExhibits = new ArrayList<>();
     for (ExhibitModel exhibitModel : actualList) {
       ExistingAuthor existingAuthor = authorStruct.toExistingAuthor(exhibitModel.author);
-      ExistingMuseum museum = museumStruct.toExistingMuseum(exhibitModel.exhibition.museum);
-      ExistingExhibition existingExhibition = exhibitionStruct.toExistingExhibition(exhibitModel.exhibition, museum.getId());
-      existingExhibits.add(exhibitStruct.toExistingExhibit(exhibitModel, existingAuthor, existingExhibition));
+      existingExhibits.add(exhibitStruct.toExistingExhibit(exhibitModel, existingAuthor, exhibitModel.exhibition.getId()));
     }
     return existingExhibits;
   }
@@ -72,11 +73,12 @@ public class ExhibitServiceImpl implements ExhibitService {
 
   @Override
   public ExistingExhibit createExhibit(BaseExhibit exhibit) {
-    ExhibitModel exhibitModel = exhibitStruct.toExhibitModel(exhibit);
-    ExistingAuthor existingAuthor = authorStruct.toExistingAuthor(exhibitModel.author);
-    ExistingMuseum museum = museumStruct.toExistingMuseum(exhibitModel.exhibition.museum);
-    ExistingExhibition existingExhibition = exhibitionStruct.toExistingExhibition(exhibitModel.exhibition, museum.getId());
-    return exhibitStruct.toExistingExhibit(exhibitModel, existingAuthor, existingExhibition);
+    ExhibitionModel exhibitionModel = exhibitionMapper.findOne((long) exhibit.getExhibitionId());
+    ExhibitModel exhibitModel = exhibitStruct.toExhibitModel(exhibit, exhibitionModel);
+    ExhibitModel exhibitModel1 = exhibitMapper.save(exhibitModel);
+
+    ExistingAuthor existingAuthor = authorStruct.toExistingAuthor(exhibitModel1.author);
+    return exhibitStruct.toExistingExhibit(exhibitModel, existingAuthor, exhibitModel1.getExhibition().id);
   }
 
   @Override
@@ -103,16 +105,14 @@ public class ExhibitServiceImpl implements ExhibitService {
         exhibitModel.setImageUrl(exhibit.getImageUrl());
       }
       if (exhibit.getAuthor() != null) {
-        exhibitModel.setAuthor(authorMapper.findOne((long) exhibit.getAuthor().getId()));
+        exhibitModel.setAuthor(authorMapper.findByFullName(  exhibit.getAuthor().getFullName()));
       }
       if (!exhibit.getName().isEmpty()) {
         exhibitModel.setName(exhibit.getName());
       }
       ExhibitModel newExhibitModel = exhibitMapper.save(exhibitModel);
       ExistingAuthor existingAuthor = authorStruct.toExistingAuthor(newExhibitModel.author);
-      ExistingMuseum museum = museumStruct.toExistingMuseum(exhibitModel.exhibition.museum);
-      ExistingExhibition existingExhibition = exhibitionStruct.toExistingExhibition(exhibitModel.exhibition, museum.getId());
-      return exhibitStruct.toExistingExhibit(newExhibitModel, existingAuthor, existingExhibition);
+      return exhibitStruct.toExistingExhibit(newExhibitModel, existingAuthor, newExhibitModel.exhibition.getId());
     }
     return null;
   }

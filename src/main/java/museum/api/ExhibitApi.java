@@ -12,8 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping(
   value = "/exhibits",
-  produces = "application/json",
-  consumes = "application/json"
+  produces = "application/json"
 )
 public class ExhibitApi {
 
@@ -30,22 +29,22 @@ public class ExhibitApi {
     return exhibitFacade.getAllExhibits();
   }
 
-  @GetMapping(value = "/{museumId}")
+  @GetMapping(value = "/{museumId}", consumes = "application/json")
   List<ExistingExhibit> getExhibitsByMuseumId(@PathVariable Integer museumId) {
     return exhibitFacade.getExhibitsByMuseumId(museumId);
   }
 
-  @PostMapping()
+  @PostMapping(consumes = "application/json")
   ExistingExhibit createExhibit(@RequestBody BaseExhibit exhibit) {
     return exhibitFacade.createExhibit(exhibit);
   }
 
-  @DeleteMapping(value = "/{id}")
+  @DeleteMapping(value = "/{id}", consumes = "application/json")
   boolean deleteExhibit(@PathVariable Integer id) {
     return exhibitFacade.deleteExhibit(id);
   }
 
-  @PutMapping
+  @PutMapping(consumes = "application/json")
   ExistingExhibit updateExhibit(@RequestBody ExistingExhibit exhibit) {
     return exhibitFacade.updateExhibit(exhibit);
   }

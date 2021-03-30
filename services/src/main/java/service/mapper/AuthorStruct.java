@@ -19,6 +19,10 @@ public interface AuthorStruct {
   @Mapping(target = "fullName", source = "fullName")
   AuthorModel toAuthorModel(BaseAuthor author);
 
+  @Mapping(target = "fullName", source = "fullName")
+  @Mapping(target = "id", source = "id")
+  AuthorModel toAuthorModel(ExistingAuthor author);
+
   default List<ExistingAuthor> toListExistingAuthor(List<AuthorModel> users) {
     return users
       .stream()

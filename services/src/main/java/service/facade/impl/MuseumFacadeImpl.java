@@ -33,23 +33,14 @@ public class MuseumFacadeImpl implements MuseumFacade {
 
   @Override
   public ExistingMuseum getMuseumByWorkerId(Integer id) {
-    return null;
-  }
-
-  @Override
-  public ExistingMuseum getMuseumById(Integer id) {
-    return null;
+    return museumService.getMuseumByWorkerId(id);
   }
 
   @Override
   public List<ExistingMuseum> getAllMuseums() {
-    return null;
+    return museumService.getAllMuseums();
   }
 
-  @Override
-  public ExistingMuseum getMuseumByLoginAndIdCode(String login, Integer id) {
-    return null;
-  }
 
   @Override
   public ExistingMuseum updateMuseumInfo(UpdatableMuseum updatableMuseum) throws IOException {

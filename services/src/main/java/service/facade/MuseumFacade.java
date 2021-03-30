@@ -10,14 +10,12 @@ import java.util.List;
 
 public interface MuseumFacade {
   ExistingMuseum createMuseum(BaseMuseum baseMuseum);
+  List<ExistingMuseum> getAllMuseums();
   ExistingMuseum updateMuseum(UpdatableMuseum baseMuseum ) throws IOException;
   ExistingMuseum getMuseumByWorkerId(Integer id);
 
-  ExistingMuseum getMuseumById(Integer id);
+  //ExistingMuseum getMuseumById(Integer id);
 
-  List<ExistingMuseum> getAllMuseums();
-
-  ExistingMuseum getMuseumByLoginAndIdCode(String login, Integer id);
 
 
 

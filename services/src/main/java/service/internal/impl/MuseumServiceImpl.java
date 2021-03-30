@@ -41,14 +41,7 @@ public class MuseumServiceImpl implements MuseumService {
     return null;
   }
 
-  @Override
-  public ExistingMuseum getMuseumById(Integer id) {
-    MuseumModel museumModel = museumMapper.findById((long) id);
-    if (museumModel != null) {
-      return museumStruct.toExistingMuseum(museumModel);
-    }
-    return null;
-  }
+//
 
   @Override
   public List<ExistingMuseum> getAllMuseums() {
@@ -60,14 +53,6 @@ public class MuseumServiceImpl implements MuseumService {
     return museumStruct.toListExistingMuseum(actualList);
   }
 
-  @Override
-  public ExistingMuseum getMuseumByLoginAndIdCode(String login, Integer id) {
-    MuseumModel museumModel = museumMapper.findMuseumByIdAndMuseumAdmin(id, login);
-    if (museumModel != null) {
-      return museumStruct.toExistingMuseum(museumModel);
-    }
-    return null;
-  }
 
   @Override
   public ExistingMuseum createMuseum(BaseMuseum baseMuseum) {
@@ -93,6 +78,6 @@ public class MuseumServiceImpl implements MuseumService {
     if (!updatableMuseum.getImageUrl().isEmpty()) {
       m.setImage(updatableMuseum.getImageUrl());
     }
-     return museumStruct.toExistingMuseum(museumMapper.save(m));
+    return museumStruct.toExistingMuseum(museumMapper.save(m));
   }
 }

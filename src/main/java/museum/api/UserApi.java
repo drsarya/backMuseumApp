@@ -5,9 +5,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import service.facade.MuseumFacade;
 import service.facade.UserFacade;
 import service.model.user.ExistingUser;
 import service.model.user.NewUser;
+import service.model.user.UserMuseum;
 import service.model.user.UserUpdate;
 
 import java.io.File;
@@ -27,16 +29,15 @@ public class UserApi {
   @Autowired
   public UserApi(final UserFacade userFacade) {
     this.userFacade = userFacade;
+
   }
-
-
-  @PostMapping( consumes = "application/json" )
+  @PostMapping(consumes = "application/json")
   ExistingUser createUser(@RequestBody final NewUser user) throws Exception {
     return userFacade.createUser(user);
   }
 
 
-  @PostMapping( consumes = "application/json", value = "/get")
+  @PostMapping(consumes = "application/json", value = "/get")
   ExistingUser getUser(@RequestBody final NewUser user) throws Exception {
     if (user != null) {
       return userFacade.getUser(user);
@@ -45,16 +46,12 @@ public class UserApi {
     }
   }
 
+  @PutMapping(consumes = "application/json", value = "/museum")
+  boolean updateMuseumUserPass(UserMuseum userMuseum) throws Exception {
+    return userFacade.updateMuseumUserPass(userMuseum);
+  }
 
-//  @PostMapping( consumes = "multipart/form-data", value = "/upload")
-//  @ResponseStatus(HttpStatus.CREATED)
-//  void getUser(@RequestBody final File file) throws Exception {
-//    logger.info("Consumed: {}", file);
-//    byte[]  arr = Files.readAllBytes(file.toPath());
-//
-//  }
-
-  @PutMapping( consumes = "application/json")
+  @PutMapping(consumes = "application/json")
   Boolean updatePassword(@RequestBody final UserUpdate user) throws Exception {
     if (user != null) {
       return userFacade.updateUserPassword(user);
@@ -62,6 +59,5 @@ public class UserApi {
       return false;
     }
   }
-
 
 }

@@ -5,6 +5,7 @@ import service.facade.UserFacade;
 import service.internal.UserService;
 import service.model.user.ExistingUser;
 import service.model.user.NewUser;
+import service.model.user.UserMuseum;
 import service.model.user.UserUpdate;
 
 @Service
@@ -21,9 +22,6 @@ public class UserFacadeImpl implements UserFacade {
     return userService.getUser(user);
   }
 
-
-
-
   @Override
   public Boolean updateUserPassword(UserUpdate user) throws Exception {
     return userService.updateUserPassword(user);
@@ -34,6 +32,10 @@ public class UserFacadeImpl implements UserFacade {
     return userService.createUser(user);
   }
 
+  @Override
+  public Boolean updateMuseumUserPass(UserMuseum user) throws Exception {
+    return userService.updateUserPassword(user);
+  }
 
 
 }

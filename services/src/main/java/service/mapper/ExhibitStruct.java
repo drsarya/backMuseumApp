@@ -24,18 +24,18 @@ public interface ExhibitStruct {
   @Mapping(target = "description", source = "exhibitModel.description")
   @Mapping(target = "dateOfCreate", source = "exhibitModel.dateOfCreate")
   @Mapping(target = "author", source = "author")
-  @Mapping(target = "exhibition", source = "exhibition")
+  @Mapping(target = "exhibitionId", source = "idExhbtn")
   @Mapping(target = "id", source = "exhibitModel.id")
-   ExistingExhibit toExistingExhibit(ExhibitModel exhibitModel, ExistingAuthor author, ExistingExhibition exhibition);
+   ExistingExhibit toExistingExhibit(ExhibitModel exhibitModel, ExistingAuthor author, Integer idExhbtn);
 
 
-  @Mapping(target = "name", source = "name")
-  @Mapping(target = "imageUrl", source = "imageUrl")
-  @Mapping(target = "description", source = "description")
-  @Mapping(target = "dateOfCreate", source = "dateOfCreate")
-  @Mapping(target = "author", source = "author")
-  @Mapping(target = "exhibition", source = "exhibition")
-  ExhibitModel toExhibitModel(BaseExhibit exhibit);
+  @Mapping(target = "name", source = "exhibit.name")
+  @Mapping(target = "imageUrl", source = "exhibit.imageUrl")
+  @Mapping(target = "description", source = "exhibit.description")
+  @Mapping(target = "dateOfCreate", source = "exhibit.dateOfCreate")
+  @Mapping(target = "author", source = "exhibit.author")
+  @Mapping(target = "exhibition", source = "exhibitionModel")
+  ExhibitModel toExhibitModel(BaseExhibit exhibit, ExhibitionModel exhibitionModel);
 
 
 }
