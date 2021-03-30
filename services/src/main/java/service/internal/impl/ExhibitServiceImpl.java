@@ -1,5 +1,6 @@
 package service.internal.impl;
 
+import museum.domen.AuthorModel;
 import museum.domen.ExhibitModel;
 import museum.domen.ExhibitionModel;
 import museum.mapper.AuthorMapper;
@@ -73,10 +74,17 @@ public class ExhibitServiceImpl implements ExhibitService {
 
   @Override
   public ExistingExhibit createExhibit(BaseExhibit exhibit) {
+    AuthorModel authorModel = authorMapper.findByFullName(exhibit.getAuthor().getFullName());
+    if(authorModel==null){
+      authorModel = new AuthorModel();
+      authorModel.setFullName(exhibit.getAuthor().getFullName());
+      authorModel = authorMapper.save(authorModel);
+    }
+
     ExhibitionModel exhibitionModel = exhibitionMapper.findOne((long) exhibit.getExhibitionId());
     ExhibitModel exhibitModel = exhibitStruct.toExhibitModel(exhibit, exhibitionModel);
+    exhibitModel.setAuthor(authorModel);
     ExhibitModel exhibitModel1 = exhibitMapper.save(exhibitModel);
-
     ExistingAuthor existingAuthor = authorStruct.toExistingAuthor(exhibitModel1.author);
     return exhibitStruct.toExistingExhibit(exhibitModel, existingAuthor, exhibitModel1.getExhibition().id);
   }

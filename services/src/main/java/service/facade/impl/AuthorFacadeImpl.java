@@ -21,13 +21,13 @@ public class AuthorFacadeImpl implements AuthorFacade {
     return authorService.getAllAuthors();
   }
 
-  @Override
-  public ExistingAuthor getAuthorByName(String name) {
-    return authorService.getAuthorByName(name);
-  }
-
-  @Override
-  public ExistingAuthor insertAuthor(BaseAuthor author) {
-    return authorService.insertAuthor(author);
-  }
+//  @Override
+//  public ExistingAuthor getAuthorByName(String name) {
+//    return authorService.getAuthorByName(name);
+//  }
+//
+//  @Override
+//  public ExistingAuthor insertAuthor(BaseAuthor author) {
+//    return authorService.insertAuthor(author);
+//  }
 }

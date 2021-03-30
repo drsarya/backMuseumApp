@@ -13,8 +13,8 @@ public interface NewUser {
 
   @Nullable
   String getPassword();
-
+  @Nullable
   RoleEnum getRole();
   @Nullable
-  ExistingMuseum getMuseum();
+  Integer getMuseumId();
 }

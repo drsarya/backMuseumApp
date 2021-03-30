@@ -34,21 +34,21 @@ public class AuthorServiceImpl implements AuthorService {
 
   }
 
-  @Override
-  public ExistingAuthor getAuthorByName(String name) {
-    AuthorModel authorModel = authorMapper.findByFullName(name);
-    if (authorModel != null) {
-      return authorStruct.toExistingAuthor(authorModel);
-    }
-    return null;
-  }
-
-  @Override
-  public ExistingAuthor insertAuthor(BaseAuthor author) {
-    AuthorModel authorModel = authorMapper.save(authorStruct.toAuthorModel(author));
-    if (authorModel != null) {
-      return authorStruct.toExistingAuthor(authorModel);
-    }
-    return null;
-  }
+//  @Override
+//  public ExistingAuthor getAuthorByName(String name) {
+//    AuthorModel authorModel = authorMapper.findByFullName(name);
+//    if (authorModel != null) {
+//      return authorStruct.toExistingAuthor(authorModel);
+//    }
+//    return null;
+//  }
+//
+//  @Override
+//  public ExistingAuthor insertAuthor(BaseAuthor author) {
+//    AuthorModel authorModel = authorMapper.save(authorStruct.toAuthorModel(author));
+//    if (authorModel != null) {
+//      return authorStruct.toExistingAuthor(authorModel);
+//    }
+//    return null;
+//  }
 }

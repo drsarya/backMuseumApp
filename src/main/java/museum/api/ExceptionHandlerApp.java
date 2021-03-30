@@ -20,16 +20,15 @@ import java.util.stream.Collectors;
 @ControllerAdvice
 public class ExceptionHandlerApp {
   @ExceptionHandler( DataIntegrityViolationException   .class)
-  ResponseEntity<List<ErrorModel>> handleConstraintViolationException(DataIntegrityViolationException e) {
-    List<ErrorModel> errorModels = new ArrayList<>();
-    errorModels.add(new ErrorModel(ValidationErrorTerms.KEY_NOT_UNIQUE, ValidationErrorTerms.getMessageByCode(ValidationErrorTerms.KEY_NOT_UNIQUE)));
-    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorModels);
+  ResponseEntity<ErrorModel> handleConstraintViolationException(DataIntegrityViolationException e) {
+
+     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorModel(ValidationErrorTerms.KEY_NOT_UNIQUE, ValidationErrorTerms.getMessageByCode(ValidationErrorTerms.KEY_NOT_UNIQUE)));
   }
   @ExceptionHandler(IllegalArgumentException.class)
-  ResponseEntity<List<ErrorModel>> handleArgumentException(IllegalArgumentException e) {
-    List<ErrorModel> errorModels = new ArrayList<>();
-    errorModels.add(new ErrorModel(ValidationErrorTerms.KEY_NOT_UNIQUE, e.getMessage()));
-    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorModels);
+  ResponseEntity<ErrorModel> handleArgumentException(IllegalArgumentException e) {
+
+
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorModel(ValidationErrorTerms.KEY_NOT_UNIQUE, e.getMessage()));
   }
 
 }

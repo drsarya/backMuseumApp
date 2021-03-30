@@ -17,14 +17,5 @@ public interface MuseumService {
 
   ExistingMuseum getMuseumByWorkerId(Integer id);
 
-  //ExistingMuseum getMuseumById(Integer id);
 
-
-
-
-//  boolean updateMuseumImage(UpdatableMuseum updatableMuseum);
-//
-//  boolean updateMuseumDescription(UpdatableMuseum updatableMuseum);
-//
-//  boolean updateMuseumInfoByAdmin(UpdatableMuseum updatableMuseum);
 }

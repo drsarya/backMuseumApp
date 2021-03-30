@@ -42,8 +42,5 @@ public class MuseumFacadeImpl implements MuseumFacade {
   }
 
 
-  @Override
-  public ExistingMuseum updateMuseumInfo(UpdatableMuseum updatableMuseum) throws IOException {
-    return null;
-  }
+
 }

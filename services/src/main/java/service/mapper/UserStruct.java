@@ -28,7 +28,7 @@ public interface UserStruct {
   @Mapping(target = "login", source = "model.login")
   @Mapping(target = "password", source = "model.password")
   @Mapping(target = "id", source = "model.id")
-  @Mapping(target = "museum", source = "existingMuseum")
+  @Mapping(target = "museumId", source = "existingMuseum.id")
   ExistingUser toExistingUser(UserModel model , ExistingMuseum existingMuseum);
 
 

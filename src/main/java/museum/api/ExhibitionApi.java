@@ -44,8 +44,8 @@ public class ExhibitionApi {
     return exhibitionFacade.getExhibitionsByMuseumId(id);
   }
 
-  @DeleteMapping
-  boolean deleteExhibition(int id) {
+  @DeleteMapping(value = "/{id}")
+  boolean deleteExhibition(@PathVariable int id) {
     return exhibitionFacade.deleteExhibition(id);
   }
 }

@@ -43,8 +43,8 @@ public class UserServiceImpl implements UserService {
     String newPassword = ConfigEncrypt.getSaltedHash(user.getPassword());
     MuseumModel museumModel = null;
 
-    if (user.getMuseum() != null) {
-      museumModel = museumMapper.findById((long) user.getMuseum().getId());
+    if (user.getMuseumId() != null) {
+      museumModel = museumMapper.findById((long) user.getMuseumId());
     }
     if (museumModel != null && user.getRole() != RoleEnum.MUSEUM ||
       museumModel == null && user.getRole() == RoleEnum.MUSEUM) {
@@ -59,7 +59,8 @@ public class UserServiceImpl implements UserService {
   @Override
   public ExistingUser getUser(NewUser user) throws Exception {
 
-    UserModel model = userMapper.findByLoginAndRole(user.getLogin(), user.getRole());
+    UserModel model = userMapper.findByLogin(user.getLogin());
+    if(model == null) throw new IllegalArgumentException("Ошибка входа");
     if (model.getPassword() != null && ConfigEncrypt.check(user.getPassword(), model.getPassword())) {
       ExistingMuseum existingMuseum = null;
       if (model.getMuseum() != null) {
@@ -97,7 +98,7 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public Boolean updateMuseumUserPass(UserMuseum user) throws Exception {
-    if (museumMapper.findById((long) user.getIdCode()) != null && Objects.requireNonNull(user.getMuseum()).getId().equals(user.getIdCode())) {
+    if (museumMapper.findById((long) user.getIdCode()) != null && Objects.requireNonNull(user.getMuseumId()).equals(user.getIdCode())) {
       String newPassword = ConfigEncrypt.getSaltedHash(user.getNewPassword());
       UserModel model = userMapper.findByLoginAndRole(user.getLogin(), user.getRole());
       model.setPassword(newPassword);
