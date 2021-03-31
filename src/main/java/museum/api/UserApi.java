@@ -49,7 +49,7 @@ public class UserApi {
   }
 
   @PutMapping(consumes = "application/json", value = "/museum")
-  OkModel updateMuseumUserPass(UserMuseum userMuseum) throws Exception {
+  OkModel updateMuseumUserPass(@RequestBody UserMuseum userMuseum) throws Exception {
     return userFacade.updateMuseumUserPass(userMuseum);
   }
 

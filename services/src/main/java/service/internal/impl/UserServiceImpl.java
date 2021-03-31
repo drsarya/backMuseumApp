@@ -97,12 +97,14 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public OkModel updateMuseumUserPass(UserMuseum user) throws Exception {
-    if (museumMapper.findById((long) user.getIdCode()) != null && Objects.requireNonNull(user.getMuseumId()).equals(user.getIdCode())) {
-      String newPassword = ConfigEncrypt.getSaltedHash(user.getNewPassword());
-      UserModel model = userMapper.findByLoginAndRole(user.getLogin(), user.getRole());
+    MuseumModel museumModel = museumMapper.findById((long) user.getIdCode());
+    if (museumModel != null && !museumModel.getIsActive()) {
+      museumModel.setIsActive(true);
+      museumMapper.save(museumModel);
+      String newPassword = ConfigEncrypt.getSaltedHash(user.getPassword());
+      UserModel model = userMapper.findByLogin(user.getLogin());
       model.setPassword(newPassword);
       userMapper.save(model);
-
       return new OkModel("Успешная регистрация музея");
     }
     throw new IllegalArgumentException("Неверные данные");

@@ -5,6 +5,10 @@ import org.immutables.value.Value;
 
 @Value.Immutable
 @JsonDeserialize(builder = ImmutableUserMuseum.Builder.class)
-public interface UserMuseum extends UserUpdate {
+public interface UserMuseum {
   Integer getIdCode();
+
+  String getLogin();
+
+  String getPassword();
 }

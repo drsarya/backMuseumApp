@@ -11,7 +11,7 @@ public class ValidationErrorTerms {
     "or null museum id and status museum";
 
   private static final Map<String, String> ERRORS = Map.ofEntries(
-    Map.entry(KEY_NOT_UNIQUE, "Пользователь с введёнными данными уже сузествует"),
+    Map.entry(KEY_NOT_UNIQUE, "Пользователь с введёнными данными уже существует"),
     Map.entry(INVALID_ROLE_OF_USER, "Пользователь с введёнными данными уже существует"));
 
   public static String getMessageByCode(String code) {

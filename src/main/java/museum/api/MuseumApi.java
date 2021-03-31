@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import service.facade.MuseumFacade;
 import service.facade.UserFacade;
+import service.model.OkModel;
 import service.model.museum.BaseMuseum;
 import service.model.museum.ExistingMuseum;
 import service.model.museum.UpdatableMuseum;
@@ -23,8 +24,8 @@ import java.util.List;
 @RestController
 @RequestMapping(
   value = "/museum",
-  produces = "application/json",
-  consumes = "application/json"
+
+  produces = "application/json"
 )
 public class MuseumApi {
 
@@ -36,15 +37,16 @@ public class MuseumApi {
     this.museumFacade = museumFacade;
   }
 
-  @PostMapping
+  @PostMapping(value = "/{login}", consumes = "application/json")
   @ResponseStatus(HttpStatus.CREATED)
-  ExistingMuseum createMuseum(@RequestBody final BaseMuseum baseMuseum) {
-    return museumFacade.createMuseum(baseMuseum);
+    //админ
+  OkModel createMuseum(@RequestBody final BaseMuseum baseMuseum, @PathVariable String login) {
+    return museumFacade.createMuseum(baseMuseum, login);
   }
 
-  @PutMapping
+  @PutMapping(consumes = "application/json")
   @ResponseStatus(HttpStatus.OK)
-  ExistingMuseum updateMuseum(@RequestBody UpdatableMuseum updatableMuseum) throws Exception {
+  OkModel updateMuseum(@RequestBody UpdatableMuseum updatableMuseum) throws Exception {
     return museumFacade.updateMuseum(updatableMuseum);
   }
 
@@ -53,12 +55,10 @@ public class MuseumApi {
     return museumFacade.getAllMuseums();
   }
 
-  @GetMapping(value = "/{id}")
+  @GetMapping(value = "/{id}", consumes = "application/json")
   ExistingMuseum getMuseumByWorkerId(@PathVariable Integer id) {
     return museumFacade.getMuseumByWorkerId(id);
   }
-
-
 
 
 }

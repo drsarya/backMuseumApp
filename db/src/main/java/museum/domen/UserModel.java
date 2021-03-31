@@ -26,6 +26,8 @@ public class UserModel {
   @JoinColumn(name = "museum_id")
   private MuseumModel museum;
 
+
+
   @OneToMany(mappedBy="user")
    public List<LikeModel> likes;
 }

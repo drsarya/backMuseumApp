@@ -19,7 +19,7 @@ public class MuseumModel {
   @GeneratedValue(strategy = GenerationType.AUTO)
 
   private Long id;
-//  @Column(name = "museum_login")
+  //  @Column(name = "museum_login")
 //  private String login;
   @Column(name = "name_museum")
   private String nameMuseum;
@@ -30,8 +30,9 @@ public class MuseumModel {
   @Nullable
   private String image;
 
-  @OneToMany(mappedBy="museum", cascade = CascadeType.ALL)
+  private Boolean isActive = false;
+  @OneToMany(mappedBy = "museum", cascade = CascadeType.ALL)
   private List<UserModel> workers;
-  @OneToMany(mappedBy="museum")
+  @OneToMany(mappedBy = "museum")
   private List<ExhibitionModel> exhibitionModels;
 }

@@ -2,6 +2,7 @@ package service.model.museum;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.immutables.value.Value;
+import org.springframework.lang.Nullable;
 import service.model.author.ImmutableBaseAuthor;
 
 @Value.Immutable
@@ -10,4 +11,5 @@ import service.model.author.ImmutableBaseAuthor;
 public interface BaseMuseum {
   String getName();
   String getAddress();
+
 }

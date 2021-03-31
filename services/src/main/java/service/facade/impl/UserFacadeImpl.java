@@ -35,7 +35,7 @@ public class UserFacadeImpl implements UserFacade {
 
   @Override
   public OkModel updateMuseumUserPass(UserMuseum user) throws Exception {
-    return userService.updateUserPassword(user);
+    return userService.updateMuseumUserPass(user);
   }
 
 
