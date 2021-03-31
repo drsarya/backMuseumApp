@@ -1,6 +1,8 @@
 package service.model.user;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+
 import org.immutables.value.Value;
 import org.springframework.lang.Nullable;
 import service.model.museum.ExistingMuseum;
@@ -14,7 +16,7 @@ public interface NewUser {
   @Nullable
   String getPassword();
   @Nullable
-  RoleEnum getRole();
+   RoleEnum getRole();
   @Nullable
   Integer getMuseumId();
 }

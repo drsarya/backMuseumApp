@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import service.facade.MuseumFacade;
 import service.facade.UserFacade;
+import service.model.OkModel;
 import service.model.user.ExistingUser;
 import service.model.user.NewUser;
 import service.model.user.UserMuseum;
@@ -32,7 +33,8 @@ public class UserApi {
 
   }
   @PostMapping(consumes = "application/json")
-  ExistingUser createUser(@RequestBody final NewUser user) throws Exception {
+  OkModel createUser(@RequestBody final NewUser user) throws Exception {
+
     return userFacade.createUser(user);
   }
 
@@ -47,17 +49,15 @@ public class UserApi {
   }
 
   @PutMapping(consumes = "application/json", value = "/museum")
-  boolean updateMuseumUserPass(UserMuseum userMuseum) throws Exception {
+  OkModel updateMuseumUserPass(UserMuseum userMuseum) throws Exception {
     return userFacade.updateMuseumUserPass(userMuseum);
   }
 
   @PutMapping(consumes = "application/json")
-  Boolean updatePassword(@RequestBody final UserUpdate user) throws Exception {
-    if (user != null) {
+  OkModel updatePassword(@RequestBody final UserUpdate user) throws Exception {
+
       return userFacade.updateUserPassword(user);
-    } else {
-      return false;
-    }
+
   }
 
 }

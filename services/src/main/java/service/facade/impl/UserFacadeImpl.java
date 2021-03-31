@@ -3,6 +3,7 @@ package service.facade.impl;
 import org.springframework.stereotype.Service;
 import service.facade.UserFacade;
 import service.internal.UserService;
+import service.model.OkModel;
 import service.model.user.ExistingUser;
 import service.model.user.NewUser;
 import service.model.user.UserMuseum;
@@ -23,17 +24,17 @@ public class UserFacadeImpl implements UserFacade {
   }
 
   @Override
-  public Boolean updateUserPassword(UserUpdate user) throws Exception {
+  public OkModel updateUserPassword(UserUpdate user) throws Exception {
     return userService.updateUserPassword(user);
   }
 
   @Override
-  public ExistingUser createUser(final NewUser user) throws Exception {
+  public OkModel createUser(final NewUser user) throws Exception {
     return userService.createUser(user);
   }
 
   @Override
-  public Boolean updateMuseumUserPass(UserMuseum user) throws Exception {
+  public OkModel updateMuseumUserPass(UserMuseum user) throws Exception {
     return userService.updateUserPassword(user);
   }
 
