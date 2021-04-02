@@ -1,5 +1,6 @@
 package service.facade;
 
+import service.model.OkModel;
 import service.model.exhibit.BaseExhibit;
 import service.model.exhibit.ExistingExhibit;
 
@@ -10,10 +11,10 @@ public interface ExhibitFacade {
   List<ExistingExhibit> getAllExhibits();
 
   List<ExistingExhibit> getExhibitsByMuseumId(Integer id);
-
+  List<ExistingExhibit> getExhibitsByExhibitionId(Integer id);
   ExistingExhibit createExhibit(BaseExhibit exhibit);
 
-  boolean deleteExhibit(int id);
+  OkModel deleteExhibit(int id);
 
   ExistingExhibit updateExhibit(ExistingExhibit exhibit);
 }

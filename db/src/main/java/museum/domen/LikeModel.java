@@ -1,5 +1,6 @@
 package museum.domen;
 
+import lombok.Data;
 import src.model.TypeOfArtEnum;
 
 import javax.persistence.*;
@@ -9,7 +10,8 @@ import java.io.Serializable;
 @Table(uniqueConstraints = {
   @UniqueConstraint(columnNames = {"user_id", "art_id", "type"})}
 )
-public class LikeModel implements Serializable {
+@Data
+public class LikeModel  {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   public Integer id;

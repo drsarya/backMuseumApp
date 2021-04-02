@@ -1,6 +1,7 @@
 package museum.mapper;
 
 import museum.domen.ExhibitModel;
+import museum.domen.ExhibitionModel;
 import museum.domen.LikeModel;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -11,17 +12,18 @@ import java.util.List;
 public interface LikeMapper extends CrudRepository<LikeModel, Long> {
 
 
-  /*
+  Integer countAllByArtIdAndAndId(TypeOfArtEnum typeOfArtEnum, Integer idArt);
+
+  LikeModel findLikeModelByUser_IdAndTypeAndArtId(Integer userId, TypeOfArtEnum typeOfArtEnum, Integer artId);
+
+  //and type = exhibit
+  @Query(" SELECT   e1  FROM  likes as  l1  JOIN exhibits as e1 ON e1.id = l1.id  WHERE l1.user  = :userId and l1.type = exhibit ")
+  List<ExhibitModel> getLikedExhibitsByUser(Integer userId);
 
 
-    List<ExistingExhibit> getLikedExhibitsByUser(Integer idUser);
-
-    List<ExistingExhibition>  getLikedExhibitionsByUser(Integer idUser);*/
-  List<LikeModel> findLikeModelsByArtIdAndAndType(Integer id, TypeOfArtEnum typeOfArtEnum);
-
-  List<LikeModel> findLikeModelByArtIdAndTypeAndUser_Id(Integer idArt, TypeOfArtEnum typeOfArtEnum, Integer idUser);
-
- // @Query(" SELECT   l1  FROM  likes   l1  JOIN exhibits as e1 ON e1.id = l1.id  JOIN authors as a1 On a1.id = e1.authorId  WHERE l1.id_user_fk = :userId AND l1.type = :type  ")
-//  List<ExhibitModel> getLikedExhibitsByUser(Integer userId);
+  @Query(" SELECT   l  FROM  likes as  l   JOIN exhibitions as e1 ON e1.id = l.id   WHERE l.user = :userId and l.type = exhibition  ")
+  List<ExhibitionModel> getLikedExhibitionsByUser(Integer userId);
 
 }
+
+

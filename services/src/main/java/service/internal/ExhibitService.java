@@ -1,5 +1,6 @@
 package service.internal;
 
+import service.model.OkModel;
 import service.model.exhibit.BaseExhibit;
 import service.model.exhibit.ExistingExhibit;
 
@@ -13,7 +14,8 @@ public interface ExhibitService {
 
   ExistingExhibit createExhibit(BaseExhibit exhibit);
 
-  boolean deleteExhibit(int id);
+  OkModel deleteExhibit(int id);
+  List<ExistingExhibit> getExhibitsByExhibitionId(Integer id);
 
   ExistingExhibit updateExhibit(ExistingExhibit exhibit);
 

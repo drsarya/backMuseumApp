@@ -4,10 +4,12 @@ import org.springframework.stereotype.Service;
 import service.facade.ExhibitFacade;
 import service.internal.AuthorService;
 import service.internal.ExhibitService;
+import service.model.OkModel;
 import service.model.exhibit.BaseExhibit;
 import service.model.exhibit.ExistingExhibit;
 
 import java.util.List;
+
 @Service
 public class ExhibitFacadeImpl implements ExhibitFacade {
   private final ExhibitService exhibitService;
@@ -27,12 +29,17 @@ public class ExhibitFacadeImpl implements ExhibitFacade {
   }
 
   @Override
+  public List<ExistingExhibit> getExhibitsByExhibitionId(Integer id) {
+    return exhibitService.getExhibitsByExhibitionId(id);
+  }
+
+  @Override
   public ExistingExhibit createExhibit(BaseExhibit exhibit) {
     return exhibitService.createExhibit(exhibit);
   }
 
   @Override
-  public boolean deleteExhibit(int id) {
+  public OkModel deleteExhibit(int id) {
     return exhibitService.deleteExhibit(id);
   }
 

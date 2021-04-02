@@ -2,8 +2,8 @@ package service.facade.impl;
 
 import org.springframework.stereotype.Service;
 import service.facade.LikeFacade;
-import service.internal.ExhibitionService;
 import service.internal.LikeService;
+import service.model.OkModel;
 import service.model.exhibit.ExistingExhibit;
 import service.model.exhibition.ExistingExhibition;
 import service.model.like.BaseLike;
@@ -21,7 +21,7 @@ public class LikeFacadeImpl  implements LikeFacade {
 
   @Override
   public Integer getLikesByArtId(BaseLike baseLike) {
-    return likeService.getLikesByArtId(baseLike);
+    return likeService.getCountOfLikesByArtId(baseLike);
   }
 
   @Override
@@ -29,13 +29,10 @@ public class LikeFacadeImpl  implements LikeFacade {
     return likeService.getLikeByUser(userLike);
   }
 
-  @Override
-  public boolean deleteLikeByUser(UserLike userLike) {
-    return likeService.deleteLikeByUser(userLike);
-  }
+
 
   @Override
-  public boolean createLike(UserLike userLike) {
+  public OkModel createLike(UserLike userLike) {
     return likeService.createLike(userLike);
   }
 

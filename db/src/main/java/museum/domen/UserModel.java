@@ -9,7 +9,7 @@ import java.util.List;
 
 @Entity(name = "users")
 @Table(uniqueConstraints = {
-  @UniqueConstraint(columnNames ={ "login", "role"})}
+  @UniqueConstraint(columnNames = {"login", "role"})}
 )
 @Data
 public class UserModel {
@@ -25,9 +25,6 @@ public class UserModel {
   @ManyToOne
   @JoinColumn(name = "museum_id")
   private MuseumModel museum;
-
-
-
-  @OneToMany(mappedBy="user")
-   public List<LikeModel> likes;
+  @OneToMany(mappedBy = "user")
+  private List<LikeModel> likes;
 }

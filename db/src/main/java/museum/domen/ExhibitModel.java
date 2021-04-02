@@ -9,20 +9,20 @@ import javax.persistence.*;
 public class ExhibitModel {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
-  public Integer id;
+  private Integer id;
   @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "author_id")
-  public AuthorModel author;
+  private AuthorModel author;
 
-  public String name;
+  private String name;
 
-  public String imageUrl;
+  private String imageUrl;
 
-  public String description;
+  private String description;
 
-  public String dateOfCreate;
+  private String dateOfCreate;
   @ManyToOne(optional = false, cascade = CascadeType.ALL)
   @JoinColumn(name = "exhibition_id")
-  public ExhibitionModel exhibition;
+  private ExhibitionModel exhibition;
 
 }

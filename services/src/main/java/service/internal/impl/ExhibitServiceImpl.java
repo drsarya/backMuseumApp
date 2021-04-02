@@ -13,6 +13,7 @@ import service.mapper.AuthorStruct;
 import service.mapper.ExhibitStruct;
 import service.mapper.ExhibitionStruct;
 import service.mapper.MuseumStruct;
+import service.model.OkModel;
 import service.model.author.ExistingAuthor;
 import service.model.exhibit.BaseExhibit;
 import service.model.exhibit.ExistingExhibit;
@@ -59,8 +60,8 @@ public class ExhibitServiceImpl implements ExhibitService {
   private List<ExistingExhibit> toListExhibits(List<ExhibitModel> actualList) {
     List<ExistingExhibit> existingExhibits = new ArrayList<>();
     for (ExhibitModel exhibitModel : actualList) {
-      ExistingAuthor existingAuthor = authorStruct.toExistingAuthor(exhibitModel.author);
-      existingExhibits.add(exhibitStruct.toExistingExhibit(exhibitModel, existingAuthor, exhibitModel.exhibition.getId()));
+      ExistingAuthor existingAuthor = authorStruct.toExistingAuthor(exhibitModel.getAuthor());
+      existingExhibits.add(exhibitStruct.toExistingExhibit(exhibitModel, existingAuthor, exhibitModel.getExhibition().getId()));
     }
     return existingExhibits;
   }
@@ -85,17 +86,23 @@ public class ExhibitServiceImpl implements ExhibitService {
     ExhibitModel exhibitModel = exhibitStruct.toExhibitModel(exhibit, exhibitionModel);
     exhibitModel.setAuthor(authorModel);
     ExhibitModel exhibitModel1 = exhibitMapper.save(exhibitModel);
-    ExistingAuthor existingAuthor = authorStruct.toExistingAuthor(exhibitModel1.author);
-    return exhibitStruct.toExistingExhibit(exhibitModel, existingAuthor, exhibitModel1.getExhibition().id);
+    ExistingAuthor existingAuthor = authorStruct.toExistingAuthor(exhibitModel1.getAuthor());
+    return exhibitStruct.toExistingExhibit(exhibitModel, existingAuthor, exhibitModel1.getExhibition().getId());
   }
 
   @Override
-  public boolean deleteExhibit(int id) {
+  public OkModel deleteExhibit(int id) {
     if (exhibitMapper.exists((long) id)) {
       exhibitMapper.delete((long) id);
-      return true;
+      return new OkModel("Экспонат удален");
     }
-    return false;
+    throw new IllegalArgumentException("Ошибка удаления");
+  }
+
+  @Override
+  public List<ExistingExhibit> getExhibitsByExhibitionId(Integer id) {
+    List<ExhibitModel> actualList = exhibitMapper.findExhibitModelsByExhibition_Id(id);
+    return toListExhibits(actualList);
   }
 
 
@@ -119,8 +126,8 @@ public class ExhibitServiceImpl implements ExhibitService {
         exhibitModel.setName(exhibit.getName());
       }
       ExhibitModel newExhibitModel = exhibitMapper.save(exhibitModel);
-      ExistingAuthor existingAuthor = authorStruct.toExistingAuthor(newExhibitModel.author);
-      return exhibitStruct.toExistingExhibit(newExhibitModel, existingAuthor, newExhibitModel.exhibition.getId());
+      ExistingAuthor existingAuthor = authorStruct.toExistingAuthor(newExhibitModel.getAuthor());
+      return exhibitStruct.toExistingExhibit(newExhibitModel, existingAuthor, newExhibitModel.getExhibition().getId());
     }
     return null;
   }

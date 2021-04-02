@@ -32,6 +32,7 @@ public class UserApi {
     this.userFacade = userFacade;
 
   }
+
   @PostMapping(consumes = "application/json")
   OkModel createUser(@RequestBody final NewUser user) throws Exception {
 
@@ -56,7 +57,7 @@ public class UserApi {
   @PutMapping(consumes = "application/json")
   OkModel updatePassword(@RequestBody final UserUpdate user) throws Exception {
 
-      return userFacade.updateUserPassword(user);
+    return userFacade.updateUserPassword(user);
 
   }
 

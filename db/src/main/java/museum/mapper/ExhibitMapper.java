@@ -14,6 +14,6 @@ public interface ExhibitMapper  extends CrudRepository<ExhibitModel, Long> {
 
  //getExhibitsByMuseumId
   List<ExhibitModel> findExhibitModelsByExhibition_Museum_Id(Integer id);
-
+  List<ExhibitModel> findExhibitModelsByExhibition_Id(Integer id);
 //  void findExhibitionModelsByMuseum_Id(Integer id);
 }

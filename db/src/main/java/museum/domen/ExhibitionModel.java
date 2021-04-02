@@ -10,19 +10,19 @@ import javax.persistence.*;
 public class ExhibitionModel {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
-  public Integer id;
+  private Integer id;
 
-  public String name;
+  private String name;
 
-  public String imageUrl;
+  private String imageUrl;
 
-  public String description;
+  private String description;
 
-  public String firstDate;
+  private String firstDate;
 
-  public String lastDate;
+  private String lastDate;
   @ManyToOne (cascade = CascadeType.ALL)
   @JoinColumn(name="museum_id")
-  public MuseumModel museum;
+  private MuseumModel museum;
 
 }

@@ -1,16 +1,18 @@
 package service.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
 
 
 public class OkModel {
-  public String message ;
+  private String message;
 
-  public OkModel(String getMessage) {
-    this.message = getMessage;
+  public OkModel(String message) {
+    this.message = message;
+  }
+
+  public OkModel() {
   }
 }

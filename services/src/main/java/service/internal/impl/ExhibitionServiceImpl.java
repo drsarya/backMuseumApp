@@ -35,7 +35,7 @@ public class ExhibitionServiceImpl implements ExhibitionService {
   private List<ExistingExhibition> toListExhibitions(List<ExhibitionModel> actualList) {
     List<ExistingExhibition> exhibitionList = new ArrayList<>();
     for (ExhibitionModel exhibitionModel : actualList) {
-      ExistingMuseum museum = museumStruct.toExistingMuseum(exhibitionModel.museum);
+      ExistingMuseum museum = museumStruct.toExistingMuseum(exhibitionModel.getMuseum());
       exhibitionList.add(exhibitionStruct.toExistingExhibition(exhibitionModel, museum.getId()));
     }
     return exhibitionList;
@@ -60,7 +60,7 @@ public class ExhibitionServiceImpl implements ExhibitionService {
     ExhibitionModel exhibitionModel = exhibitionStruct.toExhibitionModel(exhibition, museumMapper.findById((long)exhibition.getMuseumId()));
 
     ExhibitionModel newExhbtnModel = exhibitionMapper.save(exhibitionModel);
-     return exhibitionStruct.toExistingExhibition(newExhbtnModel, newExhbtnModel.museum.getId().intValue());
+     return exhibitionStruct.toExistingExhibition(newExhbtnModel, newExhbtnModel.getMuseum().getId().intValue());
 
   }
 
@@ -84,7 +84,7 @@ public class ExhibitionServiceImpl implements ExhibitionService {
         exhibitionModel.setName(exhibition.getName());
       }
       ExhibitionModel newExhbtnModel = exhibitionMapper.save(exhibitionModel);
-      ExistingMuseum museum = museumStruct.toExistingMuseum(newExhbtnModel.museum);
+      ExistingMuseum museum = museumStruct.toExistingMuseum(newExhbtnModel.getMuseum());
 
       return exhibitionStruct.toExistingExhibition(newExhbtnModel, museum.getId());
     }

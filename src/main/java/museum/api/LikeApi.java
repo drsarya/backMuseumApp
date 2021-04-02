@@ -3,6 +3,7 @@ package museum.api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import service.facade.LikeFacade;
+import service.model.OkModel;
 import service.model.exhibit.ExistingExhibit;
 import service.model.exhibition.ExistingExhibition;
 import service.model.like.BaseLike;
@@ -35,13 +36,9 @@ public class LikeApi {
     return likeFacade.getLikeByUser(userLike);
   }
 
-  @DeleteMapping()
-  boolean deleteLikeByUser(@RequestBody UserLike userLike) {
-    return likeFacade.deleteLikeByUser(userLike);
-  }
 
   @PostMapping()
-  boolean createLike(@RequestBody UserLike userLike) {
+  OkModel createLike(@RequestBody UserLike userLike) {
     return likeFacade.createLike(userLike);
   }
 

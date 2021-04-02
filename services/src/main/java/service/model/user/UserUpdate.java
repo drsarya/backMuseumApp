@@ -5,6 +5,6 @@ import org.immutables.value.Value;
 
 @Value.Immutable
 @JsonDeserialize(builder = ImmutableUserUpdate.Builder.class)
-public interface UserUpdate extends NewUser {
+public interface UserUpdate extends ExistingUser {
   String getNewPassword();
 }

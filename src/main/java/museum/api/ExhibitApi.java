@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import service.facade.ExhibitFacade;
 import service.facade.ExhibitionFacade;
+import service.model.OkModel;
 import service.model.exhibit.BaseExhibit;
 import service.model.exhibit.ExistingExhibit;
 
@@ -30,17 +31,21 @@ public class ExhibitApi {
   }
 
   @GetMapping(value = "/{museumId}", consumes = "application/json")
-  List<ExistingExhibit> getExhibitsByMuseumId(@PathVariable Integer museumId) {
-    return exhibitFacade.getExhibitsByMuseumId(museumId);
+  List<ExistingExhibit> getExhibitsByExhibitionId(@PathVariable Integer museumId) {
+    return exhibitFacade.getExhibitsByExhibitionId(museumId);
   }
 
+  @GetMapping(value = "/exhibition/{exhibitionId}", consumes = "application/json")
+  List<ExistingExhibit> getExhibitsByMuseumId(@PathVariable Integer exhibitionId) {
+    return exhibitFacade.getExhibitsByMuseumId(exhibitionId);
+  }
   @PostMapping(consumes = "application/json")
   ExistingExhibit createExhibit(@RequestBody BaseExhibit exhibit) {
     return exhibitFacade.createExhibit(exhibit);
   }
 
   @DeleteMapping(value = "/{id}", consumes = "application/json")
-  boolean deleteExhibit(@PathVariable Integer id) {
+  OkModel  deleteExhibit(@PathVariable Integer id) {
     return exhibitFacade.deleteExhibit(id);
   }
 
