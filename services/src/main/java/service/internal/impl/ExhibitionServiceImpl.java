@@ -12,6 +12,7 @@ import service.mapper.MuseumStruct;
 import service.model.exhibition.BaseExhibition;
 import service.model.exhibition.ExistingExhibition;
 import service.model.museum.ExistingMuseum;
+import src.model.MuseumStateEnum;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,8 +25,9 @@ public class ExhibitionServiceImpl implements ExhibitionService {
   private final ExhibitionStruct exhibitionStruct;
   private final MuseumStruct museumStruct;
   private final MuseumMapper museumMapper;
+
   @Autowired
-  public ExhibitionServiceImpl(final ExhibitionStruct exhibitionStruct,final MuseumMapper museumMapper, final ExhibitionMapper exhibitionMapper, final MuseumStruct museumStruct) {
+  public ExhibitionServiceImpl(final ExhibitionStruct exhibitionStruct, final MuseumMapper museumMapper, final ExhibitionMapper exhibitionMapper, final MuseumStruct museumStruct) {
     this.exhibitionStruct = exhibitionStruct;
     this.exhibitionMapper = exhibitionMapper;
     this.museumStruct = museumStruct;
@@ -43,24 +45,21 @@ public class ExhibitionServiceImpl implements ExhibitionService {
 
   @Override
   public List<ExistingExhibition> getAllExhibitions() {
-    Iterable<ExhibitionModel> exhibitionModels = exhibitionMapper.findAll();
-
+    Iterable<ExhibitionModel> exhibitionModels = exhibitionMapper.findExhibitionModelsByMuseumState(MuseumStateEnum.ACTIVE);
     List<ExhibitionModel> actualList = new ArrayList<>();
     while (exhibitionModels.iterator().hasNext()) {
       actualList.add(exhibitionModels.iterator().next());
     }
-
     return toListExhibitions(actualList);
-
   }
 
   @Override
   public ExistingExhibition createExhibition(BaseExhibition exhibition) {
 
-    ExhibitionModel exhibitionModel = exhibitionStruct.toExhibitionModel(exhibition, museumMapper.findById((long)exhibition.getMuseumId()));
+    ExhibitionModel exhibitionModel = exhibitionStruct.toExhibitionModel(exhibition, museumMapper.findById((long) exhibition.getMuseumId()));
 
     ExhibitionModel newExhbtnModel = exhibitionMapper.save(exhibitionModel);
-     return exhibitionStruct.toExistingExhibition(newExhbtnModel, newExhbtnModel.getMuseum().getId().intValue());
+    return exhibitionStruct.toExistingExhibition(newExhbtnModel, newExhbtnModel.getMuseum().getId().intValue());
 
   }
 

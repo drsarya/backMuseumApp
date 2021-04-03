@@ -16,10 +16,9 @@ import service.model.user.ExistingUser;
 import service.model.user.NewUser;
 import service.model.user.UserMuseum;
 import service.model.user.UserUpdate;
-import service.validation.ValidationErrorTerms;
+import validation.ValidationErrorTerms;
+import src.model.MuseumStateEnum;
 import src.model.RoleEnum;
-
-import java.util.Objects;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -61,9 +60,10 @@ public class UserServiceImpl implements UserService {
   @Override
   public ExistingUser getUser(NewUser user) throws Exception {
 
+
     UserModel model = userMapper.findByLogin(user.getLogin());
     if (model == null) throw new IllegalArgumentException("Ошибка входа");
-    if (model.getPassword() != null && ConfigEncrypt.check(user.getPassword(), model.getPassword())) {
+    if (model.getPassword() != null && ConfigEncrypt.check(user.getPassword(), model.getPassword()) && model.getMuseum().getState() == MuseumStateEnum.ACTIVE) {
       ExistingMuseum existingMuseum = null;
       if (model.getMuseum() != null) {
         existingMuseum = museumStruct.toExistingMuseum(model.getMuseum());
@@ -98,11 +98,11 @@ public class UserServiceImpl implements UserService {
   @Override
   public OkModel updateMuseumUserPass(UserMuseum user) throws Exception {
     MuseumModel museumModel = museumMapper.findById((long) user.getIdCode());
-    if (museumModel != null && !museumModel.getIsActive()) {
-      museumModel.setIsActive(true);
+    UserModel model = userMapper.findByLogin(user.getLogin());
+    if (museumModel != null && model != null && museumModel.getState() == MuseumStateEnum.NOT_ACTIVE) {
+      museumModel.setState(MuseumStateEnum.ACTIVE);
       museumMapper.save(museumModel);
       String newPassword = ConfigEncrypt.getSaltedHash(user.getPassword());
-      UserModel model = userMapper.findByLogin(user.getLogin());
       model.setPassword(newPassword);
       userMapper.save(model);
       return new OkModel("Успешная регистрация музея");

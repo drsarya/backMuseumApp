@@ -19,6 +19,7 @@ import service.model.exhibit.BaseExhibit;
 import service.model.exhibit.ExistingExhibit;
 import service.model.exhibition.ExistingExhibition;
 import service.model.museum.ExistingMuseum;
+import src.model.MuseumStateEnum;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +50,7 @@ public class ExhibitServiceImpl implements ExhibitService {
 
   @Override
   public List<ExistingExhibit> getAllExhibits() {
-    Iterable<ExhibitModel> exhibitModels = exhibitMapper.findAll();
+    Iterable<ExhibitModel> exhibitModels = exhibitMapper.findExhibitModelsByExhibition_Museum_State(MuseumStateEnum.ACTIVE);
     List<ExhibitModel> actualList = new ArrayList<>();
     while (exhibitModels.iterator().hasNext()) {
       actualList.add(exhibitModels.iterator().next());

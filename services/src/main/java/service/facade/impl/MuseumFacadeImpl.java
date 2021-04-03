@@ -10,6 +10,7 @@ import service.model.museum.BaseMuseum;
 import service.model.museum.ExistingMuseum;
 import service.model.museum.UpdatableMuseum;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 
@@ -23,13 +24,23 @@ public class MuseumFacadeImpl implements MuseumFacade {
   }
 
   @Override
-  public OkModel createMuseum(BaseMuseum baseMuseum, String login) {
+  public OkModel createMuseum(@Valid  BaseMuseum baseMuseum, String login) {
     return museumService.createMuseum(baseMuseum, login);
   }
 
   @Override
   public OkModel updateMuseum(UpdatableMuseum baseMuseum) throws IOException {
     return museumService.updateMuseumInfo(baseMuseum);
+  }
+
+  @Override
+  public OkModel blockMuseum(Integer id) {
+    return museumService.blockMuseum(id);
+  }
+
+  @Override
+  public OkModel deleteMuseum(Integer id) {
+    return museumService.deleteMuseum(id);
   }
 
   @Override

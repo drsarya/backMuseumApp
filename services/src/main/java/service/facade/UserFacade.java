@@ -1,11 +1,12 @@
 package service.facade;
 
+import org.springframework.validation.annotation.Validated;
 import service.model.OkModel;
 import service.model.user.ExistingUser;
 import service.model.user.NewUser;
 import service.model.user.UserMuseum;
 import service.model.user.UserUpdate;
-
+@Validated
 public interface UserFacade {
 
   ExistingUser getUser(NewUser user ) throws Exception;

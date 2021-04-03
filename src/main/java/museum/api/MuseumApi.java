@@ -18,6 +18,7 @@ import service.model.museum.UpdatableMuseum;
 import service.model.user.ExistingUser;
 import service.model.user.NewUser;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 
@@ -40,7 +41,7 @@ public class MuseumApi {
   @PostMapping(value = "/{login}", consumes = "application/json")
   @ResponseStatus(HttpStatus.CREATED)
     //админ
-  OkModel createMuseum(@RequestBody final BaseMuseum baseMuseum, @PathVariable String login) {
+  OkModel createMuseum(@RequestBody  final BaseMuseum baseMuseum, @PathVariable String login) {
     return museumFacade.createMuseum(baseMuseum, login);
   }
 
@@ -48,6 +49,18 @@ public class MuseumApi {
   @ResponseStatus(HttpStatus.OK)
   OkModel updateMuseum(@RequestBody UpdatableMuseum updatableMuseum) throws Exception {
     return museumFacade.updateMuseum(updatableMuseum);
+  }
+
+  @PutMapping(consumes = "application/json", value = "block/{id}")
+  @ResponseStatus(HttpStatus.OK)
+  OkModel blockMuseum(@PathVariable Integer id) {
+    return museumFacade.blockMuseum(id);
+  }
+
+  @DeleteMapping(consumes = "application/json", value = "{id}")
+  @ResponseStatus(HttpStatus.OK)
+  OkModel deleteMuseum(@PathVariable Integer id) {
+    return museumFacade.deleteMuseum(id);
   }
 
   @GetMapping

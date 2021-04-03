@@ -17,6 +17,7 @@ public interface MuseumService {
   OkModel updateMuseumInfo(UpdatableMuseum updatableMuseum) throws IOException;
 
   ExistingMuseum getMuseumByWorkerId(Integer id);
-
+  OkModel blockMuseum(Integer id)  ;
+  OkModel deleteMuseum(Integer id)  ;
 
 }

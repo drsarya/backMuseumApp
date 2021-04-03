@@ -9,7 +9,7 @@ import java.util.List;
 
 @Entity(name = "users")
 @Table(uniqueConstraints = {
-  @UniqueConstraint(columnNames = {"login", "role"})}
+  @UniqueConstraint(columnNames = {"login"})}
 )
 @Data
 public class UserModel {
@@ -22,7 +22,7 @@ public class UserModel {
   private RoleEnum role;
   private String password;
 
-  @ManyToOne
+  @OneToOne
   @JoinColumn(name = "museum_id")
   private MuseumModel museum;
   @OneToMany(mappedBy = "user")

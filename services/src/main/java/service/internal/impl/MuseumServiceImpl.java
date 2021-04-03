@@ -14,6 +14,7 @@ import service.model.OkModel;
 import service.model.museum.BaseMuseum;
 import service.model.museum.ExistingMuseum;
 import service.model.museum.UpdatableMuseum;
+import src.model.MuseumStateEnum;
 import src.model.RoleEnum;
 
 import javax.management.relation.Role;
@@ -48,7 +49,32 @@ public class MuseumServiceImpl implements MuseumService {
     return null;
   }
 
-//
+  @Override
+  public OkModel blockMuseum(Integer id) {
+    MuseumModel museumModel = museumMapper.findById((long) id);
+
+    if (museumModel != null) {
+      if (museumModel.getState() == MuseumStateEnum.BLOCKED)
+        throw new IllegalArgumentException("Музей уже заблокирован");
+      if (museumModel.getState() == MuseumStateEnum.NOT_ACTIVE)
+        throw new IllegalArgumentException("Музей е может быть заблокирован");
+      museumModel.setState(MuseumStateEnum.BLOCKED);
+      return new OkModel("Музей заблокирован");
+    }
+    throw new IllegalArgumentException("Музей не найден");
+  }
+
+  @Override
+  public OkModel deleteMuseum(Integer id) {
+    MuseumModel museumModel = museumMapper.findById((long) id);
+    if (museumModel != null) {
+      if (museumModel.getState() == MuseumStateEnum.BLOCKED || museumModel.getState() == MuseumStateEnum.ACTIVE)
+        throw new IllegalArgumentException("Музей не может быть удален");
+      museumMapper.delete((long) id);
+      return new OkModel("Музей удалён");
+    }
+    throw new IllegalArgumentException("Музей не найден");
+  }
 
   @Override
   public List<ExistingMuseum> getAllMuseums() {
@@ -92,10 +118,10 @@ public class MuseumServiceImpl implements MuseumService {
     if (!updatableMuseum.getAddress().isEmpty()) {
       m.setAddress(updatableMuseum.getAddress());
     }
-    if ( updatableMuseum.getDescription()!=null) {
+    if (updatableMuseum.getDescription() != null) {
       m.setDescription(updatableMuseum.getDescription());
     }
-    if (updatableMuseum.getImageUrl()!=null) {
+    if (updatableMuseum.getImageUrl() != null) {
       m.setImage(updatableMuseum.getImageUrl());
     }
     museumMapper.save(m);

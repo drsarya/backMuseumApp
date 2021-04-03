@@ -24,7 +24,7 @@ public interface MuseumStruct {
   @Mapping(target = "id", source = "model.id")
   @Mapping(target = "imageUrl", source = "model.image")
   @Mapping(target = "description", source = "model.description")
-
+  @Mapping(target = "state", source = "model.state")
   ExistingMuseum toExistingMuseum(MuseumModel model);
 
   default List<ExistingMuseum> toListExistingMuseum(List<MuseumModel> museumModels) {

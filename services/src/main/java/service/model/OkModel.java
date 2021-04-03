@@ -1,10 +1,11 @@
 package service.model;
 
-import lombok.*;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import org.immutables.value.Value;
 
-@Getter
-@Setter
 
+@Value.Immutable
+@JsonDeserialize(builder = ImmutableOkModel.Builder.class)
 
 public class OkModel {
   private String message;
@@ -14,5 +15,9 @@ public class OkModel {
   }
 
   public OkModel() {
+  }
+
+  public String getMessage() {
+    return message;
   }
 }
