@@ -5,6 +5,7 @@ import org.springframework.boot.context.properties.bind.validation.ValidationErr
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -35,8 +36,18 @@ public class ExceptionHandlerApp {
 
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorModels);
   }
+//HttpMessageNotReadableException
+  @ExceptionHandler(DataIntegrityViolationException.class)
+  ResponseEntity<List<ErrorModel>> handleConstraintViolationException(DataIntegrityViolationException e) {
+    List<ErrorModel> errorModels = Arrays.asList(new ErrorModel(ValidationErrorTerms.KEY_NOT_UNIQUE, ValidationErrorTerms.getMessageByCode(ValidationErrorTerms.KEY_NOT_UNIQUE)));
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorModels);
+  }
 
-
+  @ExceptionHandler(HttpMessageNotReadableException.class)
+  ResponseEntity<List<ErrorModel>> handleConstraintViolationException(HttpMessageNotReadableException e) {
+    List<ErrorModel> errorModels = Arrays.asList(new ErrorModel(ValidationErrorTerms.NOT_READABLE, ValidationErrorTerms.getMessageByCode(ValidationErrorTerms.NOT_READABLE)));
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorModels);
+  }
 //  @ExceptionHandler(ConstraintViolationException.class)
 //  ResponseEntity< ErrorModel>  handleConstraintViolationException(List<ConstraintViolationException> e) {
 //

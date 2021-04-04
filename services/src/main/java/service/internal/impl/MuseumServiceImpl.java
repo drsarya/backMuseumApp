@@ -14,6 +14,7 @@ import service.model.OkModel;
 import service.model.museum.BaseMuseum;
 import service.model.museum.ExistingMuseum;
 import service.model.museum.UpdatableMuseum;
+import service.model.museum.UpdatableMuseumAdmin;
 import src.model.MuseumStateEnum;
 import src.model.RoleEnum;
 
@@ -41,28 +42,49 @@ public class MuseumServiceImpl implements MuseumService {
   private final MuseumStruct museumStruct;
 
   @Override
-  public ExistingMuseum getMuseumByWorkerId(Integer id) {
-    MuseumModel museumModel = museumMapper.findMuseumByUserId(id);
+  public OkModel getOwnerByMuseumId(Integer id) {
+    MuseumModel museumModel = museumMapper.findById((long)id);
     if (museumModel != null) {
-      return museumStruct.toExistingMuseum(museumModel);
+      return new OkModel(museumModel.getWorker().getLogin());
     }
-    return null;
+    throw new IllegalArgumentException("К музею не привязан работник");
   }
 
   @Override
-  public OkModel blockMuseum(Integer id) {
-    MuseumModel museumModel = museumMapper.findById((long) id);
+  public ExistingMuseum getMuseumById(Integer id) {
 
+    MuseumModel museumModel = museumMapper.findById((long)id);
     if (museumModel != null) {
-      if (museumModel.getState() == MuseumStateEnum.BLOCKED)
-        throw new IllegalArgumentException("Музей уже заблокирован");
-      if (museumModel.getState() == MuseumStateEnum.NOT_ACTIVE)
-        throw new IllegalArgumentException("Музей е может быть заблокирован");
-      museumModel.setState(MuseumStateEnum.BLOCKED);
-      return new OkModel("Музей заблокирован");
+      return museumStruct.toExistingMuseum(museumModel);
     }
     throw new IllegalArgumentException("Музей не найден");
   }
+
+  @Override
+  public OkModel lockMuseum(Integer id) {
+    MuseumModel museumModel = museumMapper.findById((long) id);
+    String result = "";
+    if (museumModel != null) {
+      switch (museumModel.getState()) {
+        case ACTIVE:
+          museumModel.setState(MuseumStateEnum.BLOCKED);
+          museumMapper.save(museumModel);
+          result = "Музей заблокирован";
+          break;
+        case BLOCKED:
+          museumModel.setState(MuseumStateEnum.ACTIVE);
+          museumMapper.save(museumModel);
+          result = "Музей разблокирован";
+          break;
+        case NOT_ACTIVE:
+          throw new IllegalArgumentException("Музей еще не активен");
+      }
+      return new OkModel(result);
+    }
+    throw new IllegalArgumentException("Музей не найден");
+  }
+
+
 
   @Override
   public OkModel deleteMuseum(Integer id) {
@@ -70,7 +92,7 @@ public class MuseumServiceImpl implements MuseumService {
     if (museumModel != null) {
       if (museumModel.getState() == MuseumStateEnum.BLOCKED || museumModel.getState() == MuseumStateEnum.ACTIVE)
         throw new IllegalArgumentException("Музей не может быть удален");
-      museumMapper.delete((long) id);
+      museumMapper.delete(museumModel);
       return new OkModel("Музей удалён");
     }
     throw new IllegalArgumentException("Музей не найден");
@@ -106,23 +128,34 @@ public class MuseumServiceImpl implements MuseumService {
 
   // private final Path root = Paths.get("C:\\Users\\PC\\Desktop\\ee");
   @Override
-  public OkModel updateMuseumInfo(UpdatableMuseum updatableMuseum) throws IOException {
+  public OkModel updateMuseumInfo(UpdatableMuseum updatableMuseum) {
 
     Long id = updatableMuseum.getId();
     MuseumModel m = museumMapper.findById(updatableMuseum.getId());
     if (m == null)
       throw new IllegalArgumentException("Музей не найден");
-    if (!updatableMuseum.getNameMuseum().isEmpty()) {
-      m.setNameMuseum(updatableMuseum.getNameMuseum());
-    }
-    if (!updatableMuseum.getAddress().isEmpty()) {
-      m.setAddress(updatableMuseum.getAddress());
-    }
-    if (updatableMuseum.getDescription() != null) {
+
+    if (!updatableMuseum.getDescription().trim().isEmpty()) {
       m.setDescription(updatableMuseum.getDescription());
     }
-    if (updatableMuseum.getImageUrl() != null) {
+    if (!updatableMuseum.getImageUrl().trim().isEmpty()) {
       m.setImage(updatableMuseum.getImageUrl());
+    }
+    museumMapper.save(m);
+    return new OkModel("Успешное обновление данных");
+  }
+
+  @Override
+  public OkModel updateMuseumByAdmin(UpdatableMuseumAdmin updatableMuseum) {
+    Long id = updatableMuseum.getId();
+    MuseumModel m = museumMapper.findById(updatableMuseum.getId());
+    if (m == null)
+      throw new IllegalArgumentException("Музей не найден");
+    if (!updatableMuseum.getNameMuseum().trim().isEmpty()) {
+      m.setNameMuseum(updatableMuseum.getNameMuseum());
+    }
+    if (!updatableMuseum.getAddress().trim().isEmpty()) {
+      m.setAddress(updatableMuseum.getAddress());
     }
     museumMapper.save(m);
     return new OkModel("Успешное обновление данных");

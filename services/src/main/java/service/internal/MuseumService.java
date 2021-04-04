@@ -5,6 +5,7 @@ import service.model.OkModel;
 import service.model.museum.BaseMuseum;
 import service.model.museum.ExistingMuseum;
 import service.model.museum.UpdatableMuseum;
+import service.model.museum.UpdatableMuseumAdmin;
 
 import java.io.IOException;
 import java.util.List;
@@ -14,10 +15,16 @@ public interface MuseumService {
 
   OkModel createMuseum(BaseMuseum baseMuseum, String login);
 
-  OkModel updateMuseumInfo(UpdatableMuseum updatableMuseum) throws IOException;
+  OkModel updateMuseumByAdmin(UpdatableMuseumAdmin updatableMuseum);
 
-  ExistingMuseum getMuseumByWorkerId(Integer id);
-  OkModel blockMuseum(Integer id)  ;
-  OkModel deleteMuseum(Integer id)  ;
+  OkModel updateMuseumInfo(UpdatableMuseum baseMuseum);
+
+  OkModel getOwnerByMuseumId(Integer id);
+  ExistingMuseum getMuseumById(Integer id);
+
+  OkModel lockMuseum(Integer id);
+
+
+  OkModel deleteMuseum(Integer id);
 
 }

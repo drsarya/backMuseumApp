@@ -97,7 +97,7 @@ public class LikeServiceImpl implements LikeService {
     List<ExistingExhibition> existingExhibits = new ArrayList<>();
 
     for (ExhibitionModel exhibitionModel : exhibitionModels) {
-      existingExhibits.add(exhibitionStruct.toExistingExhibition(exhibitionModel, Integer.parseInt(Long.toString(exhibitionModel.getMuseum().getId()))));
+      existingExhibits.add(exhibitionStruct.toExistingExhibition(exhibitionModel, exhibitionModel.getMuseum().getId()));
     }
     return existingExhibits;
   }

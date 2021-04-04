@@ -25,7 +25,7 @@ public interface ExhibitionStruct {
   @Mapping(target = "firstDate", source = "exhibitionModel.firstDate")
   @Mapping(target = "lastDate", source = "exhibitionModel.lastDate")
   @Mapping(target = "museumId", source = "idMuseum" )
-  ExistingExhibition toExistingExhibition(ExhibitionModel exhibitionModel, Integer idMuseum);
+  ExistingExhibition toExistingExhibition(ExhibitionModel exhibitionModel, Long idMuseum);
 
   @Mapping(target = "name", source = "exhibition.name")
   @Mapping(target = "imageUrl", source = "exhibition.imageUrl")

@@ -59,7 +59,7 @@ public class ExhibitionServiceImpl implements ExhibitionService {
     ExhibitionModel exhibitionModel = exhibitionStruct.toExhibitionModel(exhibition, museumMapper.findById((long) exhibition.getMuseumId()));
 
     ExhibitionModel newExhbtnModel = exhibitionMapper.save(exhibitionModel);
-    return exhibitionStruct.toExistingExhibition(newExhbtnModel, newExhbtnModel.getMuseum().getId().intValue());
+    return exhibitionStruct.toExistingExhibition(newExhbtnModel, newExhbtnModel.getMuseum().getId()  );
 
   }
 

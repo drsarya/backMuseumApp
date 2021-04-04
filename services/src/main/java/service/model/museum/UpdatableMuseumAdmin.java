@@ -5,11 +5,11 @@ import org.immutables.value.Value;
 import org.springframework.lang.Nullable;
 
 @Value.Immutable
-@JsonDeserialize(builder = ImmutableUpdatableMuseum.Builder.class)
-public interface UpdatableMuseum   {
+@JsonDeserialize(builder = ImmutableUpdatableMuseumAdmin.Builder.class)
+public interface UpdatableMuseumAdmin {
   Long getId();
 
-  String getDescription();
+  String getNameMuseum();
 
-  String getImageUrl();
+  String getAddress();
 }

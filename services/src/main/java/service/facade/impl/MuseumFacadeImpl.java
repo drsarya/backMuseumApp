@@ -1,17 +1,15 @@
 package service.facade.impl;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 import service.facade.MuseumFacade;
 import service.internal.MuseumService;
-import service.internal.UserService;
 import service.model.OkModel;
 import service.model.museum.BaseMuseum;
 import service.model.museum.ExistingMuseum;
 import service.model.museum.UpdatableMuseum;
+import service.model.museum.UpdatableMuseumAdmin;
 
 import javax.validation.Valid;
-import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -29,13 +27,18 @@ public class MuseumFacadeImpl implements MuseumFacade {
   }
 
   @Override
-  public OkModel updateMuseum(UpdatableMuseum baseMuseum) throws IOException {
+  public OkModel updateMuseum(UpdatableMuseum baseMuseum)  {
     return museumService.updateMuseumInfo(baseMuseum);
   }
 
   @Override
-  public OkModel blockMuseum(Integer id) {
-    return museumService.blockMuseum(id);
+  public OkModel updateMuseumByAdmin(UpdatableMuseumAdmin baseMuseum)  {
+    return museumService.updateMuseumByAdmin(baseMuseum);
+  }
+
+  @Override
+  public OkModel lockMuseum(Integer id) {
+    return museumService.lockMuseum(id);
   }
 
   @Override
@@ -44,13 +47,18 @@ public class MuseumFacadeImpl implements MuseumFacade {
   }
 
   @Override
-  public ExistingMuseum getMuseumByWorkerId(Integer id) {
-    return museumService.getMuseumByWorkerId(id);
+  public OkModel getOwnerByMuseumId(Integer id) {
+    return museumService.getOwnerByMuseumId(id);
   }
 
   @Override
   public List<ExistingMuseum> getAllMuseums() {
     return museumService.getAllMuseums();
+  }
+
+  @Override
+  public ExistingMuseum getMuseumById(Integer id) {
+    return museumService.getMuseumById(id);
   }
 
 

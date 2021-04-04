@@ -25,11 +25,11 @@ public class MuseumModel {
   private Long id;
 
   @Column(name = "name_museum", nullable = false)
- // @NotEmpty(message = ValidationErrorTerms.NAME_MOST_BE_SET)
+  @NotEmpty(message = ValidationErrorTerms.NAME_MOST_BE_SET)
   private String nameMuseum;
 
   @Column(name = "address", nullable = false)
- // @NotEmpty(message = ValidationErrorTerms.ADDRESS_MOST_BE_SET)
+  @NotEmpty(message = ValidationErrorTerms.ADDRESS_MOST_BE_SET)
   private String address;
   @Nullable
   private String description;
@@ -37,7 +37,7 @@ public class MuseumModel {
   private String image;
   @Enumerated(EnumType.STRING)
   private MuseumStateEnum state = MuseumStateEnum.NOT_ACTIVE;
-  @OneToOne(mappedBy = "museum", cascade = CascadeType.ALL)
+  @OneToOne(mappedBy = "museum", cascade = CascadeType.REMOVE)
   private UserModel worker;
   @OneToMany(mappedBy = "museum")
   private List<ExhibitionModel> exhibitionModels;

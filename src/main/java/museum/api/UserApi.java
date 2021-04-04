@@ -35,7 +35,6 @@ public class UserApi {
 
   @PostMapping(consumes = "application/json")
   OkModel createUser(@RequestBody final NewUser user) throws Exception {
-
     return userFacade.createUser(user);
   }
 

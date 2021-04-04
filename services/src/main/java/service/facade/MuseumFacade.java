@@ -6,6 +6,7 @@ import service.model.OkModel;
 import service.model.museum.BaseMuseum;
 import service.model.museum.ExistingMuseum;
 import service.model.museum.UpdatableMuseum;
+import service.model.museum.UpdatableMuseumAdmin;
 
 import javax.validation.Valid;
 import java.io.IOException;
@@ -15,10 +16,13 @@ public interface MuseumFacade {
   OkModel createMuseum( @Valid  BaseMuseum baseMuseum, String login);
 
   List<ExistingMuseum> getAllMuseums();
+  ExistingMuseum  getMuseumById(Integer id);
+  OkModel updateMuseum(UpdatableMuseum baseMuseum)  ;
 
-  OkModel updateMuseum(UpdatableMuseum baseMuseum) throws IOException;
-  OkModel blockMuseum(Integer id)  ;
+  OkModel updateMuseumByAdmin(UpdatableMuseumAdmin baseMuseum)  ;
+  OkModel lockMuseum(Integer id)  ;
+
   OkModel deleteMuseum(Integer id)  ;
-  ExistingMuseum getMuseumByWorkerId(Integer id);
+  OkModel getOwnerByMuseumId(Integer id);
 
  }
