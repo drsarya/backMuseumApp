@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import service.facade.FileLoaderFacade;
 import service.facade.MuseumFacade;
+import service.model.OkModel;
 import service.model.museum.ExistingMuseum;
 import service.model.museum.UpdatableMuseum;
 
@@ -30,9 +31,10 @@ public class FileApi {
 
   @PostMapping(consumes = {"multipart/form-data"}, value = "/upload")
   @ResponseStatus(HttpStatus.CREATED)
-  String uploadImage(@RequestPart("imageUpload") MultipartFile upload) {
-    ResponseEntity<String> s = fileLoaderFacade.uploadImage(upload);
-    JSONObject json = new JSONObject(s.getBody());
-    return json.getString("url");
+  OkModel uploadImage(@RequestPart("imageUpload") MultipartFile upload) {
+    String s = fileLoaderFacade.uploadImage(upload);
+
+      return new OkModel(s);
+
   }
 }

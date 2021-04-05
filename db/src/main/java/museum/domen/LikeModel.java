@@ -22,7 +22,7 @@ public class LikeModel  {
 
   @Column(name = "art_id")
   public Integer artId;
-
+  @Enumerated(EnumType.STRING)
   public TypeOfArtEnum type;
 
 

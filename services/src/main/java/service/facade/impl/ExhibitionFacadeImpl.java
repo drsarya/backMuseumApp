@@ -1,9 +1,11 @@
 package service.facade.impl;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import service.facade.ExhibitionFacade;
 import service.internal.ExhibitService;
 import service.internal.ExhibitionService;
+import service.model.OkModel;
 import service.model.exhibition.BaseExhibition;
 import service.model.exhibition.ExistingExhibition;
 
@@ -29,8 +31,8 @@ public class ExhibitionFacadeImpl implements ExhibitionFacade {
   }
 
   @Override
-  public ExistingExhibition updateExhibition(ExistingExhibition exhibition) {
-    return exhibitionService.updateExhibition(exhibition);
+  public ExistingExhibition updateExhibition(MultipartFile file, ExistingExhibition exhibition) {
+    return exhibitionService.updateExhibition(file, exhibition);
   }
 
   @Override
@@ -39,7 +41,7 @@ public class ExhibitionFacadeImpl implements ExhibitionFacade {
   }
 
   @Override
-  public boolean deleteExhibition(int id) {
+  public OkModel deleteExhibition(int id) {
     return exhibitionService.deleteExhibition(id);
   }
 }

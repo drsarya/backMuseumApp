@@ -29,7 +29,7 @@ public class FileLoaderServiceServiceImpl implements FileLoaderService {
   String mApiSecret;
 
   @Override
-  public ResponseEntity<String> uploadImage(MultipartFile aFile) {
+  public  String  uploadImage(MultipartFile aFile) {
 
     Cloudinary c=new Cloudinary("cloudinary://"+mApiKey+":"+mApiSecret+"@"+mCloudName);
 
@@ -41,11 +41,11 @@ public class FileLoaderServiceServiceImpl implements FileLoaderService {
       Map response=c.uploader().upload(f, ObjectUtils.emptyMap());
       JSONObject json=new JSONObject(response);
       String url=json.getString("url");
-      return new ResponseEntity<String>("{\"status\":\"OK\", \"url\":\""+url+"\"}", HttpStatus.OK);
+      return url;
     }
     catch(Exception e)
     {
-      return new ResponseEntity< String >("", HttpStatus.BAD_REQUEST);
+      throw new IllegalArgumentException("Фото не удалось загрузить");
     }
   }
 }

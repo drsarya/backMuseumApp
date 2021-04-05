@@ -20,7 +20,7 @@ public class LikeFacadeImpl  implements LikeFacade {
   }
 
   @Override
-  public Integer getLikesByArtId(BaseLike baseLike) {
+  public OkModel getLikesByArtId(BaseLike baseLike) {
     return likeService.getCountOfLikesByArtId(baseLike);
   }
 

@@ -1,6 +1,7 @@
 package service.facade.impl;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import service.facade.ExhibitFacade;
 import service.internal.AuthorService;
 import service.internal.ExhibitService;
@@ -44,7 +45,7 @@ public class ExhibitFacadeImpl implements ExhibitFacade {
   }
 
   @Override
-  public ExistingExhibit updateExhibit(ExistingExhibit exhibit) {
-    return exhibitService.updateExhibit(exhibit);
+  public ExistingExhibit updateExhibit(MultipartFile upload, ExistingExhibit exhibit) {
+    return exhibitService.updateExhibit(upload, exhibit);
   }
 }

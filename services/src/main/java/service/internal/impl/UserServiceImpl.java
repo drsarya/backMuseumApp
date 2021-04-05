@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
     MuseumModel museumModel = null;
 
     if (user.getMuseumId() != null) {
-      museumModel = museumMapper.findById((long) user.getMuseumId());
+      museumModel = museumMapper.findById( user.getMuseumId());
     }
     if (museumModel != null && user.getRole() != RoleEnum.MUSEUM ||
       museumModel == null && user.getRole() == RoleEnum.MUSEUM) {
@@ -97,7 +97,7 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public OkModel updateMuseumUserPass(UserMuseum user) throws Exception {
-    MuseumModel museumModel = museumMapper.findById((long) user.getIdCode());
+    MuseumModel museumModel = museumMapper.findById(  user.getIdCode());
     UserModel model = userMapper.findByLogin(user.getLogin());
     if (museumModel != null && model != null && museumModel.getState() == MuseumStateEnum.NOT_ACTIVE) {
       museumModel.setState(MuseumStateEnum.ACTIVE);

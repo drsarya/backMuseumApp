@@ -3,6 +3,8 @@ package museum.domen;
 import com.sun.istack.NotNull;
 import com.sun.istack.Nullable;
 import lombok.Data;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import src.model.MuseumStateEnum;
 import validation.ValidationErrorTerms;
 
@@ -22,7 +24,7 @@ public class MuseumModel {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
 
-  private Long id;
+  private Integer id;
 
   @Column(name = "name_museum", nullable = false)
   @NotEmpty(message = ValidationErrorTerms.NAME_MOST_BE_SET)
@@ -39,6 +41,7 @@ public class MuseumModel {
   private MuseumStateEnum state = MuseumStateEnum.NOT_ACTIVE;
   @OneToOne(mappedBy = "museum", cascade = CascadeType.REMOVE)
   private UserModel worker;
-  @OneToMany(mappedBy = "museum")
+  @OneToMany(mappedBy = "museum" , orphanRemoval = true )
+  @OnDelete(action= OnDeleteAction.CASCADE)
   private List<ExhibitionModel> exhibitionModels;
 }

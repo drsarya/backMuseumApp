@@ -15,8 +15,8 @@ import java.util.List;
 @RestController
 @RequestMapping(
   value = "/likes",
-  produces = "application/json",
-  consumes = "application/json"
+  produces = "application/json"
+
 )
 public class LikeApi {
   private final LikeFacade likeFacade;
@@ -26,18 +26,18 @@ public class LikeApi {
     this.likeFacade = likeFacade;
   }
 
-  @PostMapping(value = "/count")
-  Integer getLikesByArtId(@RequestBody BaseLike baseLike) {
+  @PostMapping(value = "/count", consumes = "application/json")
+  OkModel getLikesByArtId(@RequestBody BaseLike baseLike) {
     return likeFacade.getLikesByArtId(baseLike);
   }
 
-  @PostMapping(value = "/user")
+  @PostMapping(value = "/user", consumes = "application/json")
   ExistingLike getLikeByUser(@RequestBody UserLike userLike) {
     return likeFacade.getLikeByUser(userLike);
   }
 
 
-  @PostMapping()
+  @PostMapping(consumes = "application/json")
   OkModel createLike(@RequestBody UserLike userLike) {
     return likeFacade.createLike(userLike);
   }

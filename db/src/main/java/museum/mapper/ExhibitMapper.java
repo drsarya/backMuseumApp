@@ -11,6 +11,7 @@ import src.model.MuseumStateEnum;
 import java.util.List;
 
 public interface ExhibitMapper  extends CrudRepository<ExhibitModel, Long> {
+  ExhibitModel findById(Integer id);
 
 
  //getExhibitsByMuseumId

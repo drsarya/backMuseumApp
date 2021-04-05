@@ -9,10 +9,7 @@ import museum.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import service.internal.LikeService;
-import service.mapper.AuthorStruct;
-import service.mapper.ExhibitStruct;
-import service.mapper.ExhibitionStruct;
-import service.mapper.LikeStruct;
+import service.mapper.*;
 import service.model.OkModel;
 import service.model.author.ExistingAuthor;
 import service.model.exhibit.ExistingExhibit;
@@ -28,27 +25,34 @@ import java.util.List;
 @Service
 public class LikeServiceImpl implements LikeService {
   private final LikeMapper likeMapper;
-  private final UserMapper userMapper;
   private final LikeStruct likeStruct;
+  private final MuseumStruct museumStruct;
+  private final UserMapper userMapper;
+
   private final ExhibitStruct exhibitStruct;
   private final ExhibitionStruct exhibitionStruct;
   private final AuthorStruct authorStruct;
 
   @Autowired
   public LikeServiceImpl(final LikeMapper likeMapper, final LikeStruct likeStruct, final AuthorStruct authorStruct,
-                         final UserMapper userMapper, final ExhibitStruct exhibitStruct, final ExhibitionStruct exhibitionStruct) {
+                         final UserMapper userMapper, final ExhibitStruct exhibitStruct, final MuseumStruct museumStruct, final ExhibitionStruct exhibitionStruct) {
     this.likeMapper = likeMapper;
     this.likeStruct = likeStruct;
     this.userMapper = userMapper;
+    this.museumStruct = museumStruct;
+
     this.exhibitStruct = exhibitStruct;
     this.authorStruct = authorStruct;
     this.exhibitionStruct = exhibitionStruct;
   }
 
   @Override
-  public Integer getCountOfLikesByArtId(BaseLike baseLike) {
-
-    return likeMapper.countAllByArtIdAndAndId(baseLike.getType(), baseLike.getArtId());
+  public OkModel getCountOfLikesByArtId(BaseLike baseLike) {
+    Integer count = likeMapper.countAllByArtIdAndType(baseLike.getArtId(), baseLike.getType());
+    if (count != null) {
+      return new OkModel(Integer.toString(count));
+    }
+    throw new IllegalArgumentException("Лайки не найдены");
   }
 
   @Override
@@ -97,7 +101,7 @@ public class LikeServiceImpl implements LikeService {
     List<ExistingExhibition> existingExhibits = new ArrayList<>();
 
     for (ExhibitionModel exhibitionModel : exhibitionModels) {
-      existingExhibits.add(exhibitionStruct.toExistingExhibition(exhibitionModel, exhibitionModel.getMuseum().getId()));
+      existingExhibits.add(exhibitionStruct.toExistingExhibition(exhibitionModel, museumStruct.toShortInfoMuseum(exhibitionModel.getMuseum())));
     }
     return existingExhibits;
   }

@@ -7,6 +7,7 @@ import org.mapstruct.Mapping;
 import service.model.author.ExistingAuthor;
 import service.model.museum.BaseMuseum;
 import service.model.museum.ExistingMuseum;
+import service.model.museum.ShortInfoMuseum;
 import service.model.user.UserMuseum;
 
 import java.util.List;
@@ -16,8 +17,11 @@ import java.util.stream.Collectors;
 public interface MuseumStruct {
   @Mapping(target = "nameMuseum", source = "name")
   @Mapping(target = "address", source = "address")
-   MuseumModel toMuseumModel(BaseMuseum baseMuseum);
+  MuseumModel toMuseumModel(BaseMuseum baseMuseum);
 
+  @Mapping(target = "name", source = "nameMuseum")
+  @Mapping(target = "id", source = "id")
+  ShortInfoMuseum toShortInfoMuseum(MuseumModel museumModel);
 
   @Mapping(target = "name", source = "model.nameMuseum")
   @Mapping(target = "address", source = "model.address")

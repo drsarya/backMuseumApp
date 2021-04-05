@@ -2,8 +2,11 @@ package museum.domen;
 
 
 import lombok.Data;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity(name = "authors" )
 @Table(uniqueConstraints = {
@@ -16,4 +19,5 @@ public class AuthorModel {
   private Integer id;
   @Column(name = "full_name")
   private String fullName;
-}
+
+ }

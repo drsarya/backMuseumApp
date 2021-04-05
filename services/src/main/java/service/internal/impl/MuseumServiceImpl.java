@@ -43,7 +43,7 @@ public class MuseumServiceImpl implements MuseumService {
 
   @Override
   public OkModel getOwnerByMuseumId(Integer id) {
-    MuseumModel museumModel = museumMapper.findById((long)id);
+    MuseumModel museumModel = museumMapper.findById(id);
     if (museumModel != null) {
       return new OkModel(museumModel.getWorker().getLogin());
     }
@@ -53,7 +53,7 @@ public class MuseumServiceImpl implements MuseumService {
   @Override
   public ExistingMuseum getMuseumById(Integer id) {
 
-    MuseumModel museumModel = museumMapper.findById((long)id);
+    MuseumModel museumModel = museumMapper.findById(id);
     if (museumModel != null) {
       return museumStruct.toExistingMuseum(museumModel);
     }
@@ -62,7 +62,7 @@ public class MuseumServiceImpl implements MuseumService {
 
   @Override
   public OkModel lockMuseum(Integer id) {
-    MuseumModel museumModel = museumMapper.findById((long) id);
+    MuseumModel museumModel = museumMapper.findById(id);
     String result = "";
     if (museumModel != null) {
       switch (museumModel.getState()) {
@@ -85,13 +85,14 @@ public class MuseumServiceImpl implements MuseumService {
   }
 
 
-
   @Override
   public OkModel deleteMuseum(Integer id) {
-    MuseumModel museumModel = museumMapper.findById((long) id);
+    MuseumModel museumModel = museumMapper.findById(id);
     if (museumModel != null) {
       if (museumModel.getState() == MuseumStateEnum.BLOCKED || museumModel.getState() == MuseumStateEnum.ACTIVE)
         throw new IllegalArgumentException("Музей не может быть удален");
+      //museumMapper.deleteAll();
+
       museumMapper.delete(museumModel);
       return new OkModel("Музей удалён");
     }
@@ -130,15 +131,15 @@ public class MuseumServiceImpl implements MuseumService {
   @Override
   public OkModel updateMuseumInfo(UpdatableMuseum updatableMuseum) {
 
-    Long id = updatableMuseum.getId();
+    Integer id = updatableMuseum.getId();
     MuseumModel m = museumMapper.findById(updatableMuseum.getId());
     if (m == null)
       throw new IllegalArgumentException("Музей не найден");
 
-    if (!updatableMuseum.getDescription().trim().isEmpty()) {
+    if (updatableMuseum.getDescription() != null && !updatableMuseum.getDescription().trim().isEmpty()) {
       m.setDescription(updatableMuseum.getDescription());
     }
-    if (!updatableMuseum.getImageUrl().trim().isEmpty()) {
+    if (updatableMuseum.getImageUrl() != null && !updatableMuseum.getImageUrl().trim().isEmpty()) {
       m.setImage(updatableMuseum.getImageUrl());
     }
     museumMapper.save(m);
@@ -147,14 +148,14 @@ public class MuseumServiceImpl implements MuseumService {
 
   @Override
   public OkModel updateMuseumByAdmin(UpdatableMuseumAdmin updatableMuseum) {
-    Long id = updatableMuseum.getId();
+
     MuseumModel m = museumMapper.findById(updatableMuseum.getId());
     if (m == null)
       throw new IllegalArgumentException("Музей не найден");
-    if (!updatableMuseum.getNameMuseum().trim().isEmpty()) {
+    if (updatableMuseum.getNameMuseum() != null && !updatableMuseum.getNameMuseum().trim().isEmpty()) {
       m.setNameMuseum(updatableMuseum.getNameMuseum());
     }
-    if (!updatableMuseum.getAddress().trim().isEmpty()) {
+    if (updatableMuseum.getAddress() != null && !updatableMuseum.getAddress().trim().isEmpty()) {
       m.setAddress(updatableMuseum.getAddress());
     }
     museumMapper.save(m);

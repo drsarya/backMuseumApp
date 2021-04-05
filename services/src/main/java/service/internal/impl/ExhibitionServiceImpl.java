@@ -6,12 +6,16 @@ import museum.mapper.ExhibitionMapper;
 import museum.mapper.MuseumMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import service.internal.ExhibitionService;
+import service.internal.FileLoaderService;
 import service.mapper.ExhibitionStruct;
 import service.mapper.MuseumStruct;
+import service.model.OkModel;
 import service.model.exhibition.BaseExhibition;
 import service.model.exhibition.ExistingExhibition;
 import service.model.museum.ExistingMuseum;
+import service.model.museum.ShortInfoMuseum;
 import src.model.MuseumStateEnum;
 
 import java.util.ArrayList;
@@ -24,21 +28,23 @@ public class ExhibitionServiceImpl implements ExhibitionService {
   private final ExhibitionMapper exhibitionMapper;
   private final ExhibitionStruct exhibitionStruct;
   private final MuseumStruct museumStruct;
+  private final FileLoaderService fileLoaderService;
   private final MuseumMapper museumMapper;
 
   @Autowired
-  public ExhibitionServiceImpl(final ExhibitionStruct exhibitionStruct, final MuseumMapper museumMapper, final ExhibitionMapper exhibitionMapper, final MuseumStruct museumStruct) {
+  public ExhibitionServiceImpl(final ExhibitionStruct exhibitionStruct, final FileLoaderService fileLoaderService, final MuseumMapper museumMapper, final ExhibitionMapper exhibitionMapper, final MuseumStruct museumStruct) {
     this.exhibitionStruct = exhibitionStruct;
     this.exhibitionMapper = exhibitionMapper;
     this.museumStruct = museumStruct;
+    this.fileLoaderService = fileLoaderService;
     this.museumMapper = museumMapper;
   }
 
   private List<ExistingExhibition> toListExhibitions(List<ExhibitionModel> actualList) {
     List<ExistingExhibition> exhibitionList = new ArrayList<>();
     for (ExhibitionModel exhibitionModel : actualList) {
-      ExistingMuseum museum = museumStruct.toExistingMuseum(exhibitionModel.getMuseum());
-      exhibitionList.add(exhibitionStruct.toExistingExhibition(exhibitionModel, museum.getId()));
+      ShortInfoMuseum museum = museumStruct.toShortInfoMuseum(exhibitionModel.getMuseum());
+      exhibitionList.add(exhibitionStruct.toExistingExhibition(exhibitionModel, museum));
     }
     return exhibitionList;
   }
@@ -55,53 +61,66 @@ public class ExhibitionServiceImpl implements ExhibitionService {
 
   @Override
   public ExistingExhibition createExhibition(BaseExhibition exhibition) {
+    MuseumModel museumModel = museumMapper.findById(exhibition.getMuseum().getId());
+    if (museumModel != null) {
+      ExhibitionModel exhibitionModel = exhibitionStruct.toExhibitionModel(exhibition, museumModel);
 
-    ExhibitionModel exhibitionModel = exhibitionStruct.toExhibitionModel(exhibition, museumMapper.findById((long) exhibition.getMuseumId()));
+      ExhibitionModel newExhbtnModel = exhibitionMapper.save(exhibitionModel);
+      ShortInfoMuseum museum = museumStruct.toShortInfoMuseum(exhibitionModel.getMuseum());
+      return exhibitionStruct.toExistingExhibition(newExhbtnModel, museum);
 
-    ExhibitionModel newExhbtnModel = exhibitionMapper.save(exhibitionModel);
-    return exhibitionStruct.toExistingExhibition(newExhbtnModel, newExhbtnModel.getMuseum().getId()  );
+    }
+    throw new IllegalArgumentException("Музей не найден");
+
 
   }
 
   @Override
-  public ExistingExhibition updateExhibition(ExistingExhibition exhibition) {
-    ExhibitionModel exhibitionModel = exhibitionMapper.findOne((long) exhibition.getId());
+  public ExistingExhibition updateExhibition(MultipartFile file, ExistingExhibition exhibition) {
+    String url = null;
+    if (!file.getOriginalFilename().isEmpty()) {
+      url = fileLoaderService.uploadImage(file);
+    }
+
+    ExhibitionModel exhibitionModel = exhibitionMapper.findById(exhibition.getId());
     if (exhibitionModel != null) {
-      if (!exhibition.getDescription().isEmpty()) {
+      if (exhibition.getName() != null && !exhibition.getDescription().isEmpty()) {
         exhibitionModel.setDescription(exhibition.getDescription());
       }
-      if (!exhibition.getFirstDate().isEmpty()) {
+      if (exhibition.getFirstDate() != null && !exhibition.getFirstDate().isEmpty()) {
         exhibitionModel.setFirstDate(exhibition.getFirstDate());
       }
-      if (!exhibition.getImageUrl().isEmpty()) {
-        exhibitionModel.setImageUrl(exhibition.getImageUrl());
+      if (url != null && !url.isEmpty()) {
+        exhibitionModel.setImageUrl(url);
       }
-      if (!exhibition.getLastDate().isEmpty()) {
+      if (exhibition.getLastDate() != null && !exhibition.getLastDate().isEmpty()) {
         exhibitionModel.setLastDate(exhibition.getLastDate());
       }
-      if (!exhibition.getName().isEmpty()) {
+      if (exhibition.getName() != null && !exhibition.getName().isEmpty()) {
         exhibitionModel.setName(exhibition.getName());
       }
       ExhibitionModel newExhbtnModel = exhibitionMapper.save(exhibitionModel);
-      ExistingMuseum museum = museumStruct.toExistingMuseum(newExhbtnModel.getMuseum());
+      ShortInfoMuseum museum = museumStruct.toShortInfoMuseum(exhibitionModel.getMuseum());
 
-      return exhibitionStruct.toExistingExhibition(newExhbtnModel, museum.getId());
+      return exhibitionStruct.toExistingExhibition(newExhbtnModel, museum);
     }
     return null;
   }
 
   @Override
-  public List<ExistingExhibition> getExhibitionsByMuseumId(int id) {
+  public List<ExistingExhibition> getExhibitionsByMuseumId(Integer id) {
     List<ExhibitionModel> actualList = exhibitionMapper.findExhibitionModelsByMuseumId(id);
     return toListExhibitions(actualList);
   }
 
   @Override
-  public boolean deleteExhibition(int id) {
-    if (exhibitionMapper.exists((long) id)) {
-      exhibitionMapper.delete((long) id);
-      return true;
+  public OkModel deleteExhibition(Integer id) {
+    ExhibitionModel exhibitionModel = exhibitionMapper.findById(id);
+    if (exhibitionModel != null) {
+      exhibitionMapper.delete(exhibitionModel);
+      return new OkModel("Выставка удалена");
     }
-    return false;
+
+    throw new IllegalArgumentException("Несуществующая выставка");
   }
 }

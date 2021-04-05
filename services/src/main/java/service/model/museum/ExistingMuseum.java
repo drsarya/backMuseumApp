@@ -11,7 +11,7 @@ import javax.persistence.Column;
 @JsonDeserialize(builder = ImmutableExistingMuseum.Builder.class)
 
 public interface ExistingMuseum extends BaseMuseum {
-  Long getId();
+  Integer getId();
 
   @Nullable
   String getDescription();

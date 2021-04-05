@@ -12,7 +12,7 @@ import java.util.List;
 public interface LikeMapper extends CrudRepository<LikeModel, Long> {
 
 
-  Integer countAllByArtIdAndAndId(TypeOfArtEnum typeOfArtEnum, Integer idArt);
+  Integer countAllByArtIdAndType(   Integer idArt, TypeOfArtEnum typeOfArtEnum);
 
   LikeModel findLikeModelByUser_IdAndTypeAndArtId(Integer userId, TypeOfArtEnum typeOfArtEnum, Integer artId);
 

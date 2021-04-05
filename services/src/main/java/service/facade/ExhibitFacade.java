@@ -1,6 +1,7 @@
 package service.facade;
 
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.multipart.MultipartFile;
 import service.model.OkModel;
 import service.model.exhibit.BaseExhibit;
 import service.model.exhibit.ExistingExhibit;
@@ -17,5 +18,5 @@ public interface ExhibitFacade {
 
   OkModel deleteExhibit(int id);
 
-  ExistingExhibit updateExhibit(ExistingExhibit exhibit);
+  ExistingExhibit updateExhibit(MultipartFile upload, ExistingExhibit exhibit);
 }

@@ -10,7 +10,7 @@ import service.model.like.UserLike;
 import java.util.List;
 
 public interface LikeService {
-  Integer getCountOfLikesByArtId(BaseLike baseLike);
+  OkModel getCountOfLikesByArtId(BaseLike baseLike);
 
   ExistingLike getLikeByUser(UserLike userLike);
 

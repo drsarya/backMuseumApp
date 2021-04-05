@@ -11,7 +11,7 @@ import service.model.like.UserLike;
 import java.util.List;
 @Validated
 public interface LikeFacade {
-  Integer getLikesByArtId(BaseLike baseLike);
+  OkModel getLikesByArtId(BaseLike baseLike);
 
   ExistingLike getLikeByUser(UserLike userLike);
 

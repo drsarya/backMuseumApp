@@ -17,7 +17,7 @@ public class FileLoaderFacadeImpl implements FileLoaderFacade {
   }
 
   @Override
-  public ResponseEntity<String> uploadImage(MultipartFile aFile) {
+  public  String  uploadImage(MultipartFile aFile) {
     return fileLoaderService.uploadImage(aFile);
   }
 }

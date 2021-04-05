@@ -5,6 +5,7 @@ import museum.domen.MuseumModel;
 import org.immutables.value.Value;
 import org.springframework.lang.Nullable;
 import service.model.museum.ExistingMuseum;
+import service.model.museum.ShortInfoMuseum;
 import service.model.user.ImmutableUserUpdate;
 
 import javax.persistence.CascadeType;
@@ -16,7 +17,7 @@ import javax.persistence.ManyToOne;
 public interface BaseExhibition {
 
   String getName();
-
+  @Nullable
   String getImageUrl();
 
   String getDescription();
@@ -27,5 +28,5 @@ public interface BaseExhibition {
   @Nullable
   String getLastDate();
 
-  Integer getMuseumId();
+  ShortInfoMuseum getMuseum();
 }

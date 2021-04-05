@@ -43,11 +43,22 @@ public class ExceptionHandlerApp {
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorModels);
   }
 
-  @ExceptionHandler(HttpMessageNotReadableException.class)
-  ResponseEntity<List<ErrorModel>> handleConstraintViolationException(HttpMessageNotReadableException e) {
-    List<ErrorModel> errorModels = Arrays.asList(new ErrorModel(ValidationErrorTerms.NOT_READABLE, ValidationErrorTerms.getMessageByCode(ValidationErrorTerms.NOT_READABLE)));
-    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorModels);
-  }
+//  @ExceptionHandler(HttpMessageNotReadableException.class)
+//  ResponseEntity<List<ErrorModel>> handleConstraintViolationException(HttpMessageNotReadableException e) {
+//    List<ErrorModel> errorModels = Arrays.asList(new ErrorModel(ValidationErrorTerms.NOT_READABLE, ValidationErrorTerms.getMessageByCode(ValidationErrorTerms.NOT_READABLE)));
+//    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorModels);
+//  }
+
+
+
+
+
+
+
+
+
+
+
 //  @ExceptionHandler(ConstraintViolationException.class)
 //  ResponseEntity< ErrorModel>  handleConstraintViolationException(List<ConstraintViolationException> e) {
 //

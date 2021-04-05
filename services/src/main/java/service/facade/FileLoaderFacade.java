@@ -5,6 +5,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.multipart.MultipartFile;
 @Validated
 public interface FileLoaderFacade {
-  ResponseEntity<String> uploadImage(MultipartFile aFile);
+  String uploadImage(MultipartFile aFile);
 
 }

@@ -1,6 +1,8 @@
 package museum.domen;
 
 import lombok.Data;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
@@ -10,7 +12,8 @@ public class ExhibitModel {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Integer id;
-  @OneToOne(cascade = CascadeType.ALL)
+  @OneToOne
+  @OnDelete(action = OnDeleteAction.NO_ACTION)
   @JoinColumn(name = "author_id")
   private AuthorModel author;
 
@@ -21,7 +24,8 @@ public class ExhibitModel {
   private String description;
 
   private String dateOfCreate;
-  @ManyToOne(optional = false, cascade = CascadeType.ALL)
+  @ManyToOne
+  @OnDelete(action = OnDeleteAction.NO_ACTION)
   @JoinColumn(name = "exhibition_id")
   private ExhibitionModel exhibition;
 

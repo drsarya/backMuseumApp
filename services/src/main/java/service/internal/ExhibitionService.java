@@ -1,5 +1,7 @@
 package service.internal;
 
+import org.springframework.web.multipart.MultipartFile;
+import service.model.OkModel;
 import service.model.exhibition.BaseExhibition;
 import service.model.exhibition.ExistingExhibition;
 
@@ -12,9 +14,9 @@ public interface ExhibitionService {
 
   ExistingExhibition createExhibition(BaseExhibition exhibition);
 
-  ExistingExhibition updateExhibition(ExistingExhibition exhibition);
+  ExistingExhibition updateExhibition(MultipartFile file, ExistingExhibition exhibition);
 
-  List<ExistingExhibition> getExhibitionsByMuseumId(int id);
+  List<ExistingExhibition> getExhibitionsByMuseumId(Integer id);
 
-  boolean deleteExhibition(int id);
+  OkModel deleteExhibition(Integer id);
 }

@@ -8,7 +8,9 @@ import museum.mapper.ExhibitMapper;
 import museum.mapper.ExhibitionMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import service.internal.ExhibitService;
+import service.internal.FileLoaderService;
 import service.mapper.AuthorStruct;
 import service.mapper.ExhibitStruct;
 import service.mapper.ExhibitionStruct;
@@ -34,15 +36,17 @@ public class ExhibitServiceImpl implements ExhibitService {
   private final ExhibitionStruct exhibitionStruct;
   private final ExhibitionMapper exhibitionMapper;
 
+  private final FileLoaderService fileLoaderService;
 
   @Autowired
   public ExhibitServiceImpl(final ExhibitMapper exhibitMapper, final AuthorMapper authorMapper,
                             final AuthorStruct authorStruct, ExhibitionStruct exhibitionStruct,
-                            final ExhibitionMapper exhibitionMapper,
+                            final FileLoaderService fileLoaderService, final ExhibitionMapper exhibitionMapper,
                             final ExhibitStruct exhibitStruct) {
     this.exhibitMapper = exhibitMapper;
     this.authorMapper = authorMapper;
     this.authorStruct = authorStruct;
+    this.fileLoaderService = fileLoaderService;
     this.exhibitionMapper = exhibitionMapper;
     this.exhibitionStruct = exhibitionStruct;
     this.exhibitStruct = exhibitStruct;
@@ -77,13 +81,13 @@ public class ExhibitServiceImpl implements ExhibitService {
   @Override
   public ExistingExhibit createExhibit(BaseExhibit exhibit) {
     AuthorModel authorModel = authorMapper.findByFullName(exhibit.getAuthor().getFullName());
-    if(authorModel==null){
+    if (authorModel == null) {
       authorModel = new AuthorModel();
       authorModel.setFullName(exhibit.getAuthor().getFullName());
       authorModel = authorMapper.save(authorModel);
     }
 
-    ExhibitionModel exhibitionModel = exhibitionMapper.findOne((long) exhibit.getExhibitionId());
+    ExhibitionModel exhibitionModel = exhibitionMapper.findById(exhibit.getExhibitionId());
     ExhibitModel exhibitModel = exhibitStruct.toExhibitModel(exhibit, exhibitionModel);
     exhibitModel.setAuthor(authorModel);
     ExhibitModel exhibitModel1 = exhibitMapper.save(exhibitModel);
@@ -92,9 +96,10 @@ public class ExhibitServiceImpl implements ExhibitService {
   }
 
   @Override
-  public OkModel deleteExhibit(int id) {
-    if (exhibitMapper.exists((long) id)) {
-      exhibitMapper.delete((long) id);
+  public OkModel deleteExhibit(Integer id) {
+    ExhibitModel exhibitionModel = exhibitMapper.findById(id);
+    if (exhibitionModel != null) {
+      exhibitMapper.delete(exhibitionModel);
       return new OkModel("Экспонат удален");
     }
     throw new IllegalArgumentException("Ошибка удаления");
@@ -108,8 +113,13 @@ public class ExhibitServiceImpl implements ExhibitService {
 
 
   @Override
-  public ExistingExhibit updateExhibit(ExistingExhibit exhibit) {
-    ExhibitModel exhibitModel = exhibitMapper.findOne((long) exhibit.getId());
+  public ExistingExhibit updateExhibit(MultipartFile upload, ExistingExhibit exhibit) {
+    ExhibitModel exhibitModel = exhibitMapper.findById(  exhibit.getId());
+
+    String url = null;
+    if (!upload.getOriginalFilename().isEmpty()) {
+      url = fileLoaderService.uploadImage(upload);
+    }
     if (exhibitModel != null) {
       if (!exhibit.getDescription().isEmpty()) {
         exhibitModel.setDescription(exhibit.getDescription());
@@ -117,11 +127,11 @@ public class ExhibitServiceImpl implements ExhibitService {
       if (!exhibit.getDateOfCreate().isEmpty()) {
         exhibitModel.setDateOfCreate(exhibit.getDateOfCreate());
       }
-      if (!exhibit.getImageUrl().isEmpty()) {
+      if (url !=null && !url.isEmpty()) {
         exhibitModel.setImageUrl(exhibit.getImageUrl());
       }
       if (exhibit.getAuthor() != null) {
-        exhibitModel.setAuthor(authorMapper.findByFullName(  exhibit.getAuthor().getFullName()));
+        exhibitModel.setAuthor(authorMapper.findByFullName(exhibit.getAuthor().getFullName()));
       }
       if (!exhibit.getName().isEmpty()) {
         exhibitModel.setName(exhibit.getName());
