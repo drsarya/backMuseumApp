@@ -8,7 +8,7 @@ import java.util.List;
 
 @Validated
 public interface AuthorFacade {
-  List<ExistingAuthor> getAllAuthors();
+  List<BaseAuthor> getAllAuthors();
 
 
 }

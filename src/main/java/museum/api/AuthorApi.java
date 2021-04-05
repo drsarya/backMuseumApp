@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import service.facade.AuthorFacade;
 import service.facade.ExhibitFacade;
+import service.model.author.BaseAuthor;
 import service.model.author.ExistingAuthor;
 import service.model.exhibit.ExistingExhibit;
 
@@ -26,8 +27,8 @@ public class AuthorApi {
     this.authorFacade = authorFacade;
   }
 
-  @GetMapping(consumes = "application/json")
-  List<ExistingAuthor> getExhibitsByMuseumId() {
+  @GetMapping( )
+  List<BaseAuthor> getAuthors() {
     return authorFacade.getAllAuthors();
   }
 }

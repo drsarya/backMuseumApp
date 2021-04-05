@@ -6,7 +6,7 @@ import service.model.author.ExistingAuthor;
 import java.util.List;
 
 public interface AuthorService {
-  List<ExistingAuthor> getAllAuthors();
+  List<BaseAuthor> getAllAuthors();
 
 
 

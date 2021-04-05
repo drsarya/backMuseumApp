@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import service.internal.AuthorService;
 import service.mapper.AuthorStruct;
 import service.model.author.BaseAuthor;
-import service.model.author.ExistingAuthor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,13 +23,10 @@ public class AuthorServiceImpl implements AuthorService {
   }
 
   @Override
-  public List<ExistingAuthor> getAllAuthors() {
-    Iterable<AuthorModel> authorModels = authorMapper.findAll();
-    List<AuthorModel> actualList = new ArrayList<AuthorModel>();
-    while (authorModels.iterator().hasNext()) {
-      actualList.add(authorModels.iterator().next());
-    }
-    return authorStruct.toListExistingAuthor(actualList);
+  public List<BaseAuthor> getAllAuthors() {
+    List<AuthorModel> authorModels = (List<AuthorModel>) authorMapper.findAll();
+
+    return authorStruct.toLIstBaseAuthor(authorModels);
 
   }
 

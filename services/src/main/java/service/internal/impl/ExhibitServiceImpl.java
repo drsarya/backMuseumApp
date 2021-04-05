@@ -114,7 +114,7 @@ public class ExhibitServiceImpl implements ExhibitService {
 
   @Override
   public ExistingExhibit updateExhibit(MultipartFile upload, ExistingExhibit exhibit) {
-    ExhibitModel exhibitModel = exhibitMapper.findById(  exhibit.getId());
+    ExhibitModel exhibitModel = exhibitMapper.findById(exhibit.getId());
 
     String url = null;
     if (!upload.getOriginalFilename().isEmpty()) {
@@ -127,11 +127,17 @@ public class ExhibitServiceImpl implements ExhibitService {
       if (!exhibit.getDateOfCreate().isEmpty()) {
         exhibitModel.setDateOfCreate(exhibit.getDateOfCreate());
       }
-      if (url !=null && !url.isEmpty()) {
-        exhibitModel.setImageUrl(exhibit.getImageUrl());
+      if (url != null && !url.isEmpty()) {
+        exhibitModel.setImageUrl(url);
       }
       if (exhibit.getAuthor() != null) {
-        exhibitModel.setAuthor(authorMapper.findByFullName(exhibit.getAuthor().getFullName()));
+        AuthorModel authorModel = authorMapper.findByFullName(exhibit.getAuthor().getFullName());
+        if (authorModel == null) {
+          authorModel = new AuthorModel();
+          authorModel.setFullName(exhibit.getAuthor().getFullName());
+          authorMapper.save(authorModel);
+        }
+        exhibitModel.setAuthor(authorModel);
       }
       if (!exhibit.getName().isEmpty()) {
         exhibitModel.setName(exhibit.getName());

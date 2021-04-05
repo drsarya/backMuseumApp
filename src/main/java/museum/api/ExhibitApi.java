@@ -57,4 +57,6 @@ public class ExhibitApi {
   ExistingExhibit updateExhibit(@RequestPart("imageUpload") MultipartFile upload,  @RequestPart("exhibit")  ExistingExhibit exhibit) {
     return exhibitFacade.updateExhibit(upload, exhibit);
   }
+
+
 }

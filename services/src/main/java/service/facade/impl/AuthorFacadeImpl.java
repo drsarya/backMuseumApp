@@ -17,7 +17,7 @@ public class AuthorFacadeImpl implements AuthorFacade {
   }
 
   @Override
-  public List<ExistingAuthor> getAllAuthors() {
+  public List<BaseAuthor> getAllAuthors() {
     return authorService.getAllAuthors();
   }
 
