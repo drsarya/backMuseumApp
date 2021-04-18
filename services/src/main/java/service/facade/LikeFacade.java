@@ -18,7 +18,6 @@ public interface LikeFacade {
 
   OkModel createLike(UserLike userLike);
 
-  List<ExistingExhibit> getLikedExhibitsByUser(Integer idUser);
 
-  List<ExistingExhibition>  getLikedExhibitionsByUser(Integer idUser);
+
 }

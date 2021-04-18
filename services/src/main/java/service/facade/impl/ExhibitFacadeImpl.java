@@ -45,6 +45,11 @@ public class ExhibitFacadeImpl implements ExhibitFacade {
   }
 
   @Override
+  public List<ExistingExhibit> getLikedExhibitsByUser(Integer idUser) {
+    return exhibitService.getLikedExhibitsByUser(idUser);
+  }
+
+  @Override
   public ExistingExhibit updateExhibit(MultipartFile upload, ExistingExhibit exhibit) {
     return exhibitService.updateExhibit(upload, exhibit);
   }

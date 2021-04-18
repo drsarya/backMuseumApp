@@ -51,6 +51,10 @@ public class ExhibitApi {
     return exhibitFacade.deleteExhibit(id);
   }
 
+  @GetMapping(value = "/liked/{idUser}" )
+  List<ExistingExhibit> getLikedExhibitsByUser(@PathVariable("idUser") Integer idUser) {
+    return exhibitFacade.getLikedExhibitsByUser( idUser );
+  }
 
 
   @PutMapping( consumes = {"multipart/form-data", "application/json"})

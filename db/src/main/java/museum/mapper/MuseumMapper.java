@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
-public interface MuseumMapper extends CrudRepository<MuseumModel, Long> {
+public interface MuseumMapper extends CrudRepository<MuseumModel, Integer> {
 
   //MuseumModel findMuseumModelByLogin(String login);
 

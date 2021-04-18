@@ -17,7 +17,5 @@ public interface LikeService {
 
   OkModel createLike(UserLike userLike);
 
-  List<ExistingExhibit> getLikedExhibitsByUser(Integer idUser);
 
-  List<ExistingExhibition>  getLikedExhibitionsByUser(Integer idUser);
-}
+ }

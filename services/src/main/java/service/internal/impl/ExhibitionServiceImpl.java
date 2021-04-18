@@ -1,6 +1,7 @@
 package service.internal.impl;
 
 import museum.domen.ExhibitionModel;
+import museum.domen.LikeModel;
 import museum.domen.MuseumModel;
 import museum.mapper.ExhibitionMapper;
 import museum.mapper.MuseumMapper;
@@ -51,12 +52,9 @@ public class ExhibitionServiceImpl implements ExhibitionService {
 
   @Override
   public List<ExistingExhibition> getAllExhibitions() {
-    Iterable<ExhibitionModel> exhibitionModels = exhibitionMapper.findExhibitionModelsByMuseumState(MuseumStateEnum.ACTIVE);
-    List<ExhibitionModel> actualList = new ArrayList<>();
-    while (exhibitionModels.iterator().hasNext()) {
-      actualList.add(exhibitionModels.iterator().next());
-    }
-    return toListExhibitions(actualList);
+    List<ExhibitionModel> exhibitionModels = exhibitionMapper.findExhibitionModelsByMuseumState(MuseumStateEnum.ACTIVE);
+
+    return toListExhibitions(exhibitionModels);
   }
 
   @Override
@@ -122,5 +120,19 @@ public class ExhibitionServiceImpl implements ExhibitionService {
     }
 
     throw new IllegalArgumentException("Несуществующая выставка");
+  }
+  @Override
+  public List<ExistingExhibition> getLikedExhibitionsByUser(Integer idUser) {
+    List<ExhibitionModel> f=  exhibitionMapper.getLikedExhibitionsByUser(idUser);
+
+
+//    List<ExhibitionModel> exhibitionModels = likeMapper.getLikedExhibitionsByUser(idUser);
+//    List<ExistingExhibition> existingExhibits = new ArrayList<>();
+//
+//    for (ExhibitionModel exhibitionModel : exhibitionModels) {
+//      existingExhibits.add(exhibitionStruct.toExistingExhibition(exhibitionModel, museumStruct.toShortInfoMuseum(exhibitionModel.getMuseum())));
+//    }
+    //return existingExhibits;
+    return new ArrayList<ExistingExhibition>( );
   }
 }

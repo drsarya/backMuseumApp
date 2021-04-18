@@ -11,9 +11,11 @@ import service.model.like.ExistingLike;
 import service.model.like.UserLike;
 
 import java.util.List;
+
 @Service
-public class LikeFacadeImpl  implements LikeFacade {
+public class LikeFacadeImpl implements LikeFacade {
   private final LikeService likeService;
+
 
   public LikeFacadeImpl(final LikeService likeService) {
     this.likeService = likeService;
@@ -30,19 +32,10 @@ public class LikeFacadeImpl  implements LikeFacade {
   }
 
 
-
   @Override
   public OkModel createLike(UserLike userLike) {
     return likeService.createLike(userLike);
   }
 
-  @Override
-  public List<ExistingExhibit> getLikedExhibitsByUser(Integer idUser) {
-    return likeService.getLikedExhibitsByUser(idUser);
-  }
 
-  @Override
-  public List<ExistingExhibition> getLikedExhibitionsByUser(Integer idUser) {
-    return likeService.getLikedExhibitionsByUser(idUser);
-  }
 }

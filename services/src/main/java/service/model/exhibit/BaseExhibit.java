@@ -10,6 +10,7 @@ import service.model.author.ExistingAuthor;
 import service.model.exhibition.ExistingExhibition;
 
 import javax.persistence.*;
+
 @Value.Immutable
 @JsonDeserialize(builder = ImmutableBaseExhibit.Builder.class)
 public interface BaseExhibit {
@@ -17,12 +18,14 @@ public interface BaseExhibit {
   BaseAuthor getAuthor();
 
   String getName();
+
   @Nullable
   String getImageUrl();
 
   String getDescription();
 
   String getDateOfCreate();
-@Nullable
+
+  @Nullable
   Integer getExhibitionId();
 }

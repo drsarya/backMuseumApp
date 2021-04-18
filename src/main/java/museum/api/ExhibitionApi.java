@@ -54,7 +54,10 @@ public class ExhibitionApi {
   ExistingExhibition updateExhibition(@RequestPart("imageUpload") MultipartFile upload, @RequestPart("exhibition") ExistingExhibition exhibition) {
     return exhibitionFacade.updateExhibition(upload, exhibition);
   }
-
+  @GetMapping(value = "/liked/{idUser}" )
+  List<ExistingExhibition> getLikedExhibitionsByUser(@PathVariable("idUser") Integer idUser) {
+    return exhibitionFacade.getLikedExhibitionsByUser( idUser );
+  }
 
   @GetMapping(value = "/{id}")
   List<ExistingExhibition> getExhibitionsByMuseumId(@PathVariable Integer id) {

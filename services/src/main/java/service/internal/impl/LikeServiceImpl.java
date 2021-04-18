@@ -67,13 +67,13 @@ public class LikeServiceImpl implements LikeService {
 
   @Override
   public OkModel createLike(UserLike userLike) {
-    OkModel okModel = new OkModel();
+    OkModel okModel;
     ExistingLike existingLike = getLikeByUser(userLike);
     if (existingLike != null) {
       okModel = new OkModel("Успешное удаление");
       likeMapper.delete((long) existingLike.getId());
     } else {
-      UserModel userModel = userMapper.findOne((long) userLike.getUserId());
+      UserModel userModel = userMapper.findById(userLike.getUserId());
       if (userModel != null) {
         LikeModel like = likeStruct.toLikeModel(userLike, userModel);
         likeMapper.save(like);
@@ -84,25 +84,7 @@ public class LikeServiceImpl implements LikeService {
     return okModel;
   }
 
-  @Override
-  public List<ExistingExhibit> getLikedExhibitsByUser(Integer idUser) {
-    List<ExhibitModel> exhibitionModels = likeMapper.getLikedExhibitsByUser(idUser);
-    List<ExistingExhibit> existingExhibits = new ArrayList<>();
 
-    for (ExhibitModel exhibitModel : exhibitionModels) {
-      existingExhibits.add(exhibitStruct.toExistingExhibit(exhibitModel, authorStruct.toExistingAuthor(exhibitModel.getAuthor()), exhibitModel.getExhibition().getId()));
-    }
-    return existingExhibits;
-  }
 
-  @Override
-  public List<ExistingExhibition> getLikedExhibitionsByUser(Integer idUser) {
-    List<ExhibitionModel> exhibitionModels = likeMapper.getLikedExhibitionsByUser(idUser);
-    List<ExistingExhibition> existingExhibits = new ArrayList<>();
 
-    for (ExhibitionModel exhibitionModel : exhibitionModels) {
-      existingExhibits.add(exhibitionStruct.toExistingExhibition(exhibitionModel, museumStruct.toShortInfoMuseum(exhibitionModel.getMuseum())));
-    }
-    return existingExhibits;
-  }
 }

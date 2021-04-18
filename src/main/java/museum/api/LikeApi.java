@@ -42,13 +42,7 @@ public class LikeApi {
     return likeFacade.createLike(userLike);
   }
 
-  @GetMapping(value = "/exhibits/{idUser}")
-  List<ExistingExhibit> getLikedExhibitsByUser(@PathVariable Integer idUser) {
-    return likeFacade.getLikedExhibitsByUser(idUser);
-  }
 
-  @GetMapping(value = "/exhibitions/{idUser}")
-  List<ExistingExhibition> getLikedExhibitionsByUser(@PathVariable Integer idUser) {
-    return likeFacade.getLikedExhibitionsByUser(idUser);
-  }
+
+
 }

@@ -17,6 +17,7 @@ public interface ExhibitService {
 
   OkModel deleteExhibit(Integer id);
   List<ExistingExhibit> getExhibitsByExhibitionId(Integer id);
+  List<ExistingExhibit> getLikedExhibitsByUser(Integer idUser);
 
   ExistingExhibit updateExhibit(MultipartFile upload, ExistingExhibit exhibit);
 

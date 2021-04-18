@@ -17,6 +17,7 @@ public interface ExhibitFacade {
   ExistingExhibit createExhibit(BaseExhibit exhibit);
 
   OkModel deleteExhibit(int id);
+  List<ExistingExhibit> getLikedExhibitsByUser(Integer idUser);
 
   ExistingExhibit updateExhibit(MultipartFile upload, ExistingExhibit exhibit);
 }

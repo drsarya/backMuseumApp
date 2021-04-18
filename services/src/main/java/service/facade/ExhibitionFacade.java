@@ -18,4 +18,5 @@ public interface ExhibitionFacade {
   List<ExistingExhibition> getExhibitionsByMuseumId(int id);
 
   OkModel deleteExhibition(int id);
+  List<ExistingExhibition>  getLikedExhibitionsByUser(Integer idUser);
 }

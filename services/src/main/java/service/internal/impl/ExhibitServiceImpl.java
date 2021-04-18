@@ -33,14 +33,13 @@ public class ExhibitServiceImpl implements ExhibitService {
   private final AuthorMapper authorMapper;
   private final ExhibitStruct exhibitStruct;
   private final AuthorStruct authorStruct;
-  private final ExhibitionStruct exhibitionStruct;
   private final ExhibitionMapper exhibitionMapper;
 
   private final FileLoaderService fileLoaderService;
 
   @Autowired
   public ExhibitServiceImpl(final ExhibitMapper exhibitMapper, final AuthorMapper authorMapper,
-                            final AuthorStruct authorStruct, ExhibitionStruct exhibitionStruct,
+                            final AuthorStruct authorStruct,
                             final FileLoaderService fileLoaderService, final ExhibitionMapper exhibitionMapper,
                             final ExhibitStruct exhibitStruct) {
     this.exhibitMapper = exhibitMapper;
@@ -48,18 +47,14 @@ public class ExhibitServiceImpl implements ExhibitService {
     this.authorStruct = authorStruct;
     this.fileLoaderService = fileLoaderService;
     this.exhibitionMapper = exhibitionMapper;
-    this.exhibitionStruct = exhibitionStruct;
     this.exhibitStruct = exhibitStruct;
   }
 
   @Override
   public List<ExistingExhibit> getAllExhibits() {
-    Iterable<ExhibitModel> exhibitModels = exhibitMapper.findExhibitModelsByExhibition_Museum_State(MuseumStateEnum.ACTIVE);
-    List<ExhibitModel> actualList = new ArrayList<>();
-    while (exhibitModels.iterator().hasNext()) {
-      actualList.add(exhibitModels.iterator().next());
-    }
-    return toListExhibits(actualList);
+    List<ExhibitModel> exhibitModels = exhibitMapper.findExhibitModelsByExhibition_Museum_State(MuseumStateEnum.ACTIVE);
+
+    return toListExhibits(exhibitModels);
   }
 
   private List<ExistingExhibit> toListExhibits(List<ExhibitModel> actualList) {
@@ -94,7 +89,16 @@ public class ExhibitServiceImpl implements ExhibitService {
     ExistingAuthor existingAuthor = authorStruct.toExistingAuthor(exhibitModel1.getAuthor());
     return exhibitStruct.toExistingExhibit(exhibitModel, existingAuthor, exhibitModel1.getExhibition().getId());
   }
+  @Override
+  public List<ExistingExhibit> getLikedExhibitsByUser(Integer idUser) {
+    List<ExhibitModel> exhibitionModels = exhibitMapper.getLikedExhibitsByUser(idUser);
+    List<ExistingExhibit> existingExhibits = new ArrayList<>();
 
+    for (ExhibitModel exhibitModel : exhibitionModels) {
+      existingExhibits.add(exhibitStruct.toExistingExhibit(exhibitModel, authorStruct.toExistingAuthor(exhibitModel.getAuthor()), exhibitModel.getExhibition().getId()));
+    }
+    return existingExhibits;
+  }
   @Override
   public OkModel deleteExhibit(Integer id) {
     ExhibitModel exhibitionModel = exhibitMapper.findById(id);

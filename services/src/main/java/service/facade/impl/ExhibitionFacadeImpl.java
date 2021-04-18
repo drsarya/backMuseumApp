@@ -44,4 +44,9 @@ public class ExhibitionFacadeImpl implements ExhibitionFacade {
   public OkModel deleteExhibition(int id) {
     return exhibitionService.deleteExhibition(id);
   }
+
+  @Override
+  public List<ExistingExhibition> getLikedExhibitionsByUser(Integer idUser) {
+    return exhibitionService.getLikedExhibitionsByUser(idUser);
+  }
 }
