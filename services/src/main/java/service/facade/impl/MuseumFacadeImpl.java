@@ -22,17 +22,17 @@ public class MuseumFacadeImpl implements MuseumFacade {
   }
 
   @Override
-  public OkModel createMuseum(@Valid  BaseMuseum baseMuseum, String login) {
+  public OkModel createMuseum( BaseMuseum baseMuseum, String login) {
     return museumService.createMuseum(baseMuseum, login);
   }
 
   @Override
-  public OkModel updateMuseum(UpdatableMuseum baseMuseum)  {
+  public OkModel updateMuseum(UpdatableMuseum baseMuseum) {
     return museumService.updateMuseumInfo(baseMuseum);
   }
 
   @Override
-  public OkModel updateMuseumByAdmin(UpdatableMuseumAdmin baseMuseum)  {
+  public OkModel updateMuseumByAdmin(UpdatableMuseumAdmin baseMuseum) {
     return museumService.updateMuseumByAdmin(baseMuseum);
   }
 

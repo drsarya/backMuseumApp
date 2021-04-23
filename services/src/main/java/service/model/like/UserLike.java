@@ -5,6 +5,6 @@ import org.immutables.value.Value;
 
 @Value.Immutable
 @JsonDeserialize(builder = ImmutableUserLike.Builder.class)
-public interface UserLike extends BaseLike{
+public interface UserLike extends BaseLike {
   Integer getUserId();
 }

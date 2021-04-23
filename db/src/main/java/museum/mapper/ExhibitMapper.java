@@ -10,16 +10,16 @@ import src.model.MuseumStateEnum;
 
 import java.util.List;
 
-public interface ExhibitMapper  extends CrudRepository<ExhibitModel, Integer> {
+public interface ExhibitMapper extends CrudRepository<ExhibitModel, Integer> {
   ExhibitModel findById(Integer id);
 
-
- //getExhibitsByMuseumId
   List<ExhibitModel> findExhibitModelsByExhibition_Museum_Id(Integer id);
-  List<ExhibitModel> findExhibitModelsByExhibition_Id(Integer id);
-  List<ExhibitModel> findExhibitModelsByExhibition_Museum_State(MuseumStateEnum museumStateEnum);
-  @Query(" SELECT   e1  FROM  likes as  l1  JOIN exhibits as e1 ON e1.id = l1.artId  WHERE l1.user.id  = :userId and l1.type ='exhibit' ")
-  List<ExhibitModel> getLikedExhibitsByUser(@Param("userId")Integer userId);
 
-//  void findExhibitionModelsByMuseum_Id(Integer id);
+  List<ExhibitModel> findExhibitModelsByExhibition_Id(Integer id);
+
+  List<ExhibitModel> findExhibitModelsByExhibition_Museum_State(MuseumStateEnum museumStateEnum);
+
+  @Query(" SELECT   e1  FROM  likes as  l1  JOIN exhibits as e1 ON e1.id = l1.artId  WHERE l1.user.id  = :userId  and l1.type ='EXHIBIT'")
+  List<ExhibitModel> getLikedExhibitsByUser(@Param("userId") Integer userId);
+
 }

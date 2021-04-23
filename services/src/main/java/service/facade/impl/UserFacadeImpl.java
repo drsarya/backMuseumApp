@@ -38,5 +38,4 @@ public class UserFacadeImpl implements UserFacade {
     return userService.updateMuseumUserPass(user);
   }
 
-
 }

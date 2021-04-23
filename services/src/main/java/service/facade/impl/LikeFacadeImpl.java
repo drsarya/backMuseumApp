@@ -16,7 +16,6 @@ import java.util.List;
 public class LikeFacadeImpl implements LikeFacade {
   private final LikeService likeService;
 
-
   public LikeFacadeImpl(final LikeService likeService) {
     this.likeService = likeService;
   }
@@ -31,11 +30,9 @@ public class LikeFacadeImpl implements LikeFacade {
     return likeService.getLikeByUser(userLike);
   }
 
-
   @Override
   public OkModel createLike(UserLike userLike) {
     return likeService.createLike(userLike);
   }
-
 
 }

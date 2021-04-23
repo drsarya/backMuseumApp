@@ -23,7 +23,6 @@ import src.model.RoleEnum;
 @Service
 public class UserServiceImpl implements UserService {
 
-
   private final UserStruct userStruct;
   private final MuseumStruct museumStruct;
   private final MuseumMapper museumMapper;
@@ -37,32 +36,27 @@ public class UserServiceImpl implements UserService {
     this.museumMapper = museumMapper;
   }
 
-
   @Override
   public OkModel createUser(final NewUser user) throws Exception {
     String newPassword = ConfigEncrypt.getSaltedHash(user.getPassword());
     MuseumModel museumModel = null;
 
     if (user.getMuseumId() != null) {
-      museumModel = museumMapper.findById( user.getMuseumId());
+      museumModel = museumMapper.findById(user.getMuseumId());
     }
     if (museumModel != null && user.getRole() != RoleEnum.MUSEUM ||
       museumModel == null && user.getRole() == RoleEnum.MUSEUM) {
       throw new IllegalArgumentException(ValidationErrorTerms.INVALID_ROLE_OF_USER);
     }
-
-    UserModel d = userMapper.save(userStruct.toUserModel(user, newPassword, museumModel));
-    ExistingMuseum existingMuseum = museumStruct.toExistingMuseum(d.getMuseum());
-
+    userMapper.save(userStruct.toUserModel(user, newPassword, museumModel));
     return new OkModel("Успешная регистрация");
   }
 
   @Override
   public ExistingUser getUser(NewUser user) throws Exception {
 
-
     UserModel model = userMapper.findByLogin(user.getLogin());
-    if (model == null) throw new IllegalArgumentException("Ошибка входа");
+    if (model == null) throw new IllegalArgumentException(ValidationErrorTerms.WRONG_DATA);
     if (model.getPassword() != null && ConfigEncrypt.check(user.getPassword(), model.getPassword()) && model.getMuseum().getState() == MuseumStateEnum.ACTIVE) {
       ExistingMuseum existingMuseum = null;
       if (model.getMuseum() != null) {
@@ -79,8 +73,7 @@ public class UserServiceImpl implements UserService {
 
     UserModel model = userMapper.findByLoginAndRole(user.getLogin(), user.getRole());
     if (model == null) {
-      throw new IllegalArgumentException("Ошибка обновления");
-
+      throw new IllegalArgumentException(ValidationErrorTerms.WRONG_DATA);
     }
     String newPassword = ConfigEncrypt.getSaltedHash(user.getNewPassword());
 
@@ -90,14 +83,13 @@ public class UserServiceImpl implements UserService {
       userMapper.save(model);
       return new OkModel("Пароль успешно обновлен");
     } else {
-      throw new IllegalArgumentException("Неверный пароль");
+      throw new IllegalArgumentException(ValidationErrorTerms.WRONG_DATA);
     }
-
   }
 
   @Override
   public OkModel updateMuseumUserPass(UserMuseum user) throws Exception {
-    MuseumModel museumModel = museumMapper.findById(  user.getIdCode());
+    MuseumModel museumModel = museumMapper.findById(user.getIdCode());
     UserModel model = userMapper.findByLogin(user.getLogin());
     if (museumModel != null && model != null && museumModel.getState() == MuseumStateEnum.NOT_ACTIVE) {
       museumModel.setState(MuseumStateEnum.ACTIVE);
@@ -107,6 +99,6 @@ public class UserServiceImpl implements UserService {
       userMapper.save(model);
       return new OkModel("Успешная регистрация музея");
     }
-    throw new IllegalArgumentException("Неверные данные");
+    throw new IllegalArgumentException(ValidationErrorTerms.WRONG_DATA);
   }
 }

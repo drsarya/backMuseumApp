@@ -12,6 +12,7 @@ public class ExhibitModel {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Integer id;
+
   @OneToOne
   @OnDelete(action = OnDeleteAction.NO_ACTION)
   @JoinColumn(name = "author_id")
@@ -24,6 +25,7 @@ public class ExhibitModel {
   private String description;
 
   private String dateOfCreate;
+
   @ManyToOne
   @OnDelete(action = OnDeleteAction.NO_ACTION)
   @JoinColumn(name = "exhibition_id")

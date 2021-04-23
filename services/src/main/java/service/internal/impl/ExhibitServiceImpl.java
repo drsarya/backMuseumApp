@@ -3,6 +3,7 @@ package service.internal.impl;
 import museum.domen.AuthorModel;
 import museum.domen.ExhibitModel;
 import museum.domen.ExhibitionModel;
+import museum.domen.LikeModel;
 import museum.mapper.AuthorMapper;
 import museum.mapper.ExhibitMapper;
 import museum.mapper.ExhibitionMapper;
@@ -22,6 +23,7 @@ import service.model.exhibit.ExistingExhibit;
 import service.model.exhibition.ExistingExhibition;
 import service.model.museum.ExistingMuseum;
 import src.model.MuseumStateEnum;
+import validation.ValidationErrorTerms;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +36,6 @@ public class ExhibitServiceImpl implements ExhibitService {
   private final ExhibitStruct exhibitStruct;
   private final AuthorStruct authorStruct;
   private final ExhibitionMapper exhibitionMapper;
-
   private final FileLoaderService fileLoaderService;
 
   @Autowired
@@ -89,16 +90,17 @@ public class ExhibitServiceImpl implements ExhibitService {
     ExistingAuthor existingAuthor = authorStruct.toExistingAuthor(exhibitModel1.getAuthor());
     return exhibitStruct.toExistingExhibit(exhibitModel, existingAuthor, exhibitModel1.getExhibition().getId());
   }
+
   @Override
   public List<ExistingExhibit> getLikedExhibitsByUser(Integer idUser) {
     List<ExhibitModel> exhibitionModels = exhibitMapper.getLikedExhibitsByUser(idUser);
     List<ExistingExhibit> existingExhibits = new ArrayList<>();
-
     for (ExhibitModel exhibitModel : exhibitionModels) {
       existingExhibits.add(exhibitStruct.toExistingExhibit(exhibitModel, authorStruct.toExistingAuthor(exhibitModel.getAuthor()), exhibitModel.getExhibition().getId()));
     }
     return existingExhibits;
   }
+
   @Override
   public OkModel deleteExhibit(Integer id) {
     ExhibitModel exhibitionModel = exhibitMapper.findById(id);
@@ -106,7 +108,7 @@ public class ExhibitServiceImpl implements ExhibitService {
       exhibitMapper.delete(exhibitionModel);
       return new OkModel("Экспонат удален");
     }
-    throw new IllegalArgumentException("Ошибка удаления");
+    throw new IllegalArgumentException(ValidationErrorTerms.ERROR_OF_DELETE);
   }
 
   @Override
@@ -121,7 +123,7 @@ public class ExhibitServiceImpl implements ExhibitService {
     ExhibitModel exhibitModel = exhibitMapper.findById(exhibit.getId());
 
     String url = null;
-    if (!upload.getOriginalFilename().isEmpty()) {
+    if (upload.getOriginalFilename() != null && !upload.getOriginalFilename().isEmpty()) {
       url = fileLoaderService.uploadImage(upload);
     }
     if (exhibitModel != null) {

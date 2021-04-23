@@ -11,18 +11,23 @@ import service.model.museum.UpdatableMuseumAdmin;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
+
 @Validated
 public interface MuseumFacade {
-  OkModel createMuseum( @Valid  BaseMuseum baseMuseum, String login);
+  OkModel createMuseum(@Valid BaseMuseum baseMuseum, String login);
 
   List<ExistingMuseum> getAllMuseums();
-  ExistingMuseum  getMuseumById(Integer id);
-  OkModel updateMuseum(UpdatableMuseum baseMuseum)  ;
 
-  OkModel updateMuseumByAdmin(UpdatableMuseumAdmin baseMuseum)  ;
-  OkModel lockMuseum(Integer id)  ;
+  ExistingMuseum getMuseumById(Integer id);
 
-  OkModel deleteMuseum(Integer id)  ;
+  OkModel updateMuseum(UpdatableMuseum baseMuseum);
+
+  OkModel updateMuseumByAdmin(UpdatableMuseumAdmin baseMuseum);
+
+  OkModel lockMuseum(Integer id);
+
+  OkModel deleteMuseum(Integer id);
+
   OkModel getOwnerByMuseumId(Integer id);
 
- }
+}

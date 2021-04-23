@@ -10,15 +10,13 @@ import java.util.List;
 
 public interface ExhibitionMapper extends CrudRepository<ExhibitionModel, Integer> {
 
-
   ExhibitionModel findById(Integer id);
 
-  //void findExhibitionModelByMuseum_Login(String login);
   List<ExhibitionModel> findExhibitionModelsByMuseumState(MuseumStateEnum museumStateEnum);
 
   List<ExhibitionModel> findExhibitionModelsByMuseumId(Integer id);
 
-  @Query(" SELECT   e1  FROM  likes as  l   JOIN exhibitions as e1 ON e1.id = l.artId   WHERE l.user.id = :userId and l.type = 'exhibition'  ")
+  @Query(" SELECT   e1  FROM  likes as  l   JOIN exhibitions as e1 ON e1.id = l.artId   WHERE l.user.id = :userId and l.type = 'EXHIBITION'  ")
   List<ExhibitionModel> getLikedExhibitionsByUser(@Param("userId") Integer userId);
 
 }

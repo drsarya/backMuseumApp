@@ -22,15 +22,11 @@ import java.nio.file.Files;
   produces = "application/json"
 )
 public class UserApi {
-
-  private static final Logger logger = LoggerFactory.getLogger(UserApi.class);
-
   private final UserFacade userFacade;
 
   @Autowired
   public UserApi(final UserFacade userFacade) {
     this.userFacade = userFacade;
-
   }
 
   @PostMapping(consumes = "application/json")
@@ -38,14 +34,9 @@ public class UserApi {
     return userFacade.createUser(user);
   }
 
-
   @PostMapping(consumes = "application/json", value = "/get")
   ExistingUser getUser(@RequestBody final NewUser user) throws Exception {
-    if (user != null) {
-      return userFacade.getUser(user);
-    } else {
-      return null;
-    }
+    return userFacade.getUser(user);
   }
 
   @PutMapping(consumes = "application/json", value = "/museum")
@@ -55,9 +46,6 @@ public class UserApi {
 
   @PutMapping(consumes = "application/json")
   OkModel updatePassword(@RequestBody final UserUpdate user) throws Exception {
-
     return userFacade.updateUserPassword(user);
-
   }
-
 }

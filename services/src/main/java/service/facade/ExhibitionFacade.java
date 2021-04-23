@@ -7,6 +7,7 @@ import service.model.exhibition.BaseExhibition;
 import service.model.exhibition.ExistingExhibition;
 
 import java.util.List;
+
 @Validated
 public interface ExhibitionFacade {
   List<ExistingExhibition> getAllExhibitions();
@@ -15,8 +16,9 @@ public interface ExhibitionFacade {
 
   ExistingExhibition updateExhibition(MultipartFile file, ExistingExhibition exhibition);
 
-  List<ExistingExhibition> getExhibitionsByMuseumId(int id);
+  List<ExistingExhibition> getExhibitionsByMuseumId(Integer id);
 
-  OkModel deleteExhibition(int id);
-  List<ExistingExhibition>  getLikedExhibitionsByUser(Integer idUser);
+  OkModel deleteExhibition(Integer id);
+
+  List<ExistingExhibition> getLikedExhibitionsByUser(Integer idUser);
 }

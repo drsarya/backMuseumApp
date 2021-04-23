@@ -33,50 +33,12 @@ public class ExceptionHandlerApp {
     final var errorModels = errors.stream()
       .map(err -> new ErrorModel(err.getMessage(), ValidationErrorTerms.getMessageByCode(err.getMessage())))
       .collect(Collectors.toList());
-
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorModels);
   }
-//HttpMessageNotReadableException
+
   @ExceptionHandler(DataIntegrityViolationException.class)
   ResponseEntity<List<ErrorModel>> handleConstraintViolationException(DataIntegrityViolationException e) {
     List<ErrorModel> errorModels = Arrays.asList(new ErrorModel(ValidationErrorTerms.KEY_NOT_UNIQUE, ValidationErrorTerms.getMessageByCode(ValidationErrorTerms.KEY_NOT_UNIQUE)));
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorModels);
   }
-
-//  @ExceptionHandler(HttpMessageNotReadableException.class)
-//  ResponseEntity<List<ErrorModel>> handleConstraintViolationException(HttpMessageNotReadableException e) {
-//    List<ErrorModel> errorModels = Arrays.asList(new ErrorModel(ValidationErrorTerms.NOT_READABLE, ValidationErrorTerms.getMessageByCode(ValidationErrorTerms.NOT_READABLE)));
-//    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorModels);
-//  }
-
-
-
-
-
-
-
-
-
-
-
-//  @ExceptionHandler(ConstraintViolationException.class)
-//  ResponseEntity< ErrorModel>  handleConstraintViolationException(List<ConstraintViolationException> e) {
-//
-////    final Set<ConstraintViolation<?>> errors = e ;
-////    final var errorModels = errors.stream()
-////      .map(err -> new ErrorModel(err.getMessage(), ValidationErrorTerms.getMessageByCode(err.getMessage())))
-////      .collect(Collectors.toList());
-//
-//    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorModel(e.get(0).getMessage(), ValidationErrorTerms.getMessageByCode(e.get(0).getMessage())));
-//  }
-//    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorModel(ValidationErrorTerms.KEY_NOT_UNIQUE, e.getMessage()));
-//
-//  }
-//  @ExceptionHandler( ConstraintViolationException.class )
-//  ResponseEntity<ErrorModel> handleConstraintViolationException(List<ConstraintViolationException> e) {
-//    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorModel(ValidationErrorTerms.KEY_NOT_UNIQUE, e.get(0).getMessage()));
-//
-//  }
-
-
 }

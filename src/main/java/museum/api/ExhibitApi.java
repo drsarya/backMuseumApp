@@ -32,35 +32,34 @@ public class ExhibitApi {
     return exhibitFacade.getAllExhibits();
   }
 
-  @GetMapping(value = "/exhibition/{exhibitionId}" )
+  @GetMapping(value = "/exhibition/{exhibitionId}")
   List<ExistingExhibit> getExhibitsByExhibitionId(@PathVariable Integer exhibitionId) {
     return exhibitFacade.getExhibitsByExhibitionId(exhibitionId);
   }
 
-  @GetMapping(value = "/museumId/{museumId}" )
+  @GetMapping(value = "/museumId/{museumId}")
   List<ExistingExhibit> getExhibitsByMuseumId(@PathVariable Integer museumId) {
     return exhibitFacade.getExhibitsByMuseumId(museumId);
   }
+
   @PostMapping(consumes = "application/json")
   ExistingExhibit createExhibit(@RequestBody BaseExhibit exhibit) {
     return exhibitFacade.createExhibit(exhibit);
   }
 
-  @DeleteMapping(value = "/{id}" )
-  OkModel  deleteExhibit(@PathVariable Integer id) {
+  @DeleteMapping(value = "/{id}")
+  OkModel deleteExhibit(@PathVariable Integer id) {
     return exhibitFacade.deleteExhibit(id);
   }
 
-  @GetMapping(value = "/liked/{idUser}" )
+  @GetMapping(value = "/liked/{idUser}")
   List<ExistingExhibit> getLikedExhibitsByUser(@PathVariable("idUser") Integer idUser) {
-    return exhibitFacade.getLikedExhibitsByUser( idUser );
+    return exhibitFacade.getLikedExhibitsByUser(idUser);
   }
 
-
-  @PutMapping( consumes = {"multipart/form-data", "application/json"})
-  ExistingExhibit updateExhibit(@RequestPart("imageUpload") MultipartFile upload,  @RequestPart("exhibit")  ExistingExhibit exhibit) {
+  @PutMapping(consumes = {"multipart/form-data", "application/json"})
+  ExistingExhibit updateExhibit(@RequestPart("imageUpload") MultipartFile upload, @RequestPart("exhibit") ExistingExhibit exhibit) {
     return exhibitFacade.updateExhibit(upload, exhibit);
   }
-
 
 }

@@ -20,10 +20,10 @@ public interface MuseumService {
   OkModel updateMuseumInfo(UpdatableMuseum baseMuseum);
 
   OkModel getOwnerByMuseumId(Integer id);
+
   ExistingMuseum getMuseumById(Integer id);
 
   OkModel lockMuseum(Integer id);
-
 
   OkModel deleteMuseum(Integer id);
 

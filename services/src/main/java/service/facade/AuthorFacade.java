@@ -9,6 +9,4 @@ import java.util.List;
 @Validated
 public interface AuthorFacade {
   List<BaseAuthor> getAllAuthors();
-
-
 }

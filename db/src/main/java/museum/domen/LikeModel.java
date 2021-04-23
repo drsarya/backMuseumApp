@@ -11,7 +11,7 @@ import java.io.Serializable;
   @UniqueConstraint(columnNames = {"user_id", "art_id", "type"})}
 )
 @Data
-public class LikeModel  {
+public class LikeModel {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   public Integer id;
@@ -22,8 +22,7 @@ public class LikeModel  {
 
   @Column(name = "art_id")
   public Integer artId;
+
   @Enumerated(EnumType.STRING)
   public TypeOfArtEnum type;
-
-
 }

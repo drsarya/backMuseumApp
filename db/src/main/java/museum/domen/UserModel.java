@@ -1,6 +1,5 @@
 package museum.domen;
 
-import com.sun.istack.Nullable;
 import lombok.*;
 import src.model.RoleEnum;
 
@@ -16,8 +15,10 @@ public class UserModel {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Integer id;
+
   @Column(name = "login")
   private String login;
+
   @Enumerated(EnumType.STRING)
   private RoleEnum role;
   private String password;
@@ -25,6 +26,7 @@ public class UserModel {
   @OneToOne
   @JoinColumn(name = "museum_id")
   private MuseumModel museum;
+
   @OneToMany(mappedBy = "user")
   private List<LikeModel> likes;
 }

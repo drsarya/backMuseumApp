@@ -27,7 +27,7 @@ public class AuthorApi {
     this.authorFacade = authorFacade;
   }
 
-  @GetMapping( )
+  @GetMapping()
   List<BaseAuthor> getAuthors() {
     return authorFacade.getAllAuthors();
   }

@@ -9,6 +9,7 @@ import service.model.OkModel;
 import service.model.exhibit.BaseExhibit;
 import service.model.exhibit.ExistingExhibit;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Service
@@ -35,7 +36,7 @@ public class ExhibitFacadeImpl implements ExhibitFacade {
   }
 
   @Override
-  public ExistingExhibit createExhibit(BaseExhibit exhibit) {
+  public ExistingExhibit createExhibit(@Valid BaseExhibit exhibit) {
     return exhibitService.createExhibit(exhibit);
   }
 

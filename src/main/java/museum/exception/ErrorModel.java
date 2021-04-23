@@ -8,7 +8,6 @@ public class ErrorModel {
     this.code = code;
     this.message = message;
   }
-
   public String getCode() {
     return code;
   }

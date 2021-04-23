@@ -1,14 +1,11 @@
 package service.mapper;
 
-import museum.domen.AuthorModel;
 import museum.domen.MuseumModel;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import service.model.author.ExistingAuthor;
 import service.model.museum.BaseMuseum;
 import service.model.museum.ExistingMuseum;
 import service.model.museum.ShortInfoMuseum;
-import service.model.user.UserMuseum;
 
 import java.util.List;
 import java.util.stream.Collectors;

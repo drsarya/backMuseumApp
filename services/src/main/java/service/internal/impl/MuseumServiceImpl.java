@@ -17,6 +17,7 @@ import service.model.museum.UpdatableMuseum;
 import service.model.museum.UpdatableMuseumAdmin;
 import src.model.MuseumStateEnum;
 import src.model.RoleEnum;
+import validation.ValidationErrorTerms;
 
 import javax.management.relation.Role;
 import java.io.IOException;
@@ -47,17 +48,16 @@ public class MuseumServiceImpl implements MuseumService {
     if (museumModel != null) {
       return new OkModel(museumModel.getWorker().getLogin());
     }
-    throw new IllegalArgumentException("К музею не привязан работник");
+    throw new IllegalArgumentException(ValidationErrorTerms.OWNER_NOT_FOUND);
   }
 
   @Override
   public ExistingMuseum getMuseumById(Integer id) {
-
     MuseumModel museumModel = museumMapper.findById(id);
     if (museumModel != null) {
       return museumStruct.toExistingMuseum(museumModel);
     }
-    throw new IllegalArgumentException("Музей не найден");
+    throw new IllegalArgumentException(ValidationErrorTerms.MUSEUM_NOT_EXIST);
   }
 
   @Override
@@ -77,11 +77,11 @@ public class MuseumServiceImpl implements MuseumService {
           result = "Музей разблокирован";
           break;
         case NOT_ACTIVE:
-          throw new IllegalArgumentException("Музей еще не активен");
+          throw new IllegalArgumentException(ValidationErrorTerms.MUSEUM_NOT_ACTIVATED);
       }
       return new OkModel(result);
     }
-    throw new IllegalArgumentException("Музей не найден");
+    throw new IllegalArgumentException(ValidationErrorTerms.MUSEUM_NOT_EXIST);
   }
 
 
@@ -90,13 +90,11 @@ public class MuseumServiceImpl implements MuseumService {
     MuseumModel museumModel = museumMapper.findById(id);
     if (museumModel != null) {
       if (museumModel.getState() == MuseumStateEnum.BLOCKED || museumModel.getState() == MuseumStateEnum.ACTIVE)
-        throw new IllegalArgumentException("Музей не может быть удален");
-      //museumMapper.deleteAll();
-
+        throw new IllegalArgumentException(ValidationErrorTerms.MUSEUM_CANT_BE_DELETED);
       museumMapper.delete(museumModel);
       return new OkModel("Музей удалён");
     }
-    throw new IllegalArgumentException("Музей не найден");
+    throw new IllegalArgumentException(ValidationErrorTerms.MUSEUM_NOT_EXIST);
   }
 
   @Override
@@ -105,8 +103,6 @@ public class MuseumServiceImpl implements MuseumService {
 
     List<MuseumModel> actualList = new ArrayList<MuseumModel>();
     museumModels.forEach(actualList::add);
-
-    if (actualList.size() == 0) throw new IllegalArgumentException("Список музеев пуст");
     return museumStruct.toListExistingMuseum(actualList);
   }
 
@@ -115,7 +111,7 @@ public class MuseumServiceImpl implements MuseumService {
   public OkModel createMuseum(BaseMuseum baseMuseum, String login) {
     UserModel u = userMapper.findByLogin(login);
     if (u != null)
-      throw new IllegalArgumentException("Ошибка создания, логин уже существует");
+      throw new IllegalArgumentException(ValidationErrorTerms.KEY_NOT_UNIQUE);
 
     MuseumModel museumModel = museumMapper.save(museumStruct.toMuseumModel(baseMuseum));
     UserModel userModel = new UserModel();
@@ -126,15 +122,12 @@ public class MuseumServiceImpl implements MuseumService {
     return new OkModel("Успешное создание музея");
   }
 
-
-  // private final Path root = Paths.get("C:\\Users\\PC\\Desktop\\ee");
   @Override
   public OkModel updateMuseumInfo(UpdatableMuseum updatableMuseum) {
 
-    Integer id = updatableMuseum.getId();
     MuseumModel m = museumMapper.findById(updatableMuseum.getId());
     if (m == null)
-      throw new IllegalArgumentException("Музей не найден");
+      throw new IllegalArgumentException(ValidationErrorTerms.MUSEUM_NOT_EXIST);
 
     if (updatableMuseum.getDescription() != null && !updatableMuseum.getDescription().trim().isEmpty()) {
       m.setDescription(updatableMuseum.getDescription());
@@ -151,7 +144,7 @@ public class MuseumServiceImpl implements MuseumService {
 
     MuseumModel m = museumMapper.findById(updatableMuseum.getId());
     if (m == null)
-      throw new IllegalArgumentException("Музей не найден");
+      throw new IllegalArgumentException(ValidationErrorTerms.MUSEUM_NOT_EXIST);
     if (updatableMuseum.getNameMuseum() != null && !updatableMuseum.getNameMuseum().trim().isEmpty()) {
       m.setNameMuseum(updatableMuseum.getNameMuseum());
     }

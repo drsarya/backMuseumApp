@@ -13,11 +13,9 @@ public class OkModel {
   public OkModel(String message) {
     this.message = message;
   }
-
-  public OkModel() {
-  }
-
   public String getMessage() {
     return message;
+  }
+  public OkModel() {
   }
 }

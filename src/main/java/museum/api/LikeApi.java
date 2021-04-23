@@ -36,13 +36,9 @@ public class LikeApi {
     return likeFacade.getLikeByUser(userLike);
   }
 
-
   @PostMapping(consumes = "application/json")
   OkModel createLike(@RequestBody UserLike userLike) {
     return likeFacade.createLike(userLike);
   }
-
-
-
 
 }

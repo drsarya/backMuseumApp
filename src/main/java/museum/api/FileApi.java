@@ -1,18 +1,11 @@
 package museum.api;
 
-import org.cloudinary.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import service.facade.FileLoaderFacade;
-import service.facade.MuseumFacade;
 import service.model.OkModel;
-import service.model.museum.ExistingMuseum;
-import service.model.museum.UpdatableMuseum;
 
 @RestController
 @RequestMapping(
@@ -22,7 +15,6 @@ import service.model.museum.UpdatableMuseum;
 public class FileApi {
 
   private final FileLoaderFacade fileLoaderFacade;
-  private static final Logger logger = LoggerFactory.getLogger(MuseumApi.class);
 
   @Autowired
   public FileApi(final FileLoaderFacade fileLoaderFacade) {
@@ -33,8 +25,6 @@ public class FileApi {
   @ResponseStatus(HttpStatus.CREATED)
   OkModel uploadImage(@RequestPart("imageUpload") MultipartFile upload) {
     String s = fileLoaderFacade.uploadImage(upload);
-
-      return new OkModel(s);
-
+    return new OkModel(s);
   }
 }

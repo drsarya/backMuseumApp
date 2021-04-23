@@ -15,8 +15,10 @@ public interface NewUser {
 
   @Nullable
   String getPassword();
+
   @Nullable
-   RoleEnum getRole();
+  RoleEnum getRole();
+
   @Nullable
   Integer getMuseumId();
 }

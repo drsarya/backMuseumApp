@@ -10,7 +10,6 @@ import javax.validation.constraints.NotNull;
 
 @Value.Immutable
 @JsonDeserialize(builder = ImmutableBaseMuseum.Builder.class)
-
 public interface BaseMuseum {
 
   @NotNull(message = ValidationErrorTerms.NAME_MOST_BE_SET)
@@ -20,6 +19,5 @@ public interface BaseMuseum {
   @NotNull(message = ValidationErrorTerms.ADDRESS_MOST_BE_SET)
   @NotEmpty(message = ValidationErrorTerms.ADDRESS_MOST_BE_SET)
   String getAddress();
-
 }
 

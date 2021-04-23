@@ -6,7 +6,5 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
 public interface AuthorMapper extends CrudRepository<AuthorModel, Integer> {
-  AuthorModel findByFullName(String fullName );
-  //List<AuthorModel> find( );
-
+  AuthorModel findByFullName(String fullName);
 }

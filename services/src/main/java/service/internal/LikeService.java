@@ -14,8 +14,6 @@ public interface LikeService {
 
   ExistingLike getLikeByUser(UserLike userLike);
 
-
   OkModel createLike(UserLike userLike);
 
-
- }
+}

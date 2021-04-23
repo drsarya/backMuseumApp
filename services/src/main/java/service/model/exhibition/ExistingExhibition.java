@@ -5,6 +5,6 @@ import org.immutables.value.Value;
 
 @Value.Immutable
 @JsonDeserialize(builder = ImmutableExistingExhibition.Builder.class)
-public interface ExistingExhibition  extends BaseExhibition{
+public interface ExistingExhibition extends BaseExhibition {
   Integer getId();
 }

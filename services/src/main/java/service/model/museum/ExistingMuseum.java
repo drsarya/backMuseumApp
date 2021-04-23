@@ -9,7 +9,6 @@ import javax.persistence.Column;
 
 @Value.Immutable
 @JsonDeserialize(builder = ImmutableExistingMuseum.Builder.class)
-
 public interface ExistingMuseum extends BaseMuseum {
   Integer getId();
 
@@ -21,6 +20,4 @@ public interface ExistingMuseum extends BaseMuseum {
 
   @Nullable
   MuseumStateEnum getState();
-
-
 }

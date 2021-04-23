@@ -18,6 +18,7 @@ import service.model.exhibition.ExistingExhibition;
 import service.model.museum.ExistingMuseum;
 import service.model.museum.ShortInfoMuseum;
 import src.model.MuseumStateEnum;
+import validation.ValidationErrorTerms;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,15 +63,12 @@ public class ExhibitionServiceImpl implements ExhibitionService {
     MuseumModel museumModel = museumMapper.findById(exhibition.getMuseum().getId());
     if (museumModel != null) {
       ExhibitionModel exhibitionModel = exhibitionStruct.toExhibitionModel(exhibition, museumModel);
-
       ExhibitionModel newExhbtnModel = exhibitionMapper.save(exhibitionModel);
       ShortInfoMuseum museum = museumStruct.toShortInfoMuseum(exhibitionModel.getMuseum());
       return exhibitionStruct.toExistingExhibition(newExhbtnModel, museum);
 
     }
-    throw new IllegalArgumentException("Музей не найден");
-
-
+    throw new IllegalArgumentException(ValidationErrorTerms.MUSEUM_NOT_EXIST);
   }
 
   @Override
@@ -118,21 +116,16 @@ public class ExhibitionServiceImpl implements ExhibitionService {
       exhibitionMapper.delete(exhibitionModel);
       return new OkModel("Выставка удалена");
     }
-
-    throw new IllegalArgumentException("Несуществующая выставка");
+    throw new IllegalArgumentException(ValidationErrorTerms.EXHIBITION_NOT_EXIST);
   }
+
   @Override
   public List<ExistingExhibition> getLikedExhibitionsByUser(Integer idUser) {
-    List<ExhibitionModel> f=  exhibitionMapper.getLikedExhibitionsByUser(idUser);
-
-
-//    List<ExhibitionModel> exhibitionModels = likeMapper.getLikedExhibitionsByUser(idUser);
-//    List<ExistingExhibition> existingExhibits = new ArrayList<>();
-//
-//    for (ExhibitionModel exhibitionModel : exhibitionModels) {
-//      existingExhibits.add(exhibitionStruct.toExistingExhibition(exhibitionModel, museumStruct.toShortInfoMuseum(exhibitionModel.getMuseum())));
-//    }
-    //return existingExhibits;
-    return new ArrayList<ExistingExhibition>( );
+    List<ExhibitionModel> exhibitionModels = exhibitionMapper.getLikedExhibitionsByUser(idUser);
+    List<ExistingExhibition> existingExhibits = new ArrayList<>();
+    for (ExhibitionModel exhibitionModel : exhibitionModels) {
+      existingExhibits.add(exhibitionStruct.toExistingExhibition(exhibitionModel, museumStruct.toShortInfoMuseum(exhibitionModel.getMuseum())));
+    }
+    return existingExhibits;
   }
 }

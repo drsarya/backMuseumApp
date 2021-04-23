@@ -15,16 +15,9 @@ public interface AuthorStruct {
   @Mapping(target = "fullName", source = "authorModel.fullName")
   @Mapping(target = "id", source = "authorModel.id")
   ExistingAuthor toExistingAuthor(AuthorModel authorModel);
+
   @Mapping(target = "fullName", source = "authorModel.fullName")
   BaseAuthor toBaseAuthor(AuthorModel authorModel);
-
-  @Mapping(target = "fullName", source =
-    "fullName")
-  AuthorModel toAuthorModel(BaseAuthor author);
-
-  @Mapping(target = "fullName", source = "fullName")
-  @Mapping(target = "id", source = "id")
-  AuthorModel toAuthorModel(ExistingAuthor author);
 
   default List<BaseAuthor> toLIstBaseAuthor(List<AuthorModel> users) {
     return users

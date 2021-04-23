@@ -9,7 +9,6 @@ import java.util.List;
 
 public interface ExhibitionService {
 
-
   List<ExistingExhibition> getAllExhibitions();
 
   ExistingExhibition createExhibition(BaseExhibition exhibition);
@@ -17,7 +16,8 @@ public interface ExhibitionService {
   ExistingExhibition updateExhibition(MultipartFile file, ExistingExhibition exhibition);
 
   List<ExistingExhibition> getExhibitionsByMuseumId(Integer id);
-  List<ExistingExhibition>  getLikedExhibitionsByUser(Integer idUser);
+
+  List<ExistingExhibition> getLikedExhibitionsByUser(Integer idUser);
 
   OkModel deleteExhibition(Integer id);
 }

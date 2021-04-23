@@ -1,6 +1,5 @@
 package museum.domen;
 
-import com.sun.istack.NotNull;
 import com.sun.istack.Nullable;
 import lombok.Data;
 import org.hibernate.annotations.OnDelete;
@@ -10,20 +9,16 @@ import validation.ValidationErrorTerms;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-import java.util.HashSet;
 import java.util.List;
 
 @Entity(name = "museums")
 @Table(uniqueConstraints = {
-
-  @UniqueConstraint(columnNames = {"name_museum", "address"})
-}
+  @UniqueConstraint(columnNames = {"name_museum", "address"})}
 )
 @Data
 public class MuseumModel {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
-
   private Integer id;
 
   @Column(name = "name_museum", nullable = false)
@@ -33,15 +28,20 @@ public class MuseumModel {
   @Column(name = "address", nullable = false)
   @NotEmpty(message = ValidationErrorTerms.ADDRESS_MOST_BE_SET)
   private String address;
+
   @Nullable
   private String description;
+
   @Nullable
   private String image;
+
   @Enumerated(EnumType.STRING)
   private MuseumStateEnum state = MuseumStateEnum.NOT_ACTIVE;
+
   @OneToOne(mappedBy = "museum", cascade = CascadeType.REMOVE)
   private UserModel worker;
-  @OneToMany(mappedBy = "museum" , orphanRemoval = true )
-  @OnDelete(action= OnDeleteAction.CASCADE)
+
+  @OneToMany(mappedBy = "museum", orphanRemoval = true)
+  @OnDelete(action = OnDeleteAction.CASCADE)
   private List<ExhibitionModel> exhibitionModels;
 }

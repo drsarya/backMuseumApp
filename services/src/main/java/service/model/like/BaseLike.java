@@ -4,9 +4,9 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.immutables.value.Value;
 import service.model.museum.ImmutableBaseMuseum;
 import src.model.TypeOfArtEnum;
+
 @Value.Immutable
 @JsonDeserialize(builder = ImmutableBaseLike.Builder.class)
-
 public interface BaseLike {
 
   Integer getArtId();

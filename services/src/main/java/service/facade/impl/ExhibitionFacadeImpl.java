@@ -36,12 +36,12 @@ public class ExhibitionFacadeImpl implements ExhibitionFacade {
   }
 
   @Override
-  public List<ExistingExhibition> getExhibitionsByMuseumId(int id) {
+  public List<ExistingExhibition> getExhibitionsByMuseumId(Integer id) {
     return exhibitionService.getExhibitionsByMuseumId(id);
   }
 
   @Override
-  public OkModel deleteExhibition(int id) {
+  public OkModel deleteExhibition(Integer id) {
     return exhibitionService.deleteExhibition(id);
   }
 

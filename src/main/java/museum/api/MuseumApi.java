@@ -17,13 +17,11 @@ import java.util.List;
 @RestController
 @RequestMapping(
   value = "/museum",
-
   produces = "application/json"
 )
 public class MuseumApi {
 
   private final MuseumFacade museumFacade;
-  private static final Logger logger = LoggerFactory.getLogger(MuseumApi.class);
 
   @Autowired
   public MuseumApi(final MuseumFacade museumFacade) {
@@ -32,27 +30,29 @@ public class MuseumApi {
 
   @PostMapping(value = "/{login}", consumes = "application/json")
   @ResponseStatus(HttpStatus.CREATED)
-  OkModel createMuseum(@RequestBody  final BaseMuseum baseMuseum, @PathVariable String login) {
+  OkModel createMuseum(@RequestBody final BaseMuseum baseMuseum, @PathVariable String login) {
     return museumFacade.createMuseum(baseMuseum, login);
   }
 
   @PutMapping(consumes = "application/json")
   @ResponseStatus(HttpStatus.OK)
-  OkModel updateMuseum(@RequestBody UpdatableMuseum updatableMuseum)  {
+  OkModel updateMuseum(@RequestBody UpdatableMuseum updatableMuseum) {
     return museumFacade.updateMuseum(updatableMuseum);
   }
+
   @PutMapping(consumes = "application/json", value = "/admin")
   @ResponseStatus(HttpStatus.OK)
   OkModel updateMuseumByAdmin(@RequestBody UpdatableMuseumAdmin updatableMuseum) {
     return museumFacade.updateMuseumByAdmin(updatableMuseum);
   }
+
   @PutMapping(value = "lock/{id}")
   @ResponseStatus(HttpStatus.OK)
   OkModel lockMuseum(@PathVariable Integer id) {
     return museumFacade.lockMuseum(id);
   }
 
-  @DeleteMapping( value = "{id}")
+  @DeleteMapping(value = "{id}")
   @ResponseStatus(HttpStatus.OK)
   OkModel deleteMuseum(@PathVariable Integer id) {
     return museumFacade.deleteMuseum(id);
@@ -62,15 +62,14 @@ public class MuseumApi {
   List<ExistingMuseum> getAllMuseums() {
     return museumFacade.getAllMuseums();
   }
+
   @GetMapping(value = "{id}")
-   ExistingMuseum  getMuseumById(@PathVariable Integer id) {
+  ExistingMuseum getMuseumById(@PathVariable Integer id) {
     return museumFacade.getMuseumById(id);
   }
 
-  @GetMapping(value = "owner/{id}" )
+  @GetMapping(value = "owner/{id}")
   OkModel getOwnerByMuseumId(@PathVariable Integer id) {
     return museumFacade.getOwnerByMuseumId(id);
   }
-
-
 }
