@@ -30,7 +30,7 @@ public class ExceptionHandlerApp {
   @ExceptionHandler(ConstraintViolationException.class)
   ResponseEntity<List<ErrorModel>> handleConstraintViolationException(ConstraintViolationException e) {
     final Set<ConstraintViolation<?>> errors = e.getConstraintViolations();
-    final var errorModels = errors.stream()
+    final List<ErrorModel> errorModels = errors.stream()
       .map(err -> new ErrorModel(err.getMessage(), ValidationErrorTerms.getMessageByCode(err.getMessage())))
       .collect(Collectors.toList());
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorModels);
