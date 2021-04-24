@@ -9,7 +9,6 @@ import service.model.museum.ExistingMuseum;
 import service.model.museum.UpdatableMuseum;
 import service.model.museum.UpdatableMuseumAdmin;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @Service

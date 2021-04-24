@@ -28,7 +28,7 @@ public class ExhibitApi {
   }
 
   @GetMapping
-  List<ExistingExhibit> getAllExhibits() {
+  List<ExistingExhibit> getExhibits() {
     return exhibitFacade.getAllExhibits();
   }
 

@@ -12,6 +12,7 @@ import org.springframework.core.env.Environment;
 
 @Configuration
 @Import(DatabaseConfig.class)
+@EnableAutoConfiguration
 @ComponentScan(basePackageClasses = ServicesConfiguration.class)
 public class ServicesConfiguration {
   @Autowired

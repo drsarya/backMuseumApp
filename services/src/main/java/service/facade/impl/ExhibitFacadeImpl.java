@@ -13,6 +13,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @Service
+
 public class ExhibitFacadeImpl implements ExhibitFacade {
   private final ExhibitService exhibitService;
 
@@ -36,7 +37,7 @@ public class ExhibitFacadeImpl implements ExhibitFacade {
   }
 
   @Override
-  public ExistingExhibit createExhibit(@Valid BaseExhibit exhibit) {
+  public ExistingExhibit createExhibit( BaseExhibit exhibit) {
     return exhibitService.createExhibit(exhibit);
   }
 
