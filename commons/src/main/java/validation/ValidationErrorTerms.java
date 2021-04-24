@@ -1,6 +1,10 @@
 package validation;
 
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
+
+import static java.util.Map.entry;
 
 public class ValidationErrorTerms {
   public ValidationErrorTerms() {
@@ -26,25 +30,28 @@ public class ValidationErrorTerms {
   public static final String MUSEUM_CANT_BE_DELETED = "museum cannot be removed";
   public static final String WRONG_DATA = "wrong data";
 
-  private static final Map<String, String> ERRORS = Map.ofEntries(
-    Map.entry(KEY_NOT_UNIQUE, "Повторяющиеся данные"),
-    Map.entry(MUSEUM_NOT_EXIST, "Музей не найден"),
-    Map.entry(DESCRIPTION_MOST_BE_SET, "Укажите описание"),
-    Map.entry(DATE_MOST_BE_SET, "date must be set"),
-    Map.entry(OWNER_NOT_FOUND, "К музею не привязан владелец"),
-    Map.entry(MUSEUM_NOT_ACTIVATED, "Музей еще не активирован"),
-    Map.entry(MUSEUM_CANT_BE_DELETED, "Музей не может быть удален"),
-    Map.entry(WRONG_DATA, "Неверные данные"),
-    Map.entry(ERROR_OF_DELETE, "Ошибка удаления"),
-    Map.entry(OBJECT_NOT_FOUND, "Объект не найден"),
-    Map.entry(ERROR_OF_UPLOAD_IMAGE, "Фото не удалось загрузить"),
-    Map.entry(EXHIBITION_NOT_EXIST, "Несуществующая выставка"),
-    Map.entry(NAME_MOST_BE_SET, "Укажите название"),
-    Map.entry(USER_NOT_FOUND, "Пользователь не найден"),
-    Map.entry(ADDRESS_MOST_BE_SET, "Укажите адрес"),
-    Map.entry(ILLEGAL_ARGUMENT, "Проверьте поля"),
-    Map.entry(NOT_READABLE, "Невозможно преобразовать данные"),
-    Map.entry(INVALID_ROLE_OF_USER, "Пользователь с введёнными данными уже существует"));
+  private static final Map<String, String> ERRORS = new HashMap<>() {
+    {
+      put(KEY_NOT_UNIQUE, "Повторяющиеся данные");
+      put(MUSEUM_NOT_EXIST, "Музей не найден");
+      put(DESCRIPTION_MOST_BE_SET, "Укажите описание");
+      put(DATE_MOST_BE_SET, "date must be set");
+      put(OWNER_NOT_FOUND, "К музею не привязан владелец");
+      put(MUSEUM_NOT_ACTIVATED, "Музей еще не активирован");
+      put(MUSEUM_CANT_BE_DELETED, "Музей не может быть удален");
+      put(WRONG_DATA, "Неверные данные");
+      put(ERROR_OF_DELETE, "Ошибка удаления");
+      put(OBJECT_NOT_FOUND, "Объект не найден");
+      put(ERROR_OF_UPLOAD_IMAGE, "Фото не удалось загрузить");
+      put(EXHIBITION_NOT_EXIST, "Несуществующая выставка");
+      put(NAME_MOST_BE_SET, "Укажите название");
+      put(USER_NOT_FOUND, "Пользователь не найден");
+      put(ADDRESS_MOST_BE_SET, "Укажите адрес");
+      put(ILLEGAL_ARGUMENT, "Проверьте поля");
+      put(NOT_READABLE, "Невозможно преобразовать данные");
+      put(INVALID_ROLE_OF_USER, "Пользователь с введёнными данными уже существует");
+    }
+  };
 
   public static String getMessageByCode(String code) {
     return ERRORS.get(code);
