@@ -1,10 +1,7 @@
 package validation;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-
-import static java.util.Map.entry;
 
 public class ValidationErrorTerms {
   public ValidationErrorTerms() {
