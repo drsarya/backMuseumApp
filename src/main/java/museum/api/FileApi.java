@@ -30,7 +30,7 @@ public class FileApi {
     String s = fileLoaderFacade.uploadImage(upload);
     return new OkModel(s);
   }
-  @GetMapping(value = "")
+  @GetMapping( )
   OkModel getExhibitsByExhibitionId() {
     return new OkModel("okkkkkkkkkkk");
   }
