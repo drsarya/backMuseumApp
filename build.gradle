@@ -1,6 +1,3 @@
-
-
-
 plugins {
 
   id 'java'
@@ -12,9 +9,9 @@ version = '0.0.1-SNAPSHOT'
 ext {
   bootVer = "2.3.1.RELEASE"
 }
- allprojects {
+allprojects {
   apply plugin: "java"
-   group 'museum.app'
+  group 'museum.app'
 
   repositories {
     mavenCentral()
@@ -29,14 +26,14 @@ ext {
 
 dependencies {
 
-  implementation(project(":services"))
-  implementation(project(":commons"))
+
   implementation "javax.validation:validation-api:2.0.1.Final"
   implementation group: 'org.springframework', name: 'spring-tx', version: '5.3.5'
   implementation "org.springframework.boot:spring-boot-starter-web:$bootVer"
   implementation "org.springframework:spring-web:5.2.7.RELEASE"
   testImplementation 'org.springframework.boot:spring-boot-starter-test'
-
+  implementation(project(":services"))
+  implementation(project(":commons"))
 }
 
 
