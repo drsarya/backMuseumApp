@@ -1,12 +1,10 @@
 package service.model;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.immutables.value.Value;
 
 
 @Value.Immutable
-@JsonDeserialize(builder = ImmutableOkModel.Builder.class)
-
+//@JsonDeserialize(builder = ImmutableOkModel.Builder.class)
 public class OkModel {
   private String message;
 

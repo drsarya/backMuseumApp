@@ -6,7 +6,6 @@ import org.springframework.lang.Nullable;
 
 @Value.Immutable
 @JsonDeserialize(builder = ImmutableShortInfoMuseum.Builder.class)
-
 public interface ShortInfoMuseum {
   Integer getId();
 
