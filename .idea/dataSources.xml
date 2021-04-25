@@ -7,5 +7,11 @@
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
       <jdbc-url>jdbc:postgresql://localhost:5432/museum_database</jdbc-url>
     </data-source>
+    <data-source source="LOCAL" name="d18acd2t0p8cho@ec2-54-228-174-49.eu-west-1.compute.amazonaws.com" uuid="2bf55661-3aa1-443c-8e4c-e8bd975a3c4d">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://ec2-54-228-174-49.eu-west-1.compute.amazonaws.com:5432/d18acd2t0p8cho</jdbc-url>
+    </data-source>
   </component>
 </project>
