@@ -6,10 +6,21 @@ plugins {
 ext {
   bootVer = "2.3.1.RELEASE"
 }
-defaultTasks "clean", "build", "installApp"
-allprojects {
+ allprojects {
+  defaultTasks "clean", "build", "installApp"
+  buildscript {
+    ext {
+      springBootVersion = '2.3.1.RELEASE'
+    }
+    repositories {
+      mavenCentral()
+    }
+    dependencies {
+      classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+  }
   apply plugin: "java"
-  group 'ru.relex'
+  group 'museum.app'
   version '1.0-SNAPSHOT'
 
   repositories {
@@ -33,7 +44,5 @@ dependencies {
   implementation "org.springframework:spring-web:5.2.7.RELEASE"
 }
 
-task stage {
-  dependsOn build
-}
+
 
