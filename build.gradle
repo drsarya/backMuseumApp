@@ -36,7 +36,13 @@ ext {
     targetCompatibility = JavaVersion.VERSION_11
   }
 }
-
+jar {
+  manifest {
+    attributes(
+      'Main-Class': 'museum.rest.SampleApp.java'
+    )
+  }
+}
 dependencies {
 
   implementation(project(":services"))
