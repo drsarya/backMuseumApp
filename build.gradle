@@ -3,18 +3,25 @@
 
 plugins {
   id 'java'
-  id "com.moowork.node" version "1.3.1"
 }
 ext {
   bootVer = "2.3.1.RELEASE"
 }
 
  allprojects {
-
-   node{
-download =  true
-
+   buildscript {
+     ext {
+       springBootVersion = '1.5.3.RELEASE'
+     }
+     repositories {
+       mavenCentral()
+       maven { url 'https://repo.spring.io/libs-snapshot' }
+     }
+     dependencies {
+       classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
+     }
    }
+
    apply plugin: "java"
   group 'museum.app'
   version '1.0-SNAPSHOT'
