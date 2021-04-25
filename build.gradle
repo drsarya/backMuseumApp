@@ -21,7 +21,7 @@ ext {
        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
      }
    }
-
+   apply plugin: 'war'
    apply plugin: "java"
   group 'museum.app'
   version '1.0-SNAPSHOT'
@@ -37,6 +37,7 @@ ext {
 }
 
 dependencies {
+  compile 'com.github.jsimone:webapp-runner:8.5.11.3'
   implementation(project(":services"))
   implementation(project(":commons"))
   implementation "javax.validation:validation-api:2.0.1.Final"
@@ -45,7 +46,19 @@ dependencies {
   implementation "org.springframework:spring-web:5.2.7.RELEASE"
 }
 
+task stage() {
+  dependsOn clean, war
+}
+war.mustRunAfter clean
 
+task copyToLib(type: Copy) {
+  into "$buildDir/server"
+  from(configurations.compile) {
+    include "webapp-runner*"
+  }
+}
+
+stage.dependsOn(copyToLib)
 
 
 
