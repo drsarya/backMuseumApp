@@ -4,6 +4,10 @@ plugins {
   id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 
 }
+task wrapper(type: Wrapper) {
+  gradleVersion = '2.2'
+}
+
 group = 'museum.app'
 version = '0.0.1-SNAPSHOT'
 ext {
