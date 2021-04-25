@@ -2,13 +2,11 @@
 
 
 plugins {
-
   id 'java'
 }
 ext {
   bootVer = "2.3.1.RELEASE"
 }
-
  allprojects {
    buildscript {
      ext {
@@ -36,13 +34,8 @@ ext {
     targetCompatibility = JavaVersion.VERSION_11
   }
 }
-jar {
-  manifest {
-    attributes(
-      'Main-Class': 'museum.rest.SampleApp'
-    )
-  }
-}
+
+
 dependencies {
 
   implementation(project(":services"))
