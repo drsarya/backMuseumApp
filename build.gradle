@@ -1,25 +1,19 @@
 
 
+
 plugins {
   id 'java'
 }
 ext {
   bootVer = "2.3.1.RELEASE"
 }
+jar {
+  baseName = 'app'
+  version = '0.0.1'
+}
  allprojects {
-  defaultTasks "clean", "build", "installApp"
-  buildscript {
-    ext {
-      springBootVersion = '2.3.1.RELEASE'
-    }
-    repositories {
-      mavenCentral()
-    }
-    dependencies {
-      classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-    }
-  }
-  apply plugin: "java"
+
+   apply plugin: "java"
   group 'museum.app'
   version '1.0-SNAPSHOT'
 
@@ -34,8 +28,6 @@ ext {
 }
 
 dependencies {
-
-
   implementation(project(":services"))
   implementation(project(":commons"))
   implementation "javax.validation:validation-api:2.0.1.Final"
@@ -43,6 +35,10 @@ dependencies {
   implementation "org.springframework.boot:spring-boot-starter-web:$bootVer"
   implementation "org.springframework:spring-web:5.2.7.RELEASE"
 }
+
+
+
+
 
 
 
