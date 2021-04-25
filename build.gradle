@@ -5,15 +5,14 @@ plugins {
 }
 
 
-group = 'museum.app'
-version = '0.0.1-SNAPSHOT'
+
 ext {
   bootVer = "2.3.1.RELEASE"
 }
 allprojects {
   apply plugin: "java"
   group 'museum.app'
-
+  version  '0.0.1-SNAPSHOT'
   repositories {
     mavenCentral()
   }
