@@ -2,7 +2,6 @@ package service.model.like;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.immutables.value.Value;
-import service.model.museum.ImmutableBaseMuseum;
 import src.model.TypeOfArtEnum;
 
 @Value.Immutable

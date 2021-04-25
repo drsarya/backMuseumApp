@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import org.immutables.value.Value;
 import org.springframework.lang.Nullable;
-import service.model.museum.ExistingMuseum;
 import src.model.RoleEnum;
 
 @Value.Immutable

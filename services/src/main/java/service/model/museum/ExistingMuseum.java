@@ -5,7 +5,6 @@ import org.immutables.value.Value;
 import org.springframework.lang.Nullable;
 import src.model.MuseumStateEnum;
 
-import javax.persistence.Column;
 
 @Value.Immutable
 @JsonDeserialize(builder = ImmutableExistingMuseum.Builder.class)

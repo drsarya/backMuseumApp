@@ -2,7 +2,6 @@ package service.model.author;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.immutables.value.Value;
-import service.model.user.ImmutableNewUser;
 import validation.ValidationErrorTerms;
 
 import javax.validation.constraints.NotEmpty;
