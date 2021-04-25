@@ -39,7 +39,7 @@ ext {
 jar {
   manifest {
     attributes(
-      'Main-Class': 'SampleApp.java'
+      'Main-Class': 'museum.rest.SampleApp.java'
     )
   }
 }
