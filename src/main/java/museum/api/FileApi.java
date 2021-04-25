@@ -6,6 +6,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import service.facade.FileLoaderFacade;
 import service.model.OkModel;
+import service.model.exhibit.ExistingExhibit;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(
@@ -26,5 +29,9 @@ public class FileApi {
   OkModel uploadImage(@RequestPart("imageUpload") MultipartFile upload) {
     String s = fileLoaderFacade.uploadImage(upload);
     return new OkModel(s);
+  }
+  @GetMapping(value = "")
+  OkModel getExhibitsByExhibitionId() {
+    return new OkModel("okkkkkkkkkkk");
   }
 }
