@@ -21,7 +21,11 @@ allprojects {
 }
 
 jar {
-  enabled = true
+  manifest {
+    attributes(
+       'Main-Class': 'museum.rest.SampleApp'
+    )
+  }
 }
 
 dependencies {
