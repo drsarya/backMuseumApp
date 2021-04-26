@@ -5,10 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import service.facade.FileLoaderFacade;
-import service.model.OkModel;
-import service.model.exhibit.ExistingExhibit;
-
-import java.util.List;
+import service.model.AnswerModel;
 
 @RestController
 @RequestMapping(
@@ -26,12 +23,18 @@ public class FileApi {
 
   @PostMapping(consumes = {"multipart/form-data"}, value = "/upload")
   @ResponseStatus(HttpStatus.CREATED)
-  OkModel uploadImage(@RequestPart("imageUpload") MultipartFile upload) {
+  AnswerModel uploadImage(@RequestPart("imageUpload") MultipartFile upload) {
     String s = fileLoaderFacade.uploadImage(upload);
-    return new OkModel(s);
+    return new AnswerModel(s);
   }
   @GetMapping( )
-  OkModel getExhibitsByExhibitionId() {
-    return new OkModel("okkkkkkkkkkk");
+  AnswerModel getExhibitsByExhibitionId() {
+    return new AnswerModel("Он дружелюбный мальчик , но раньше все ломал\n" +
+      "Минутка просвещения и он все осознал\n" +
+      "Не нужно только портить , ведь можно создавать\n" +
+      "Сегодня приложенья он учится писать!!! \n Идёт теперь под ручку не с тестами , а с ним\n" +
+      "С тем маленьким , зеленым , кружочком заводным\n" +
+      "Так пусть же мысли льются, мечты не предавай\n" +
+      "И знанья с аппетитом большим ты поглощай!!!!!");
   }
 }

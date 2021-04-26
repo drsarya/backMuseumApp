@@ -1,20 +1,13 @@
 package museum.api;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import service.facade.MuseumFacade;
 import service.facade.UserFacade;
-import service.model.OkModel;
+import service.model.AnswerModel;
 import service.model.user.ExistingUser;
 import service.model.user.NewUser;
 import service.model.user.UserMuseum;
 import service.model.user.UserUpdate;
-
-import java.io.File;
-import java.nio.file.Files;
 
 @RestController
 @RequestMapping(
@@ -30,7 +23,7 @@ public class UserApi {
   }
 
   @PostMapping(consumes = "application/json")
-  OkModel createUser(@RequestBody final NewUser user) throws Exception {
+  AnswerModel createUser(@RequestBody final NewUser user) throws Exception {
     return userFacade.createUser(user);
   }
 
@@ -40,12 +33,12 @@ public class UserApi {
   }
 
   @PutMapping(consumes = "application/json", value = "/museum")
-  OkModel updateMuseumUserPass(@RequestBody UserMuseum userMuseum) throws Exception {
+  AnswerModel updateMuseumUserPass(@RequestBody UserMuseum userMuseum) throws Exception {
     return userFacade.updateMuseumUserPass(userMuseum);
   }
 
   @PutMapping(consumes = "application/json")
-  OkModel updatePassword(@RequestBody final UserUpdate user) throws Exception {
+  AnswerModel updatePassword(@RequestBody final UserUpdate user) throws Exception {
     return userFacade.updateUserPassword(user);
   }
 }

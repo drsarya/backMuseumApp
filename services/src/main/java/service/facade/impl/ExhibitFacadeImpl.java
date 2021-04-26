@@ -3,13 +3,11 @@ package service.facade.impl;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import service.facade.ExhibitFacade;
-import service.internal.AuthorService;
 import service.internal.ExhibitService;
-import service.model.OkModel;
+import service.model.AnswerModel;
 import service.model.exhibit.BaseExhibit;
 import service.model.exhibit.ExistingExhibit;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @Service
@@ -42,7 +40,7 @@ public class ExhibitFacadeImpl implements ExhibitFacade {
   }
 
   @Override
-  public OkModel deleteExhibit(int id) {
+  public AnswerModel deleteExhibit(int id) {
     return exhibitService.deleteExhibit(id);
   }
 

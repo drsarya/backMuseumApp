@@ -1,16 +1,14 @@
 package service.internal.impl;
 
-import museum.domen.AuthorModel;
 import museum.domen.MuseumModel;
 import museum.domen.UserModel;
 import museum.mapper.MuseumMapper;
 import museum.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 import service.internal.MuseumService;
 import service.mapper.MuseumStruct;
-import service.model.OkModel;
+import service.model.AnswerModel;
 import service.model.museum.BaseMuseum;
 import service.model.museum.ExistingMuseum;
 import service.model.museum.UpdatableMuseum;
@@ -19,13 +17,6 @@ import src.model.MuseumStateEnum;
 import src.model.RoleEnum;
 import validation.ValidationErrorTerms;
 
-import javax.management.relation.Role;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URI;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,10 +34,10 @@ public class MuseumServiceImpl implements MuseumService {
   private final MuseumStruct museumStruct;
 
   @Override
-  public OkModel getOwnerByMuseumId(Integer id) {
+  public AnswerModel getOwnerByMuseumId(Integer id) {
     MuseumModel museumModel = museumMapper.findById(id);
     if (museumModel != null) {
-      return new OkModel(museumModel.getWorker().getLogin());
+      return new AnswerModel(museumModel.getWorker().getLogin());
     }
     throw new IllegalArgumentException(ValidationErrorTerms.OWNER_NOT_FOUND);
   }
@@ -61,7 +52,7 @@ public class MuseumServiceImpl implements MuseumService {
   }
 
   @Override
-  public OkModel lockMuseum(Integer id) {
+  public AnswerModel lockMuseum(Integer id) {
     MuseumModel museumModel = museumMapper.findById(id);
     String result = "";
     if (museumModel != null) {
@@ -79,20 +70,20 @@ public class MuseumServiceImpl implements MuseumService {
         case NOT_ACTIVE:
           throw new IllegalArgumentException(ValidationErrorTerms.MUSEUM_NOT_ACTIVATED);
       }
-      return new OkModel(result);
+      return new AnswerModel(result);
     }
     throw new IllegalArgumentException(ValidationErrorTerms.MUSEUM_NOT_EXIST);
   }
 
 
   @Override
-  public OkModel deleteMuseum(Integer id) {
+  public AnswerModel deleteMuseum(Integer id) {
     MuseumModel museumModel = museumMapper.findById(id);
     if (museumModel != null) {
       if (museumModel.getState() == MuseumStateEnum.BLOCKED || museumModel.getState() == MuseumStateEnum.ACTIVE)
         throw new IllegalArgumentException(ValidationErrorTerms.MUSEUM_CANT_BE_DELETED);
       museumMapper.delete(museumModel);
-      return new OkModel("Музей удалён");
+      return new AnswerModel("Музей удалён");
     }
     throw new IllegalArgumentException(ValidationErrorTerms.MUSEUM_NOT_EXIST);
   }
@@ -108,7 +99,7 @@ public class MuseumServiceImpl implements MuseumService {
 
 
   @Override
-  public OkModel createMuseum(BaseMuseum baseMuseum, String login) {
+  public AnswerModel createMuseum(BaseMuseum baseMuseum, String login) {
     UserModel u = userMapper.findByLogin(login);
     if (u != null)
       throw new IllegalArgumentException(ValidationErrorTerms.KEY_NOT_UNIQUE);
@@ -119,11 +110,11 @@ public class MuseumServiceImpl implements MuseumService {
     userModel.setMuseum(museumModel);
     userModel.setRole(RoleEnum.MUSEUM);
     userMapper.save(userModel);
-    return new OkModel("Успешное создание музея");
+    return new AnswerModel("Успешное создание музея");
   }
 
   @Override
-  public OkModel updateMuseumInfo(UpdatableMuseum updatableMuseum) {
+  public AnswerModel updateMuseumInfo(UpdatableMuseum updatableMuseum) {
 
     MuseumModel m = museumMapper.findById(updatableMuseum.getId());
     if (m == null)
@@ -136,11 +127,11 @@ public class MuseumServiceImpl implements MuseumService {
       m.setImage(updatableMuseum.getImageUrl());
     }
     museumMapper.save(m);
-    return new OkModel("Успешное обновление данных");
+    return new AnswerModel("Успешное обновление данных");
   }
 
   @Override
-  public OkModel updateMuseumByAdmin(UpdatableMuseumAdmin updatableMuseum) {
+  public AnswerModel updateMuseumByAdmin(UpdatableMuseumAdmin updatableMuseum) {
 
     MuseumModel m = museumMapper.findById(updatableMuseum.getId());
     if (m == null)
@@ -152,6 +143,6 @@ public class MuseumServiceImpl implements MuseumService {
       m.setAddress(updatableMuseum.getAddress());
     }
     museumMapper.save(m);
-    return new OkModel("Успешное обновление данных");
+    return new AnswerModel("Успешное обновление данных");
   }
 }

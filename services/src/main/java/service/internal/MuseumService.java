@@ -1,30 +1,28 @@
 package service.internal;
 
-import org.springframework.web.multipart.MultipartFile;
-import service.model.OkModel;
+import service.model.AnswerModel;
 import service.model.museum.BaseMuseum;
 import service.model.museum.ExistingMuseum;
 import service.model.museum.UpdatableMuseum;
 import service.model.museum.UpdatableMuseumAdmin;
 
-import java.io.IOException;
 import java.util.List;
 
 public interface MuseumService {
   List<ExistingMuseum> getAllMuseums();
 
-  OkModel createMuseum(BaseMuseum baseMuseum, String login);
+  AnswerModel createMuseum(BaseMuseum baseMuseum, String login);
 
-  OkModel updateMuseumByAdmin(UpdatableMuseumAdmin updatableMuseum);
+  AnswerModel updateMuseumByAdmin(UpdatableMuseumAdmin updatableMuseum);
 
-  OkModel updateMuseumInfo(UpdatableMuseum baseMuseum);
+  AnswerModel updateMuseumInfo(UpdatableMuseum baseMuseum);
 
-  OkModel getOwnerByMuseumId(Integer id);
+  AnswerModel getOwnerByMuseumId(Integer id);
 
   ExistingMuseum getMuseumById(Integer id);
 
-  OkModel lockMuseum(Integer id);
+  AnswerModel lockMuseum(Integer id);
 
-  OkModel deleteMuseum(Integer id);
+  AnswerModel deleteMuseum(Integer id);
 
 }

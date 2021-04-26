@@ -21,6 +21,7 @@ public class UserModel {
 
   @Enumerated(EnumType.STRING)
   private RoleEnum role;
+
   private String password;
 
   @OneToOne

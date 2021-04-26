@@ -3,14 +3,10 @@ package museum.api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import service.facade.LikeFacade;
-import service.model.OkModel;
-import service.model.exhibit.ExistingExhibit;
-import service.model.exhibition.ExistingExhibition;
+import service.model.AnswerModel;
 import service.model.like.BaseLike;
 import service.model.like.ExistingLike;
 import service.model.like.UserLike;
-
-import java.util.List;
 
 @RestController
 @RequestMapping(
@@ -27,7 +23,7 @@ public class LikeApi {
   }
 
   @PostMapping(value = "/count", consumes = "application/json")
-  OkModel getLikesByArtId(@RequestBody BaseLike baseLike) {
+  AnswerModel getLikesByArtId(@RequestBody BaseLike baseLike) {
     return likeFacade.getLikesByArtId(baseLike);
   }
 
@@ -37,7 +33,7 @@ public class LikeApi {
   }
 
   @PostMapping(consumes = "application/json")
-  OkModel createLike(@RequestBody UserLike userLike) {
+  AnswerModel createLike(@RequestBody UserLike userLike) {
     return likeFacade.createLike(userLike);
   }
 

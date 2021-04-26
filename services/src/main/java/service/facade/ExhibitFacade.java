@@ -2,7 +2,7 @@ package service.facade;
 
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.multipart.MultipartFile;
-import service.model.OkModel;
+import service.model.AnswerModel;
 import service.model.exhibit.BaseExhibit;
 import service.model.exhibit.ExistingExhibit;
 
@@ -19,7 +19,7 @@ public interface ExhibitFacade {
 
   ExistingExhibit createExhibit(BaseExhibit exhibit);
 
-  OkModel deleteExhibit(int id);
+  AnswerModel deleteExhibit(int id);
 
   List<ExistingExhibit> getLikedExhibitsByUser(Integer idUser);
 

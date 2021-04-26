@@ -1,7 +1,6 @@
 package service.internal.impl;
 
 import museum.domen.ExhibitionModel;
-import museum.domen.LikeModel;
 import museum.domen.MuseumModel;
 import museum.mapper.ExhibitionMapper;
 import museum.mapper.MuseumMapper;
@@ -12,10 +11,9 @@ import service.internal.ExhibitionService;
 import service.internal.FileLoaderService;
 import service.mapper.ExhibitionStruct;
 import service.mapper.MuseumStruct;
-import service.model.OkModel;
+import service.model.AnswerModel;
 import service.model.exhibition.BaseExhibition;
 import service.model.exhibition.ExistingExhibition;
-import service.model.museum.ExistingMuseum;
 import service.model.museum.ShortInfoMuseum;
 import src.model.MuseumStateEnum;
 import validation.ValidationErrorTerms;
@@ -110,11 +108,11 @@ public class ExhibitionServiceImpl implements ExhibitionService {
   }
 
   @Override
-  public OkModel deleteExhibition(Integer id) {
+  public AnswerModel deleteExhibition(Integer id) {
     ExhibitionModel exhibitionModel = exhibitionMapper.findById(id);
     if (exhibitionModel != null) {
       exhibitionMapper.delete(exhibitionModel);
-      return new OkModel("Выставка удалена");
+      return new AnswerModel("Выставка удалена");
     }
     throw new IllegalArgumentException(ValidationErrorTerms.EXHIBITION_NOT_EXIST);
   }

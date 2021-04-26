@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import service.internal.LikeService;
 import service.mapper.*;
-import service.model.OkModel;
+import service.model.AnswerModel;
 import service.model.like.BaseLike;
 import service.model.like.ExistingLike;
 import service.model.like.UserLike;
@@ -32,10 +32,10 @@ public class LikeServiceImpl implements LikeService {
   }
 
   @Override
-  public OkModel getCountOfLikesByArtId(BaseLike baseLike) {
+  public AnswerModel getCountOfLikesByArtId(BaseLike baseLike) {
     Integer count = likeMapper.countAllByArtIdAndType(baseLike.getArtId(), baseLike.getType());
     if (count != null) {
-      return new OkModel(Integer.toString(count));
+      return new AnswerModel(Integer.toString(count));
     }
     throw new IllegalArgumentException(ValidationErrorTerms.OBJECT_NOT_FOUND);
   }
@@ -51,20 +51,20 @@ public class LikeServiceImpl implements LikeService {
 
   @Transactional
   @Override
-  public OkModel createLike(UserLike userLike) {
-    OkModel okModel;
+  public AnswerModel createLike(UserLike userLike) {
+    AnswerModel answerModel;
     ExistingLike existingLike = getLikeByUser(userLike);
     if (existingLike != null) {
-      okModel = new OkModel("Успешное удаление");
+      answerModel = new AnswerModel("Успешное удаление");
       likeMapper.deleteById(existingLike.getId());
     } else {
       UserModel userModel = userMapper.findById(userLike.getUserId());
       if (userModel != null) {
         LikeModel like = likeStruct.toLikeModel(userLike, userModel);
         likeMapper.save(like);
-        okModel = new OkModel("Успешное добавление");
+        answerModel = new AnswerModel("Успешное добавление");
       } else throw new IllegalArgumentException(ValidationErrorTerms.USER_NOT_FOUND);
     }
-    return okModel;
+    return answerModel;
   }
 }

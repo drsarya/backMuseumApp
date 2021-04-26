@@ -3,7 +3,6 @@ package service.internal.impl;
 import museum.domen.AuthorModel;
 import museum.domen.ExhibitModel;
 import museum.domen.ExhibitionModel;
-import museum.domen.LikeModel;
 import museum.mapper.AuthorMapper;
 import museum.mapper.ExhibitMapper;
 import museum.mapper.ExhibitionMapper;
@@ -14,14 +13,10 @@ import service.internal.ExhibitService;
 import service.internal.FileLoaderService;
 import service.mapper.AuthorStruct;
 import service.mapper.ExhibitStruct;
-import service.mapper.ExhibitionStruct;
-import service.mapper.MuseumStruct;
-import service.model.OkModel;
+import service.model.AnswerModel;
 import service.model.author.ExistingAuthor;
 import service.model.exhibit.BaseExhibit;
 import service.model.exhibit.ExistingExhibit;
-import service.model.exhibition.ExistingExhibition;
-import service.model.museum.ExistingMuseum;
 import src.model.MuseumStateEnum;
 import validation.ValidationErrorTerms;
 
@@ -102,11 +97,11 @@ public class ExhibitServiceImpl implements ExhibitService {
   }
 
   @Override
-  public OkModel deleteExhibit(Integer id) {
+  public AnswerModel deleteExhibit(Integer id) {
     ExhibitModel exhibitionModel = exhibitMapper.findById(id);
     if (exhibitionModel != null) {
       exhibitMapper.delete(exhibitionModel);
-      return new OkModel("Экспонат удален");
+      return new AnswerModel("Экспонат удален");
     }
     throw new IllegalArgumentException(ValidationErrorTerms.ERROR_OF_DELETE);
   }
