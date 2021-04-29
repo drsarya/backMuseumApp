@@ -10,6 +10,7 @@ import src.model.RoleEnum;
 @Value.Immutable
 @JsonDeserialize(builder = ImmutableNewUser.Builder.class)
 public interface NewUser {
+  @Nullable
   String getLogin();
 
   @Nullable

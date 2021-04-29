@@ -71,7 +71,7 @@ public class UserServiceImpl implements UserService {
   @Override
   public AnswerModel updateUserPassword(UserUpdate user) throws Exception {
 
-    UserModel model = userMapper.findByLoginAndRole(user.getLogin(), user.getRole());
+    UserModel model = userMapper.findById(user.getId() );
     if (model == null) {
       throw new IllegalArgumentException(ValidationErrorTerms.WRONG_DATA);
     }
