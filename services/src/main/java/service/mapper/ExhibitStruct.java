@@ -11,14 +11,6 @@ import service.model.exhibit.ExistingExhibit;
 @Mapper
 public interface ExhibitStruct {
 
-//  @Mapping(target = "name", source = "exhibitModel.name")
-//  @Mapping(target = "imageUrl", source = "exhibitModel.imageUrl")
-//  @Mapping(target = "description", source = "exhibitModel.description")
-//  @Mapping(target = "dateOfCreate", source = "exhibitModel.dateOfCreate")
-//  @Mapping(target = "author", source = "author")
-//  @Mapping(target = "exhibitionId", source = "idExhbtn")
-//  @Mapping(target = "id", source = "exhibitModel.id")
-//  ExistingExhibit toExistingExhibit(ExhibitModel exhibitModel, ExistingAuthor author, Integer idExhbtn);
 
   @Mapping(target = "name", source = "exhibitModel.name")
   @Mapping(target = "imageUrl", source = "exhibitModel.imageUrl")
