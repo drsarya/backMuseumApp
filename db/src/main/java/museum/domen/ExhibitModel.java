@@ -13,7 +13,7 @@ public class ExhibitModel {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Integer id;
 
-  @OneToOne
+  @ManyToOne
   @OnDelete(action = OnDeleteAction.NO_ACTION)
   @JoinColumn(name = "author_id")
   private AuthorModel author;

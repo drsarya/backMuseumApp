@@ -29,7 +29,7 @@ public class ExhibitionServiceImpl implements ExhibitionService {
   private final ExhibitionStruct exhibitionStruct;
   private final MuseumStruct museumStruct;
   private final FileLoaderService fileLoaderService;
-  private final MuseumMapper museumMapper;
+   private final MuseumMapper museumMapper;
 
   @Autowired
   public ExhibitionServiceImpl(final ExhibitionStruct exhibitionStruct, final FileLoaderService fileLoaderService, final MuseumMapper museumMapper, final ExhibitionMapper exhibitionMapper, final MuseumStruct museumStruct) {

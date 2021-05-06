@@ -27,20 +27,18 @@ import java.util.List;
 public class ExhibitServiceImpl implements ExhibitService {
 
   private final ExhibitMapper exhibitMapper;
-  private final AuthorMapper authorMapper;
   private final ExhibitStruct exhibitStruct;
-  private final AuthorStruct authorStruct;
+  private final AuthorMapper authorMapper;
   private final ExhibitionMapper exhibitionMapper;
   private final FileLoaderService fileLoaderService;
 
   @Autowired
   public ExhibitServiceImpl(final ExhibitMapper exhibitMapper, final AuthorMapper authorMapper,
-                            final AuthorStruct authorStruct,
+
                             final FileLoaderService fileLoaderService, final ExhibitionMapper exhibitionMapper,
                             final ExhibitStruct exhibitStruct) {
     this.exhibitMapper = exhibitMapper;
     this.authorMapper = authorMapper;
-    this.authorStruct = authorStruct;
     this.fileLoaderService = fileLoaderService;
     this.exhibitionMapper = exhibitionMapper;
     this.exhibitStruct = exhibitStruct;
@@ -56,8 +54,7 @@ public class ExhibitServiceImpl implements ExhibitService {
   private List<ExistingExhibit> toListExhibits(List<ExhibitModel> actualList) {
     List<ExistingExhibit> existingExhibits = new ArrayList<>();
     for (ExhibitModel exhibitModel : actualList) {
-      ExistingAuthor existingAuthor = authorStruct.toExistingAuthor(exhibitModel.getAuthor());
-      existingExhibits.add(exhibitStruct.toExistingExhibit(exhibitModel, existingAuthor, exhibitModel.getExhibition().getId()));
+      existingExhibits.add(exhibitStruct.toExistingExhibit(exhibitModel, exhibitModel.getExhibition().getId()));
     }
     return existingExhibits;
   }
@@ -82,8 +79,7 @@ public class ExhibitServiceImpl implements ExhibitService {
     ExhibitModel exhibitModel = exhibitStruct.toExhibitModel(exhibit, exhibitionModel);
     exhibitModel.setAuthor(authorModel);
     ExhibitModel exhibitModel1 = exhibitMapper.save(exhibitModel);
-    ExistingAuthor existingAuthor = authorStruct.toExistingAuthor(exhibitModel1.getAuthor());
-    return exhibitStruct.toExistingExhibit(exhibitModel, existingAuthor, exhibitModel1.getExhibition().getId());
+    return exhibitStruct.toExistingExhibit(exhibitModel,  exhibitModel1.getExhibition().getId());
   }
 
   @Override
@@ -91,7 +87,7 @@ public class ExhibitServiceImpl implements ExhibitService {
     List<ExhibitModel> exhibitionModels = exhibitMapper.getLikedExhibitsByUser(idUser);
     List<ExistingExhibit> existingExhibits = new ArrayList<>();
     for (ExhibitModel exhibitModel : exhibitionModels) {
-      existingExhibits.add(exhibitStruct.toExistingExhibit(exhibitModel, authorStruct.toExistingAuthor(exhibitModel.getAuthor()), exhibitModel.getExhibition().getId()));
+      existingExhibits.add(exhibitStruct.toExistingExhibit(exhibitModel, exhibitModel.getExhibition().getId()));
     }
     return existingExhibits;
   }
@@ -144,8 +140,7 @@ public class ExhibitServiceImpl implements ExhibitService {
         exhibitModel.setName(exhibit.getName());
       }
       ExhibitModel newExhibitModel = exhibitMapper.save(exhibitModel);
-      ExistingAuthor existingAuthor = authorStruct.toExistingAuthor(newExhibitModel.getAuthor());
-      return exhibitStruct.toExistingExhibit(newExhibitModel, existingAuthor, newExhibitModel.getExhibition().getId());
+      return exhibitStruct.toExistingExhibit(newExhibitModel, newExhibitModel.getExhibition().getId());
     }
     return null;
   }

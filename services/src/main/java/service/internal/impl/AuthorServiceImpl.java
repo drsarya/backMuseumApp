@@ -8,7 +8,6 @@ import service.internal.AuthorService;
 import service.mapper.AuthorStruct;
 import service.model.author.BaseAuthor;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -25,7 +24,7 @@ public class AuthorServiceImpl implements AuthorService {
   @Override
   public List<BaseAuthor> getAllAuthors() {
     List<AuthorModel> authorModels = (List<AuthorModel>) authorMapper.findAll();
-    return authorStruct.toLIstBaseAuthor(authorModels);
+    return authorStruct.toListBaseAuthor(authorModels);
   }
 
 }

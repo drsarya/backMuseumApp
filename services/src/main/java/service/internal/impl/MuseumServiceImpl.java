@@ -22,6 +22,10 @@ import java.util.List;
 
 @Service
 public class MuseumServiceImpl implements MuseumService {
+  private final UserMapper userMapper;
+  private final MuseumMapper museumMapper;
+  private final MuseumStruct museumStruct;
+
   @Autowired
   public MuseumServiceImpl(MuseumMapper museumMapper, MuseumStruct museumStruct, UserMapper userMapper) {
     this.museumMapper = museumMapper;
@@ -29,9 +33,6 @@ public class MuseumServiceImpl implements MuseumService {
     this.userMapper = userMapper;
   }
 
-  private final UserMapper userMapper;
-  private final MuseumMapper museumMapper;
-  private final MuseumStruct museumStruct;
 
   @Override
   public AnswerModel getOwnerByMuseumId(Integer id) {

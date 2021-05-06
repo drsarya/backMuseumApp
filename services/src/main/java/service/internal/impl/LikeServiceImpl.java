@@ -28,7 +28,6 @@ public class LikeServiceImpl implements LikeService {
     this.likeMapper = likeMapper;
     this.likeStruct = likeStruct;
     this.userMapper = userMapper;
-
   }
 
   @Override
