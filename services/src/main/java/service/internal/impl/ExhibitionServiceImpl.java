@@ -7,6 +7,7 @@ import museum.mapper.MuseumMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import service.internal.ExhibitService;
 import service.internal.ExhibitionService;
 import service.internal.FileLoaderService;
 import service.mapper.ExhibitionStruct;
@@ -27,13 +28,15 @@ public class ExhibitionServiceImpl implements ExhibitionService {
 
   private final ExhibitionMapper exhibitionMapper;
   private final ExhibitionStruct exhibitionStruct;
+  private final ExhibitService exhibitService;
   private final MuseumStruct museumStruct;
   private final FileLoaderService fileLoaderService;
-   private final MuseumMapper museumMapper;
+  private final MuseumMapper museumMapper;
 
   @Autowired
-  public ExhibitionServiceImpl(final ExhibitionStruct exhibitionStruct, final FileLoaderService fileLoaderService, final MuseumMapper museumMapper, final ExhibitionMapper exhibitionMapper, final MuseumStruct museumStruct) {
+  public ExhibitionServiceImpl(final ExhibitionStruct exhibitionStruct, ExhibitService exhibitService, final FileLoaderService fileLoaderService, final MuseumMapper museumMapper, final ExhibitionMapper exhibitionMapper, final MuseumStruct museumStruct) {
     this.exhibitionStruct = exhibitionStruct;
+    this.exhibitService = exhibitService;
     this.exhibitionMapper = exhibitionMapper;
     this.museumStruct = museumStruct;
     this.fileLoaderService = fileLoaderService;
@@ -52,7 +55,6 @@ public class ExhibitionServiceImpl implements ExhibitionService {
   @Override
   public List<ExistingExhibition> getAllExhibitions() {
     List<ExhibitionModel> exhibitionModels = exhibitionMapper.findExhibitionModelsByMuseumState(MuseumStateEnum.ACTIVE);
-
     return toListExhibitions(exhibitionModels);
   }
 
@@ -85,6 +87,7 @@ public class ExhibitionServiceImpl implements ExhibitionService {
         exhibitionModel.setFirstDate(exhibition.getFirstDate());
       }
       if (url != null && !url.isEmpty()) {
+        fileLoaderService.deleteImage(exhibitionModel.getImageUrl());
         exhibitionModel.setImageUrl(url);
       }
       if (exhibition.getLastDate() != null && !exhibition.getLastDate().isEmpty()) {
@@ -95,7 +98,6 @@ public class ExhibitionServiceImpl implements ExhibitionService {
       }
       ExhibitionModel newExhbtnModel = exhibitionMapper.save(exhibitionModel);
       ShortInfoMuseum museum = museumStruct.toShortInfoMuseum(exhibitionModel.getMuseum());
-
       return exhibitionStruct.toExistingExhibition(newExhbtnModel, museum);
     }
     return null;
@@ -111,6 +113,8 @@ public class ExhibitionServiceImpl implements ExhibitionService {
   public AnswerModel deleteExhibition(Integer id) {
     ExhibitionModel exhibitionModel = exhibitionMapper.findById(id);
     if (exhibitionModel != null) {
+      fileLoaderService.deleteImage(exhibitionModel.getImageUrl());
+      exhibitService.deleteExhibitsExhibitionId(id);
       exhibitionMapper.delete(exhibitionModel);
       return new AnswerModel("Выставка удалена");
     }

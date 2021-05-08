@@ -22,5 +22,6 @@ public interface ExhibitService {
   List<ExistingExhibit> getLikedExhibitsByUser(Integer idUser);
 
   ExistingExhibit updateExhibit(MultipartFile upload, ExistingExhibit exhibit);
+ void  deleteExhibitsExhibitionId(Integer id);
 
 }

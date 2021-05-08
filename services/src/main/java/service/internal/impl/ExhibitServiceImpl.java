@@ -79,7 +79,7 @@ public class ExhibitServiceImpl implements ExhibitService {
     ExhibitModel exhibitModel = exhibitStruct.toExhibitModel(exhibit, exhibitionModel);
     exhibitModel.setAuthor(authorModel);
     ExhibitModel exhibitModel1 = exhibitMapper.save(exhibitModel);
-    return exhibitStruct.toExistingExhibit(exhibitModel,  exhibitModel1.getExhibition().getId());
+    return exhibitStruct.toExistingExhibit(exhibitModel, exhibitModel1.getExhibition().getId());
   }
 
   @Override
@@ -96,6 +96,7 @@ public class ExhibitServiceImpl implements ExhibitService {
   public AnswerModel deleteExhibit(Integer id) {
     ExhibitModel exhibitionModel = exhibitMapper.findById(id);
     if (exhibitionModel != null) {
+      fileLoaderService.deleteImage(exhibitionModel.getImageUrl());
       exhibitMapper.delete(exhibitionModel);
       return new AnswerModel("Экспонат удален");
     }
@@ -108,6 +109,13 @@ public class ExhibitServiceImpl implements ExhibitService {
     return toListExhibits(actualList);
   }
 
+  @Override
+  public void deleteExhibitsExhibitionId(Integer id) {
+    List<ExhibitModel> actualList = exhibitMapper.findExhibitModelsByExhibition_Id(id);
+    for (ExhibitModel ex : actualList) {
+      fileLoaderService.deleteImage(ex.getImageUrl());
+    }
+  }
 
   @Override
   public ExistingExhibit updateExhibit(MultipartFile upload, ExistingExhibit exhibit) {
@@ -125,6 +133,7 @@ public class ExhibitServiceImpl implements ExhibitService {
         exhibitModel.setDateOfCreate(exhibit.getDateOfCreate());
       }
       if (url != null && !url.isEmpty()) {
+        fileLoaderService.deleteImage(exhibitModel.getImageUrl());
         exhibitModel.setImageUrl(url);
       }
       if (exhibit.getAuthor() != null) {

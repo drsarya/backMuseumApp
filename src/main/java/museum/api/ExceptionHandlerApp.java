@@ -1,6 +1,6 @@
 package museum.api;
 
-import museum.exception.ErrorModel;
+import service.model.ErrorModel;
 import org.apache.tomcat.util.http.fileupload.impl.SizeLimitExceededException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;

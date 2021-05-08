@@ -43,4 +43,18 @@ public class FileLoaderServiceServiceImpl implements FileLoaderService {
       throw new IllegalArgumentException(ValidationErrorTerms.ERROR_OF_UPLOAD_IMAGE);
     }
   }
+
+  public void deleteImage(String url) {
+    Cloudinary c = new Cloudinary("cloudinary://" + mApiKey + ":" + mApiSecret + "@" + mCloudName);
+    try {
+      Integer lastSlash = url.lastIndexOf("/");
+      Integer lastPoint = url.lastIndexOf(".");
+      String publicId = url.substring(lastSlash + 1, lastPoint);
+      Map response = c.uploader().destroy(publicId, ObjectUtils.emptyMap());
+      JSONObject json = new JSONObject(response);
+      System.out.println(json.toString());
+    } catch (Exception e) {
+      throw new IllegalArgumentException(ValidationErrorTerms.ERROR_OF_UPLOAD_IMAGE);
+    }
+  }
 }

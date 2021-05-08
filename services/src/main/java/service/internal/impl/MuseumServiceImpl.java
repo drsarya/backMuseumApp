@@ -6,6 +6,7 @@ import museum.mapper.MuseumMapper;
 import museum.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import service.internal.FileLoaderService;
 import service.internal.MuseumService;
 import service.mapper.MuseumStruct;
 import service.model.AnswerModel;
@@ -25,12 +26,14 @@ public class MuseumServiceImpl implements MuseumService {
   private final UserMapper userMapper;
   private final MuseumMapper museumMapper;
   private final MuseumStruct museumStruct;
+  private final FileLoaderService fileLoaderService;
 
   @Autowired
-  public MuseumServiceImpl(MuseumMapper museumMapper, MuseumStruct museumStruct, UserMapper userMapper) {
+  public MuseumServiceImpl(MuseumMapper museumMapper, MuseumStruct museumStruct, UserMapper userMapper, FileLoaderService fileLoaderService) {
     this.museumMapper = museumMapper;
     this.museumStruct = museumStruct;
     this.userMapper = userMapper;
+    this.fileLoaderService = fileLoaderService;
   }
 
 
@@ -83,6 +86,7 @@ public class MuseumServiceImpl implements MuseumService {
     if (museumModel != null) {
       if (museumModel.getState() == MuseumStateEnum.BLOCKED || museumModel.getState() == MuseumStateEnum.ACTIVE)
         throw new IllegalArgumentException(ValidationErrorTerms.MUSEUM_CANT_BE_DELETED);
+      fileLoaderService.deleteImage(museumModel.getImage());
       museumMapper.delete(museumModel);
       return new AnswerModel("Музей удалён");
     }
@@ -125,6 +129,7 @@ public class MuseumServiceImpl implements MuseumService {
       m.setDescription(updatableMuseum.getDescription());
     }
     if (updatableMuseum.getImageUrl() != null && !updatableMuseum.getImageUrl().trim().isEmpty()) {
+      fileLoaderService.deleteImage(m.getImage());
       m.setImage(updatableMuseum.getImageUrl());
     }
     museumMapper.save(m);

@@ -1,4 +1,4 @@
-package museum.exception;
+package service.model;
 
 public class ErrorModel {
   private final String code;
