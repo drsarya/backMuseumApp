@@ -86,7 +86,6 @@ public class MuseumServiceImpl implements MuseumService {
     if (museumModel != null) {
       if (museumModel.getState() == MuseumStateEnum.BLOCKED || museumModel.getState() == MuseumStateEnum.ACTIVE)
         throw new IllegalArgumentException(ValidationErrorTerms.MUSEUM_CANT_BE_DELETED);
-      fileLoaderService.deleteImage(museumModel.getImage());
       museumMapper.delete(museumModel);
       return new AnswerModel("Музей удалён");
     }

@@ -30,7 +30,6 @@ public class FileLoaderServiceServiceImpl implements FileLoaderService {
 
   @Override
   public String uploadImage(MultipartFile aFile) {
-
     Cloudinary c = new Cloudinary("cloudinary://" + mApiKey + ":" + mApiSecret + "@" + mCloudName);
     try {
       File f = Files.createTempFile("temp", aFile.getOriginalFilename()).toFile();
@@ -46,15 +45,13 @@ public class FileLoaderServiceServiceImpl implements FileLoaderService {
 
   public void deleteImage(String url) {
     Cloudinary c = new Cloudinary("cloudinary://" + mApiKey + ":" + mApiSecret + "@" + mCloudName);
-    try {
-      Integer lastSlash = url.lastIndexOf("/");
-      Integer lastPoint = url.lastIndexOf(".");
-      String publicId = url.substring(lastSlash + 1, lastPoint);
-      Map response = c.uploader().destroy(publicId, ObjectUtils.emptyMap());
-      JSONObject json = new JSONObject(response);
-      System.out.println(json.toString());
-    } catch (Exception e) {
-      throw new IllegalArgumentException(ValidationErrorTerms.ERROR_OF_UPLOAD_IMAGE);
+    if (url != null) {
+      try {
+        String publicId = url.substring(url.lastIndexOf("/") + 1, url.lastIndexOf("."));
+        c.uploader().destroy(publicId, ObjectUtils.emptyMap());
+      } catch (Exception e) {
+        throw new IllegalArgumentException(ValidationErrorTerms.ERROR_OF_DELETE_IMAGE);
+      }
     }
   }
 }
