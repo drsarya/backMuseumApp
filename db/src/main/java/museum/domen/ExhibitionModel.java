@@ -15,9 +15,9 @@ public class ExhibitionModel {
   private Integer id;
 
   private String name;
-
+  @Column(length = 1500)
   private String imageUrl;
-
+  @Column(length = 1500)
   private String description;
 
   private String firstDate;

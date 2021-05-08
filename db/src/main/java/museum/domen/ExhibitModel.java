@@ -21,7 +21,7 @@ public class ExhibitModel {
   private String name;
 
   private String imageUrl;
-
+  @Column(length=1500)
   private String description;
 
   private String dateOfCreate;
