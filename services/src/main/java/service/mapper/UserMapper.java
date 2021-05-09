@@ -11,19 +11,19 @@ import service.model.user.UserUpdate;
 
 
 @Mapper
-public interface UserStruct {
+public interface UserMapper {
 
   @Mapping(target = "password", source = "password")
   @Mapping(target = "role", source = "user.role")
   @Mapping(target = "login", source = "user.login")
-  @Mapping(target = "museum", source = "museumModel")
-  UserModel toUserModel(NewUser user, String password, MuseumModel museumModel);
+  @Mapping(target = "museum.id", source = "user.museumId")
+  UserModel toUserModel(NewUser user, String password );
 
   @Mapping(target = "role", source = "model.role")
   @Mapping(target = "login", source = "model.login")
   @Mapping(target = "password", source = "model.password")
   @Mapping(target = "id", source = "model.id")
-  @Mapping(target = "museumId", source = "existingMuseum.id")
-  ExistingUser toExistingUser(UserModel model, ExistingMuseum existingMuseum);
+  @Mapping(target = "museumId", source = "model.museum.id")
+  ExistingUser toExistingUser(UserModel model );
 
 }

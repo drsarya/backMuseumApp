@@ -1,4 +1,4 @@
-package museum.mapper;
+package museum.repository;
 
 import museum.domen.*;
 import org.springframework.data.jpa.repository.Query;
@@ -8,7 +8,7 @@ import src.model.MuseumStateEnum;
 
 import java.util.List;
 
-public interface ExhibitionMapper extends CrudRepository<ExhibitionModel, Integer> {
+public interface ExhibitionRepository extends CrudRepository<ExhibitionModel, Integer> {
 
   ExhibitionModel findById(Integer id);
 

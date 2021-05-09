@@ -25,4 +25,6 @@ public interface MuseumService {
 
   AnswerModel deleteMuseum(Integer id);
 
+  ExistingMuseum activateMuseum(Integer id);
+
 }

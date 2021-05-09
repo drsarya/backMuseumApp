@@ -1,10 +1,10 @@
-package museum.mapper;
+package museum.repository;
 
 import museum.domen.UserModel;
 import org.springframework.data.repository.CrudRepository;
 import src.model.RoleEnum;
 
-public interface UserMapper extends CrudRepository<UserModel, Integer> {
+public interface UserRepository extends CrudRepository<UserModel, Integer> {
 
   UserModel findByLogin(String login);
 

@@ -2,13 +2,13 @@ package service.internal.impl;
 
 import museum.domen.MuseumModel;
 import museum.domen.UserModel;
-import museum.mapper.MuseumMapper;
-import museum.mapper.UserMapper;
+import museum.repository.MuseumRepository;
+import museum.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import service.internal.FileLoaderService;
 import service.internal.MuseumService;
-import service.mapper.MuseumStruct;
+import service.mapper.MuseumMapper;
 import service.model.AnswerModel;
 import service.model.museum.BaseMuseum;
 import service.model.museum.ExistingMuseum;
@@ -23,23 +23,23 @@ import java.util.List;
 
 @Service
 public class MuseumServiceImpl implements MuseumService {
-  private final UserMapper userMapper;
+  private final UserRepository userRepository;
+  private final MuseumRepository museumRepository;
   private final MuseumMapper museumMapper;
-  private final MuseumStruct museumStruct;
   private final FileLoaderService fileLoaderService;
 
   @Autowired
-  public MuseumServiceImpl(MuseumMapper museumMapper, MuseumStruct museumStruct, UserMapper userMapper, FileLoaderService fileLoaderService) {
+  public MuseumServiceImpl(MuseumRepository museumRepository, MuseumMapper museumMapper, UserRepository userRepository, FileLoaderService fileLoaderService) {
+    this.museumRepository = museumRepository;
     this.museumMapper = museumMapper;
-    this.museumStruct = museumStruct;
-    this.userMapper = userMapper;
+    this.userRepository = userRepository;
     this.fileLoaderService = fileLoaderService;
   }
 
 
   @Override
   public AnswerModel getOwnerByMuseumId(Integer id) {
-    MuseumModel museumModel = museumMapper.findById(id);
+    MuseumModel museumModel = museumRepository.findById(id);
     if (museumModel != null) {
       return new AnswerModel(museumModel.getWorker().getLogin());
     }
@@ -48,27 +48,27 @@ public class MuseumServiceImpl implements MuseumService {
 
   @Override
   public ExistingMuseum getMuseumById(Integer id) {
-    MuseumModel museumModel = museumMapper.findById(id);
+    MuseumModel museumModel = museumRepository.findById(id);
     if (museumModel != null) {
-      return museumStruct.toExistingMuseum(museumModel);
+      return museumMapper.toExistingMuseum(museumModel);
     }
     throw new IllegalArgumentException(ValidationErrorTerms.MUSEUM_NOT_EXIST);
   }
 
   @Override
   public AnswerModel lockMuseum(Integer id) {
-    MuseumModel museumModel = museumMapper.findById(id);
+    MuseumModel museumModel = museumRepository.findById(id);
     String result = "";
     if (museumModel != null) {
       switch (museumModel.getState()) {
         case ACTIVE:
           museumModel.setState(MuseumStateEnum.BLOCKED);
-          museumMapper.save(museumModel);
+          museumRepository.save(museumModel);
           result = "Музей заблокирован";
           break;
         case BLOCKED:
           museumModel.setState(MuseumStateEnum.ACTIVE);
-          museumMapper.save(museumModel);
+          museumRepository.save(museumModel);
           result = "Музей разблокирован";
           break;
         case NOT_ACTIVE:
@@ -82,45 +82,56 @@ public class MuseumServiceImpl implements MuseumService {
 
   @Override
   public AnswerModel deleteMuseum(Integer id) {
-    MuseumModel museumModel = museumMapper.findById(id);
+    MuseumModel museumModel = museumRepository.findById(id);
     if (museumModel != null) {
       if (museumModel.getState() == MuseumStateEnum.BLOCKED || museumModel.getState() == MuseumStateEnum.ACTIVE)
         throw new IllegalArgumentException(ValidationErrorTerms.MUSEUM_CANT_BE_DELETED);
-      museumMapper.delete(museumModel);
+      museumRepository.delete(museumModel);
       return new AnswerModel("Музей удалён");
     }
     throw new IllegalArgumentException(ValidationErrorTerms.MUSEUM_NOT_EXIST);
   }
 
   @Override
+  public ExistingMuseum activateMuseum(Integer id) {
+    MuseumModel museumModel = museumRepository.findById(id);
+    if(museumModel!=null){
+      museumModel.setState(MuseumStateEnum.ACTIVE);
+      museumRepository.save(museumModel);
+    }else { throw new IllegalArgumentException(ValidationErrorTerms.MUSEUM_NOT_EXIST);}
+
+    return museumMapper.toExistingMuseum(museumModel);
+  }
+
+  @Override
   public List<ExistingMuseum> getAllMuseums() {
-    Iterable<MuseumModel> museumModels = museumMapper.findAll();
+    Iterable<MuseumModel> museumModels = museumRepository.findAll();
 
     List<MuseumModel> actualList = new ArrayList<MuseumModel>();
     museumModels.forEach(actualList::add);
-    return museumStruct.toListExistingMuseum(actualList);
+    return museumMapper.toListExistingMuseum(actualList);
   }
 
 
   @Override
   public AnswerModel createMuseum(BaseMuseum baseMuseum, String login) {
-    UserModel u = userMapper.findByLogin(login);
+    UserModel u = userRepository.findByLogin(login);
     if (u != null)
       throw new IllegalArgumentException(ValidationErrorTerms.KEY_NOT_UNIQUE);
 
-    MuseumModel museumModel = museumMapper.save(museumStruct.toMuseumModel(baseMuseum));
+    MuseumModel museumModel = museumRepository.save(museumMapper.toMuseumModel(baseMuseum));
     UserModel userModel = new UserModel();
     userModel.setLogin(login);
     userModel.setMuseum(museumModel);
     userModel.setRole(RoleEnum.MUSEUM);
-    userMapper.save(userModel);
+    userRepository.save(userModel);
     return new AnswerModel("Успешное создание музея");
   }
 
   @Override
   public AnswerModel updateMuseumInfo(UpdatableMuseum updatableMuseum) {
 
-    MuseumModel m = museumMapper.findById(updatableMuseum.getId());
+    MuseumModel m = museumRepository.findById(updatableMuseum.getId());
     if (m == null)
       throw new IllegalArgumentException(ValidationErrorTerms.MUSEUM_NOT_EXIST);
 
@@ -131,14 +142,14 @@ public class MuseumServiceImpl implements MuseumService {
       fileLoaderService.deleteImage(m.getImage());
       m.setImage(updatableMuseum.getImageUrl());
     }
-    museumMapper.save(m);
+    museumRepository.save(m);
     return new AnswerModel("Успешное обновление данных");
   }
 
   @Override
   public AnswerModel updateMuseumByAdmin(UpdatableMuseumAdmin updatableMuseum) {
 
-    MuseumModel m = museumMapper.findById(updatableMuseum.getId());
+    MuseumModel m = museumRepository.findById(updatableMuseum.getId());
     if (m == null)
       throw new IllegalArgumentException(ValidationErrorTerms.MUSEUM_NOT_EXIST);
     if (updatableMuseum.getNameMuseum() != null && !updatableMuseum.getNameMuseum().trim().isEmpty()) {
@@ -147,7 +158,7 @@ public class MuseumServiceImpl implements MuseumService {
     if (updatableMuseum.getAddress() != null && !updatableMuseum.getAddress().trim().isEmpty()) {
       m.setAddress(updatableMuseum.getAddress());
     }
-    museumMapper.save(m);
+    museumRepository.save(m);
     return new AnswerModel("Успешное обновление данных");
   }
 }

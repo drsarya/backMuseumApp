@@ -8,4 +8,5 @@ import java.util.List;
 public interface AuthorService {
   List<BaseAuthor> getAllAuthors();
 
+  ExistingAuthor findAuthorByFullName(String name);
 }

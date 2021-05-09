@@ -20,4 +20,5 @@ public interface ExhibitionService {
   List<ExistingExhibition> getLikedExhibitionsByUser(Integer idUser);
 
   AnswerModel deleteExhibition(Integer id);
+  ExistingExhibition getExhibitionById(Integer id);
 }

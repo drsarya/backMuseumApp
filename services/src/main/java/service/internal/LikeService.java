@@ -4,6 +4,7 @@ import service.model.AnswerModel;
 import service.model.like.BaseLike;
 import service.model.like.ExistingLike;
 import service.model.like.UserLike;
+import src.model.TypeOfArtEnum;
 
 public interface LikeService {
   AnswerModel getCountOfLikesByArtId(BaseLike baseLike);
@@ -12,4 +13,5 @@ public interface LikeService {
 
   AnswerModel createLike(UserLike userLike);
 
+  void deleteArts(Integer artId, TypeOfArtEnum artEnum);
 }

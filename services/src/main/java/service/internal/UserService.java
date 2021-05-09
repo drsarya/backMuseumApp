@@ -16,4 +16,6 @@ public interface UserService {
   AnswerModel updateUserPassword(UserUpdate user) throws Exception;
 
   AnswerModel updateMuseumUserPass(UserMuseum user) throws Exception;
+
+  ExistingUser getById(Integer id);
 }

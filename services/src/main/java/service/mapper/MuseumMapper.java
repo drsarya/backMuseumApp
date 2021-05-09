@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Mapper
-public interface MuseumStruct {
+public interface MuseumMapper {
   @Mapping(target = "nameMuseum", source = "name")
   @Mapping(target = "address", source = "address")
   MuseumModel toMuseumModel(BaseMuseum baseMuseum);
@@ -19,6 +19,10 @@ public interface MuseumStruct {
   @Mapping(target = "name", source = "nameMuseum")
   @Mapping(target = "id", source = "id")
   ShortInfoMuseum toShortInfoMuseum(MuseumModel museumModel);
+
+  @Mapping(target = "nameMuseum", source = "name")
+  @Mapping(target = "id", source = "id")
+  MuseumModel   toShortInfoMuseum(ShortInfoMuseum museumModel);
 
   @Mapping(target = "name", source = "model.nameMuseum")
   @Mapping(target = "address", source = "model.address")
