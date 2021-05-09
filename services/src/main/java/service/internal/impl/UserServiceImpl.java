@@ -38,16 +38,19 @@ public class UserServiceImpl implements UserService {
   @Override
   public AnswerModel createUser(final NewUser user) throws Exception {
     String newPassword = ConfigEncrypt.getSaltedHash(user.getPassword());
-    ExistingMuseum museumModel = null;
-
+    ExistingMuseum museum = null;
+    UserModel userModel;
     if (user.getMuseumId() != null) {
-      museumModel = museumService.getMuseumById(user.getMuseumId());
+      museum = museumService.getMuseumById(user.getMuseumId());
+      userModel=   userMapper.toUserMuseumModel(user, newPassword);
+     } else {
+      userModel=  userMapper.toUserModel(user, newPassword);
     }
-    if (museumModel != null && user.getRole() != RoleEnum.MUSEUM ||
-      museumModel == null && user.getRole() == RoleEnum.MUSEUM) {
+    if (museum != null && user.getRole() != RoleEnum.MUSEUM ||
+      museum == null && user.getRole() == RoleEnum.MUSEUM) {
       throw new IllegalArgumentException(ValidationErrorTerms.INVALID_ROLE_OF_USER);
     }
-    userRepository.save(userMapper.toUserModel(user, newPassword));
+    userRepository.save(userModel);
     return new AnswerModel("Успешная регистрация");
   }
 

@@ -24,8 +24,8 @@ public class UserModel {
 
   private String password;
 
-  @OneToOne
-  @JoinColumn(name = "museum_id")
+  @OneToOne(cascade = CascadeType.ALL  )
+  @JoinColumn(name = "museum_id"  )
   private MuseumModel museum;
 
   @OneToMany(mappedBy = "user")

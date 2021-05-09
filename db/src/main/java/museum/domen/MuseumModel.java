@@ -30,11 +30,11 @@ public class MuseumModel {
   private String address;
 
   @Nullable
-  @Column(length=1500)
+  @Column(length = 1500)
   private String description;
 
   @Nullable
-  @Column(length=1500)
+  @Column(length = 1500)
   private String image;
 
   @Enumerated(EnumType.STRING)

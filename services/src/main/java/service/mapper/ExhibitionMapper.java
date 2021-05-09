@@ -8,17 +8,9 @@ import service.model.exhibition.BaseExhibition;
 import service.model.exhibition.ExistingExhibition;
 import service.model.museum.ShortInfoMuseum;
 
-@Mapper
+@Mapper(uses = {MuseumMapper.class})
 public interface ExhibitionMapper {
 
-  @Mapping(target = "id", source = "exhibitionModel.id")
-  @Mapping(target = "imageUrl", source = "exhibitionModel.imageUrl")
-  @Mapping(target = "name", source = "exhibitionModel.name")
-  @Mapping(target = "description", source = "exhibitionModel.description")
-  @Mapping(target = "firstDate", source = "exhibitionModel.firstDate")
-  @Mapping(target = "lastDate", source = "exhibitionModel.lastDate")
-  @Mapping(target = "museum", source = "museum")
-  ExistingExhibition toExistingExhibition(ExhibitionModel exhibitionModel, ShortInfoMuseum museum);
 
   @Mapping(target = "id", source = "exhibitionModel.id")
   @Mapping(target = "imageUrl", source = "exhibitionModel.imageUrl")
