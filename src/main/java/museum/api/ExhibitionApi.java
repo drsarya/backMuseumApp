@@ -1,25 +1,13 @@
 package museum.api;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.cloudinary.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.StreamingHttpOutputMessage;
-import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import service.facade.ExhibitionFacade;
-import service.facade.LikeFacade;
-import service.model.OkModel;
+import service.model.AnswerModel;
 import service.model.exhibition.BaseExhibition;
 import service.model.exhibition.ExistingExhibition;
 
-import javax.xml.crypto.Data;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.util.List;
 
 @RestController
@@ -64,7 +52,7 @@ public class ExhibitionApi {
   }
 
   @DeleteMapping(value = "/{id}")
-  OkModel deleteExhibition(@PathVariable Integer id) {
+  AnswerModel deleteExhibition(@PathVariable Integer id) {
     return exhibitionFacade.deleteExhibition(id);
   }
 }

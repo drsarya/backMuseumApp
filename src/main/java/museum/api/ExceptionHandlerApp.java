@@ -1,12 +1,10 @@
 package museum.api;
 
-import museum.exception.ErrorModel;
-import org.springframework.boot.context.properties.bind.validation.ValidationErrors;
+import service.model.ErrorModel;
+import org.apache.tomcat.util.http.fileupload.impl.SizeLimitExceededException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import validation.ValidationErrorTerms;
@@ -23,7 +21,7 @@ public class ExceptionHandlerApp {
 
   @ExceptionHandler(IllegalArgumentException.class)
   ResponseEntity<List<ErrorModel>> handleArgumentException(IllegalArgumentException e) {
-    List<ErrorModel> errorModels = Arrays.asList(new ErrorModel(ValidationErrorTerms.KEY_NOT_UNIQUE, e.getMessage()));
+    List<ErrorModel> errorModels = Arrays.asList(new ErrorModel(ValidationErrorTerms.KEY_NOT_UNIQUE, ValidationErrorTerms.getMessageByCode(e.getMessage())));
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorModels);
   }
 
@@ -41,4 +39,10 @@ public class ExceptionHandlerApp {
     List<ErrorModel> errorModels = Arrays.asList(new ErrorModel(ValidationErrorTerms.KEY_NOT_UNIQUE, ValidationErrorTerms.getMessageByCode(ValidationErrorTerms.KEY_NOT_UNIQUE)));
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorModels);
   }
+  @ExceptionHandler(SizeLimitExceededException.class)
+  ResponseEntity<List<ErrorModel>> handleSizeLimitExceededException(SizeLimitExceededException e) {
+    List<ErrorModel> errorModels = Arrays.asList(new ErrorModel(ValidationErrorTerms.ERROR_OF_UPLOAD_IMAGE, e.getMessage()));
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorModels);
+  }
+
 }

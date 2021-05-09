@@ -1,7 +1,7 @@
 package service.internal;
 
 import org.springframework.web.multipart.MultipartFile;
-import service.model.OkModel;
+import service.model.AnswerModel;
 import service.model.exhibit.BaseExhibit;
 import service.model.exhibit.ExistingExhibit;
 
@@ -15,12 +15,14 @@ public interface ExhibitService {
 
   ExistingExhibit createExhibit(BaseExhibit exhibit);
 
-  OkModel deleteExhibit(Integer id);
+  AnswerModel deleteExhibit(Integer id);
 
   List<ExistingExhibit> getExhibitsByExhibitionId(Integer id);
 
   List<ExistingExhibit> getLikedExhibitsByUser(Integer idUser);
 
   ExistingExhibit updateExhibit(MultipartFile upload, ExistingExhibit exhibit);
+
+  void deleteExhibitsExhibitionId(Integer id);
 
 }

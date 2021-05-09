@@ -4,5 +4,5 @@ import org.immutables.value.Value;
 
 @Value.Immutable
 public interface ExistingUser extends NewUser {
-  long getId();
+  Integer getId();
 }

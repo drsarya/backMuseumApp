@@ -32,4 +32,5 @@ public class ServicesConfiguration {
   public String getCloudinaryApiSecret() {
     return mEnv.getProperty("com.cloudinary.api_secret");
   }
+
 }

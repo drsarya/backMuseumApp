@@ -5,8 +5,6 @@ import com.cloudinary.utils.ObjectUtils;
 import org.cloudinary.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import service.internal.FileLoaderService;
@@ -32,18 +30,28 @@ public class FileLoaderServiceServiceImpl implements FileLoaderService {
 
   @Override
   public String uploadImage(MultipartFile aFile) {
-
     Cloudinary c = new Cloudinary("cloudinary://" + mApiKey + ":" + mApiSecret + "@" + mCloudName);
     try {
       File f = Files.createTempFile("temp", aFile.getOriginalFilename()).toFile();
       aFile.transferTo(f);
-
       Map response = c.uploader().upload(f, ObjectUtils.emptyMap());
       JSONObject json = new JSONObject(response);
       String url = json.getString("url");
       return url;
     } catch (Exception e) {
       throw new IllegalArgumentException(ValidationErrorTerms.ERROR_OF_UPLOAD_IMAGE);
+    }
+  }
+
+  public void deleteImage(String url) {
+    Cloudinary c = new Cloudinary("cloudinary://" + mApiKey + ":" + mApiSecret + "@" + mCloudName);
+    if (url != null) {
+      try {
+        String publicId = url.substring(url.lastIndexOf("/") + 1, url.lastIndexOf("."));
+        c.uploader().destroy(publicId, ObjectUtils.emptyMap());
+      } catch (Exception e) {
+        throw new IllegalArgumentException(ValidationErrorTerms.ERROR_OF_DELETE_IMAGE);
+      }
     }
   }
 }

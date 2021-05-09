@@ -4,11 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import service.facade.ExhibitFacade;
-import service.facade.ExhibitionFacade;
-import service.model.OkModel;
+import service.model.AnswerModel;
 import service.model.exhibit.BaseExhibit;
 import service.model.exhibit.ExistingExhibit;
-import service.model.exhibition.ExistingExhibition;
 
 import java.util.List;
 
@@ -48,7 +46,7 @@ public class ExhibitApi {
   }
 
   @DeleteMapping(value = "/{id}")
-  OkModel deleteExhibit(@PathVariable Integer id) {
+  AnswerModel deleteExhibit(@PathVariable Integer id) {
     return exhibitFacade.deleteExhibit(id);
   }
 

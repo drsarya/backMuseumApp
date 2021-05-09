@@ -1,7 +1,7 @@
 package service.internal;
 
 import org.springframework.web.multipart.MultipartFile;
-import service.model.OkModel;
+import service.model.AnswerModel;
 import service.model.exhibition.BaseExhibition;
 import service.model.exhibition.ExistingExhibition;
 
@@ -19,5 +19,6 @@ public interface ExhibitionService {
 
   List<ExistingExhibition> getLikedExhibitionsByUser(Integer idUser);
 
-  OkModel deleteExhibition(Integer id);
+  AnswerModel deleteExhibition(Integer id);
+  ExistingExhibition getExhibitionById(Integer id);
 }

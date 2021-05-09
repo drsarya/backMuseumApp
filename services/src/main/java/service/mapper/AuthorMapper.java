@@ -10,16 +10,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Mapper
-public interface AuthorStruct {
+public interface AuthorMapper {
 
-  @Mapping(target = "fullName", source = "authorModel.fullName")
-  @Mapping(target = "id", source = "authorModel.id")
+  @Mapping(target = "fullName", source = "fullName")
+  BaseAuthor toBaseAuthor(AuthorModel authorModel);
+  @Mapping(target = "fullName", source = "fullName")
+  @Mapping(target = "id", source = "id")
   ExistingAuthor toExistingAuthor(AuthorModel authorModel);
 
-  @Mapping(target = "fullName", source = "authorModel.fullName")
-  BaseAuthor toBaseAuthor(AuthorModel authorModel);
-
-  default List<BaseAuthor> toLIstBaseAuthor(List<AuthorModel> users) {
+  default List<BaseAuthor> toListBaseAuthor(List<AuthorModel> users) {
     return users
       .stream()
       .map(this::toBaseAuthor)

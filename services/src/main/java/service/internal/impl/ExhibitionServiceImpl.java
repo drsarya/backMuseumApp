@@ -1,23 +1,20 @@
 package service.internal.impl;
 
 import museum.domen.ExhibitionModel;
-import museum.domen.LikeModel;
-import museum.domen.MuseumModel;
-import museum.mapper.ExhibitionMapper;
-import museum.mapper.MuseumMapper;
+import museum.repository.ExhibitionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import service.internal.ExhibitService;
 import service.internal.ExhibitionService;
 import service.internal.FileLoaderService;
-import service.mapper.ExhibitionStruct;
-import service.mapper.MuseumStruct;
-import service.model.OkModel;
+import service.internal.LikeService;
+import service.mapper.ExhibitionMapper;
+import service.model.AnswerModel;
 import service.model.exhibition.BaseExhibition;
 import service.model.exhibition.ExistingExhibition;
-import service.model.museum.ExistingMuseum;
-import service.model.museum.ShortInfoMuseum;
 import src.model.MuseumStateEnum;
+import src.model.TypeOfArtEnum;
 import validation.ValidationErrorTerms;
 
 import java.util.ArrayList;
@@ -26,47 +23,42 @@ import java.util.List;
 @Service
 public class ExhibitionServiceImpl implements ExhibitionService {
 
-
+  private final ExhibitionRepository exhibitionRepository;
   private final ExhibitionMapper exhibitionMapper;
-  private final ExhibitionStruct exhibitionStruct;
-  private final MuseumStruct museumStruct;
+  private final ExhibitService exhibitService;
   private final FileLoaderService fileLoaderService;
-  private final MuseumMapper museumMapper;
+  private final LikeService likeService;
 
   @Autowired
-  public ExhibitionServiceImpl(final ExhibitionStruct exhibitionStruct, final FileLoaderService fileLoaderService, final MuseumMapper museumMapper, final ExhibitionMapper exhibitionMapper, final MuseumStruct museumStruct) {
-    this.exhibitionStruct = exhibitionStruct;
+  public ExhibitionServiceImpl(final ExhibitionMapper exhibitionMapper, ExhibitService exhibitService,
+                               final FileLoaderService fileLoaderService, final ExhibitionRepository exhibitionRepository, LikeService likeService) {
     this.exhibitionMapper = exhibitionMapper;
-    this.museumStruct = museumStruct;
+    this.exhibitService = exhibitService;
+    this.exhibitionRepository = exhibitionRepository;
     this.fileLoaderService = fileLoaderService;
-    this.museumMapper = museumMapper;
+    this.likeService = likeService;
   }
 
   private List<ExistingExhibition> toListExhibitions(List<ExhibitionModel> actualList) {
     List<ExistingExhibition> exhibitionList = new ArrayList<>();
     for (ExhibitionModel exhibitionModel : actualList) {
-      ShortInfoMuseum museum = museumStruct.toShortInfoMuseum(exhibitionModel.getMuseum());
-      exhibitionList.add(exhibitionStruct.toExistingExhibition(exhibitionModel, museum));
+      exhibitionList.add(exhibitionMapper.toExistingExhibition(exhibitionModel));
     }
     return exhibitionList;
   }
 
   @Override
   public List<ExistingExhibition> getAllExhibitions() {
-    List<ExhibitionModel> exhibitionModels = exhibitionMapper.findExhibitionModelsByMuseumState(MuseumStateEnum.ACTIVE);
-
+    List<ExhibitionModel> exhibitionModels = exhibitionRepository.findExhibitionModelsByMuseumState(MuseumStateEnum.ACTIVE);
     return toListExhibitions(exhibitionModels);
   }
 
   @Override
   public ExistingExhibition createExhibition(BaseExhibition exhibition) {
-    MuseumModel museumModel = museumMapper.findById(exhibition.getMuseum().getId());
-    if (museumModel != null) {
-      ExhibitionModel exhibitionModel = exhibitionStruct.toExhibitionModel(exhibition, museumModel);
-      ExhibitionModel newExhbtnModel = exhibitionMapper.save(exhibitionModel);
-      ShortInfoMuseum museum = museumStruct.toShortInfoMuseum(exhibitionModel.getMuseum());
-      return exhibitionStruct.toExistingExhibition(newExhbtnModel, museum);
-
+    if (exhibition.getMuseum().getId() != null) {
+      ExhibitionModel exhibitionModel = exhibitionMapper.toExhibitionModel(exhibition);
+      ExhibitionModel newExhbtnModel = exhibitionRepository.save(exhibitionModel);
+      return exhibitionMapper.toExistingExhibition(newExhbtnModel);
     }
     throw new IllegalArgumentException(ValidationErrorTerms.MUSEUM_NOT_EXIST);
   }
@@ -78,7 +70,7 @@ public class ExhibitionServiceImpl implements ExhibitionService {
       url = fileLoaderService.uploadImage(file);
     }
 
-    ExhibitionModel exhibitionModel = exhibitionMapper.findById(exhibition.getId());
+    ExhibitionModel exhibitionModel = exhibitionRepository.findById(exhibition.getId());
     if (exhibitionModel != null) {
       if (exhibition.getName() != null && !exhibition.getDescription().isEmpty()) {
         exhibitionModel.setDescription(exhibition.getDescription());
@@ -87,6 +79,7 @@ public class ExhibitionServiceImpl implements ExhibitionService {
         exhibitionModel.setFirstDate(exhibition.getFirstDate());
       }
       if (url != null && !url.isEmpty()) {
+        fileLoaderService.deleteImage(exhibitionModel.getImageUrl());
         exhibitionModel.setImageUrl(url);
       }
       if (exhibition.getLastDate() != null && !exhibition.getLastDate().isEmpty()) {
@@ -95,36 +88,42 @@ public class ExhibitionServiceImpl implements ExhibitionService {
       if (exhibition.getName() != null && !exhibition.getName().isEmpty()) {
         exhibitionModel.setName(exhibition.getName());
       }
-      ExhibitionModel newExhbtnModel = exhibitionMapper.save(exhibitionModel);
-      ShortInfoMuseum museum = museumStruct.toShortInfoMuseum(exhibitionModel.getMuseum());
-
-      return exhibitionStruct.toExistingExhibition(newExhbtnModel, museum);
+      ExhibitionModel newExhbtnModel = exhibitionRepository.save(exhibitionModel);
+      return exhibitionMapper.toExistingExhibition(newExhbtnModel);
     }
     return null;
   }
 
   @Override
   public List<ExistingExhibition> getExhibitionsByMuseumId(Integer id) {
-    List<ExhibitionModel> actualList = exhibitionMapper.findExhibitionModelsByMuseumId(id);
+    List<ExhibitionModel> actualList = exhibitionRepository.findExhibitionModelsByMuseumId(id);
     return toListExhibitions(actualList);
   }
 
   @Override
-  public OkModel deleteExhibition(Integer id) {
-    ExhibitionModel exhibitionModel = exhibitionMapper.findById(id);
+  public AnswerModel deleteExhibition(Integer id) {
+    ExhibitionModel exhibitionModel = exhibitionRepository.findById(id);
     if (exhibitionModel != null) {
-      exhibitionMapper.delete(exhibitionModel);
-      return new OkModel("Выставка удалена");
+      fileLoaderService.deleteImage(exhibitionModel.getImageUrl());
+      exhibitService.deleteExhibitsExhibitionId(id);
+      likeService.deleteArts(id, TypeOfArtEnum.EXHIBITION);
+      exhibitionRepository.delete(exhibitionModel);
+      return new AnswerModel("Выставка удалена");
     }
     throw new IllegalArgumentException(ValidationErrorTerms.EXHIBITION_NOT_EXIST);
   }
 
   @Override
+  public ExistingExhibition getExhibitionById(Integer id) {
+    return exhibitionMapper.toExistingExhibition(exhibitionRepository.findById(id));
+  }
+
+  @Override
   public List<ExistingExhibition> getLikedExhibitionsByUser(Integer idUser) {
-    List<ExhibitionModel> exhibitionModels = exhibitionMapper.getLikedExhibitionsByUser(idUser);
+    List<ExhibitionModel> exhibitionModels = exhibitionRepository.getLikedExhibitionsByUser(idUser);
     List<ExistingExhibition> existingExhibits = new ArrayList<>();
     for (ExhibitionModel exhibitionModel : exhibitionModels) {
-      existingExhibits.add(exhibitionStruct.toExistingExhibition(exhibitionModel, museumStruct.toShortInfoMuseum(exhibitionModel.getMuseum())));
+      existingExhibits.add(exhibitionMapper.toExistingExhibition(exhibitionModel));
     }
     return existingExhibits;
   }

@@ -3,9 +3,8 @@ package service.facade.impl;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import service.facade.ExhibitionFacade;
-import service.internal.ExhibitService;
 import service.internal.ExhibitionService;
-import service.model.OkModel;
+import service.model.AnswerModel;
 import service.model.exhibition.BaseExhibition;
 import service.model.exhibition.ExistingExhibition;
 
@@ -41,7 +40,7 @@ public class ExhibitionFacadeImpl implements ExhibitionFacade {
   }
 
   @Override
-  public OkModel deleteExhibition(Integer id) {
+  public AnswerModel deleteExhibition(Integer id) {
     return exhibitionService.deleteExhibition(id);
   }
 

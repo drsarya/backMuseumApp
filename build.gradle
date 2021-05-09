@@ -1,41 +1,55 @@
 
 
-
-plugins {
-  id 'java'
-}
-ext {
-  bootVer = "2.3.1.RELEASE"
-}
-jar {
-  baseName = 'app'
-  version = '0.0.1'
-}
- allprojects {
-
-   apply plugin: "java"
-  group 'museum.app'
-  version '1.0-SNAPSHOT'
-
+buildscript {
   repositories {
     mavenCentral()
   }
-
-  java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+  dependencies {
+    classpath("org.springframework.boot:spring-boot-gradle-plugin:2.3.1.RELEASE")
   }
 }
+plugins {
+
+  id 'java'
+
+}
+ apply plugin: 'org.springframework.boot'
+
+ext {
+  bootVer = "2.3.1.RELEASE"
+}
+allprojects {
+  apply plugin: "java"
+  group 'museum.app'
+  version  '0.0.1-SNAPSHOT'
+  repositories {
+    mavenCentral()
+
+  }
+  sourceCompatibility = '11'
+
+}
+//task stage {
+//  dependsOn build
+//}
 
 dependencies {
-  implementation(project(":services"))
-  implementation(project(":commons"))
+
+
   implementation "javax.validation:validation-api:2.0.1.Final"
   implementation group: 'org.springframework', name: 'spring-tx', version: '5.3.5'
-  implementation "org.springframework.boot:spring-boot-starter-web:$bootVer"
-  implementation "org.springframework:spring-web:5.2.7.RELEASE"
-}
+  compile  "org.springframework.boot:spring-boot-starter-web:$bootVer"
+  compile "org.springframework:spring-web:5.2.7.RELEASE"
+  testImplementation 'org.springframework.boot:spring-boot-starter-test'
+  implementation(project(":services"))
+  implementation(project(":commons"))
 
+  implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
+  implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
+
+
+
+}
 
 
 

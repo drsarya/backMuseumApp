@@ -3,7 +3,7 @@ package service.facade.impl;
 import org.springframework.stereotype.Service;
 import service.facade.MuseumFacade;
 import service.internal.MuseumService;
-import service.model.OkModel;
+import service.model.AnswerModel;
 import service.model.museum.BaseMuseum;
 import service.model.museum.ExistingMuseum;
 import service.model.museum.UpdatableMuseum;
@@ -21,32 +21,32 @@ public class MuseumFacadeImpl implements MuseumFacade {
   }
 
   @Override
-  public OkModel createMuseum( BaseMuseum baseMuseum, String login) {
+  public AnswerModel createMuseum(BaseMuseum baseMuseum, String login) {
     return museumService.createMuseum(baseMuseum, login);
   }
 
   @Override
-  public OkModel updateMuseum(UpdatableMuseum baseMuseum) {
+  public AnswerModel updateMuseum(UpdatableMuseum baseMuseum) {
     return museumService.updateMuseumInfo(baseMuseum);
   }
 
   @Override
-  public OkModel updateMuseumByAdmin(UpdatableMuseumAdmin baseMuseum) {
+  public AnswerModel updateMuseumByAdmin(UpdatableMuseumAdmin baseMuseum) {
     return museumService.updateMuseumByAdmin(baseMuseum);
   }
 
   @Override
-  public OkModel lockMuseum(Integer id) {
+  public AnswerModel lockMuseum(Integer id) {
     return museumService.lockMuseum(id);
   }
 
   @Override
-  public OkModel deleteMuseum(Integer id) {
+  public AnswerModel deleteMuseum(Integer id) {
     return museumService.deleteMuseum(id);
   }
 
   @Override
-  public OkModel getOwnerByMuseumId(Integer id) {
+  public AnswerModel getOwnerByMuseumId(Integer id) {
     return museumService.getOwnerByMuseumId(id);
   }
 

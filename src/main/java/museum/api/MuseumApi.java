@@ -1,12 +1,10 @@
 package museum.api;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import service.facade.MuseumFacade;
-import service.model.OkModel;
+import service.model.AnswerModel;
 import service.model.museum.BaseMuseum;
 import service.model.museum.ExistingMuseum;
 import service.model.museum.UpdatableMuseum;
@@ -30,31 +28,31 @@ public class MuseumApi {
 
   @PostMapping(value = "/{login}", consumes = "application/json")
   @ResponseStatus(HttpStatus.CREATED)
-  OkModel createMuseum(@RequestBody final BaseMuseum baseMuseum, @PathVariable String login) {
+  AnswerModel createMuseum(@RequestBody final BaseMuseum baseMuseum, @PathVariable String login) {
     return museumFacade.createMuseum(baseMuseum, login);
   }
 
   @PutMapping(consumes = "application/json")
   @ResponseStatus(HttpStatus.OK)
-  OkModel updateMuseum(@RequestBody UpdatableMuseum updatableMuseum) {
+  AnswerModel updateMuseum(@RequestBody UpdatableMuseum updatableMuseum) {
     return museumFacade.updateMuseum(updatableMuseum);
   }
 
   @PutMapping(consumes = "application/json", value = "/admin")
   @ResponseStatus(HttpStatus.OK)
-  OkModel updateMuseumByAdmin(@RequestBody UpdatableMuseumAdmin updatableMuseum) {
+  AnswerModel updateMuseumByAdmin(@RequestBody UpdatableMuseumAdmin updatableMuseum) {
     return museumFacade.updateMuseumByAdmin(updatableMuseum);
   }
 
   @PutMapping(value = "lock/{id}")
   @ResponseStatus(HttpStatus.OK)
-  OkModel lockMuseum(@PathVariable Integer id) {
+  AnswerModel lockMuseum(@PathVariable Integer id) {
     return museumFacade.lockMuseum(id);
   }
 
   @DeleteMapping(value = "{id}")
   @ResponseStatus(HttpStatus.OK)
-  OkModel deleteMuseum(@PathVariable Integer id) {
+  AnswerModel deleteMuseum(@PathVariable Integer id) {
     return museumFacade.deleteMuseum(id);
   }
 
@@ -69,7 +67,7 @@ public class MuseumApi {
   }
 
   @GetMapping(value = "owner/{id}")
-  OkModel getOwnerByMuseumId(@PathVariable Integer id) {
+  AnswerModel getOwnerByMuseumId(@PathVariable Integer id) {
     return museumFacade.getOwnerByMuseumId(id);
   }
 }
