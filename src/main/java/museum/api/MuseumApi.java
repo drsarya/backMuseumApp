@@ -61,7 +61,7 @@ public class MuseumApi {
     return museumFacade.getAllMuseums();
   }
 
-  @GetMapping(value = "active/")
+  @GetMapping(value = "/active")
   List<ExistingMuseum> getAllActiveMuseums() {
     return museumFacade.getAllActiveMuseums();
   }
