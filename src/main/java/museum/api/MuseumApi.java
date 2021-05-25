@@ -61,6 +61,11 @@ public class MuseumApi {
     return museumFacade.getAllMuseums();
   }
 
+  @GetMapping(value = "active/")
+  List<ExistingMuseum> getAllActiveMuseums() {
+    return museumFacade.getAllActiveMuseums();
+  }
+
   @GetMapping(value = "{id}")
   ExistingMuseum getMuseumById(@PathVariable Integer id) {
     return museumFacade.getMuseumById(id);

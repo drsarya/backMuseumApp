@@ -27,5 +27,6 @@ public interface MuseumFacade {
   AnswerModel deleteMuseum(Integer id);
 
   AnswerModel getOwnerByMuseumId(Integer id);
+  List<ExistingMuseum> getAllActiveMuseums();
 
 }

@@ -51,6 +51,11 @@ public class MuseumFacadeImpl implements MuseumFacade {
   }
 
   @Override
+  public List<ExistingMuseum> getAllActiveMuseums() {
+    return museumService.getAllActiveMuseums();
+  }
+
+  @Override
   public List<ExistingMuseum> getAllMuseums() {
     return museumService.getAllMuseums();
   }

@@ -11,6 +11,8 @@ import java.util.List;
 public interface MuseumService {
   List<ExistingMuseum> getAllMuseums();
 
+  List<ExistingMuseum> getAllActiveMuseums();
+
   AnswerModel createMuseum(BaseMuseum baseMuseum, String login);
 
   AnswerModel updateMuseumByAdmin(UpdatableMuseumAdmin updatableMuseum);
