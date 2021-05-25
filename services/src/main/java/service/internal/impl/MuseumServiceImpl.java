@@ -105,8 +105,7 @@ public class MuseumServiceImpl implements MuseumService {
 
   @Override
   public List<ExistingMuseum> getAllMuseums() {
-    Iterable<MuseumModel> museumModels = museumRepository.findAll();
-
+    Iterable<MuseumModel> museumModels = museumRepository.findAllByState();
     List<MuseumModel> actualList = new ArrayList<MuseumModel>();
     museumModels.forEach(actualList::add);
     return museumMapper.toListExistingMuseum(actualList);

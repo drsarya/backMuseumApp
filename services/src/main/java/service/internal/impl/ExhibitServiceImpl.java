@@ -56,7 +56,7 @@ public class ExhibitServiceImpl implements ExhibitService {
 
   @Override
   public List<ExistingExhibit> getExhibitsByMuseumId(Integer id) {
-    List<ExhibitModel> actualList = exhibitRepository.findExhibitModelsByExhibition_Museum_Id(id);
+    List<ExhibitModel> actualList = exhibitRepository.getMuseumExhibits(id);
     return toListExhibits(actualList);
   }
 

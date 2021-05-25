@@ -11,7 +11,10 @@ import java.util.List;
 public interface ExhibitRepository extends CrudRepository<ExhibitModel, Integer> {
   ExhibitModel findById(Integer id);
 
-  List<ExhibitModel> findExhibitModelsByExhibition_Museum_Id(Integer id);
+
+  @Query(" SELECT   e1  FROM   exhibits " +
+    "     WHERE e1.exhibition.museum.id  =:musId and e1.exhibition.museum.state = 'ACTIVE'")
+  List<ExhibitModel> getMuseumExhibits(@Param("musId") Integer id);
 
   List<ExhibitModel> findExhibitModelsByExhibition_Id(Integer id);
 
