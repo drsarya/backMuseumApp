@@ -16,7 +16,9 @@ public interface ExhibitionRepository extends CrudRepository<ExhibitionModel, In
 
   List<ExhibitionModel> findExhibitionModelsByMuseumId(Integer id);
 
-  @Query(" SELECT   e1  FROM  likes as  l   JOIN exhibitions as e1 ON e1.id = l.artId   WHERE l.user.id = :userId and l.type = 'EXHIBITION'  ")
+  @Query(" SELECT   e1  FROM  likes as  l  " +
+    " JOIN exhibitions as e1 ON e1.id = l.artId " +
+    "  WHERE l.user.id = :userId and l.type = 'EXHIBITION' and e1.museum.state =  'ACTIVE'  ")
   List<ExhibitionModel> getLikedExhibitionsByUser(@Param("userId") Integer userId);
 
 }

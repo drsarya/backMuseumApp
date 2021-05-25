@@ -17,8 +17,11 @@ public interface ExhibitRepository extends CrudRepository<ExhibitModel, Integer>
 
   List<ExhibitModel> findExhibitModelsByExhibition_Museum_State(MuseumStateEnum museumStateEnum);
 
-  @Query(" SELECT   e1  FROM  likes as  l1  JOIN exhibits as e1 ON e1.id = l1.artId  WHERE l1.user.id  = :userId  and l1.type ='EXHIBIT'")
+  @Query(" SELECT   e1  FROM  likes as  l1 " +
+    "   JOIN exhibits as e1 ON e1.id = l1.artId " +
+    "    JOIN exhibitions as e2 ON e2.id = e1.exhibition.id " +
+    "     JOIN museums as m1 ON m1.id = e2.museum.id " +
+    "     WHERE l1.user.id  = :userId  and l1.type ='EXHIBIT' and m1.state = 'ACTIVE'")
   List<ExhibitModel> getLikedExhibitsByUser(@Param("userId") Integer userId);
-
 
 }
