@@ -12,7 +12,7 @@ public interface ExhibitRepository extends CrudRepository<ExhibitModel, Integer>
   ExhibitModel findById(Integer id);
 
 
-  @Query(" SELECT   e1  FROM   exhibits " +
+  @Query(" SELECT   e1  FROM   exhibits as e1" +
     "     WHERE e1.exhibition.museum.id  =:musId and e1.exhibition.museum.state = 'ACTIVE'")
   List<ExhibitModel> getMuseumExhibits(@Param("musId") Integer id);
 
